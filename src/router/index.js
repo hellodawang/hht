@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/login/login'
 import Welcome from '@/components/welcome/welcome'
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css'
+import info from '@/components/info/info'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/welcome',
       name: 'welcome',
       component: Welcome
-    }
+    },
+    {
+      path: '/info',
+      name: 'info',
+      component: info
+    },
   ]
 })
