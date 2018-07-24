@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart2" style="height:320px;margin-top:10px"></div>
+                    <div ref="myEchart2" style="height:280px;margin-top:10px"></div>
                 </div>
             </div>
         </el-col>
@@ -40,15 +40,97 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart3" style="height:320px;margin-top:10px"></div>
+                    <div ref="myEchart3" style="height:500px;margin-top:10px"></div>
+                    <div style="height:100px"></div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title"> 
+                    <h3>top应用/客户汇总</h3> 
+                    <div class="toolbar">
+                        <i class="icon icon-refresh"></i>
+                        <i class="icon icon-fullScreen"></i>
+                        <i class="icon icon-close"></i>
+                    </div>
+                </div>
+                <div class="section-content" style="height:180px">
+                    <el-col :span='12'>
+                        <div ref="myEchart4" style="height:180px"></div>   
+                    </el-col>
+                    <el-col :span='12'>
+                        <div ref="myEchart5" style="height:180px"></div>   
+                    </el-col>
                 </div>
             </div>
         </el-col>
-        <el-col :span="6"></el-col>
+        <el-col :span="6">
+            <div class="section">
+                <div class="section-title"> 
+                    <h3>云设备整体状态</h3> 
+                    <div class="toolbar">
+                        <i class="icon icon-refresh"></i>
+                        <i class="icon icon-fullScreen"></i>
+                        <i class="icon icon-close"></i>
+                    </div>
+                </div>
+                <div class="section-content" style="height:130px">
+                    <el-col :span='18'>
+                        <div ref="myEchart6" style="height:130px"></div>   
+                    </el-col>
+                    <el-col :span='6'>
+                        <div>优</div>
+                    </el-col>              
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title"> 
+                    <h3>容量</h3> 
+                    <div class="toolbar">
+                        <i class="icon icon-refresh"></i>
+                        <i class="icon icon-fullScreen"></i>
+                        <i class="icon icon-close"></i>
+                    </div>
+                </div>
+                <div class="section-content" style="height:130px">
+                    <el-col :span='18'>
+                        <!-- <div ref="myEchart6" style="height:180px"></div>    -->
+                    </el-col>
+                    <el-col :span='6'>
+                        <!-- <div>优</div> -->
+                    </el-col>              
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title"> 
+                    <h3>带宽性能</h3> 
+                    <div class="toolbar">
+                        <i class="icon icon-refresh"></i>
+                        <i class="icon icon-fullScreen"></i>
+                        <i class="icon icon-close"></i>
+                    </div>
+                </div>
+                <div class="section-content" >
+                        <div ref="myEchart7" style="height:200px"></div>                
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title"> 
+                    <h3>cpu/内存</h3> 
+                    <div class="toolbar">
+                        <i class="icon icon-refresh"></i>
+                        <i class="icon icon-fullScreen"></i>
+                        <i class="icon icon-close"></i>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div ref="myEchart8" style="height:230px"></div>   
+                </div>
+            </div>
+        </el-col>
     </el-row>
 </template>
 <script>
-import china from 'echarts/map/js/china.js';
+import china from 'echarts/map/json/china.json';
 
 export default {
 
@@ -245,11 +327,360 @@ export default {
             ]
         };
         this.chart2.setOption(option2)
-        this.chart2 = this.$echarts.init(this.$refs.myEchart2)
+        this.chart3 = this.$echarts.init(this.$refs.myEchart3)
+        this.$echarts.registerMap('china', china)
         var option3={
-
+            backgroundColor: '#404a59',
+            visualMap: {
+                min: 800,
+                max: 50000,
+                text:['High','Low'],
+                realtime: false,
+                calculable: true,
+                inRange: {
+                    color: ['lightskyblue','yellow', 'orangered']
+                }
+            },
+            series: [
+                {
+                    name: '香港18区人口密度',
+                    type: 'map',
+                    mapType: 'china', // 自定义扩展图表类型
+                    selectedMode:'single',
+                    roam: true,
+                    showLegendSymbol:true,
+                    itemStyle:{
+                        normal:{
+                            areaStyle:{color:'red'}
+                        },
+                    },
+                    data:[
+                        {name: '湖北', value: 20057.34},
+                        {name: '湖南', value: 15477.48},
+                        {name: '北京', value: 31686.1},
+                        {name: '上海', value: 6992.6},
+                        {name: '江苏', value: 44045.49},
+                        {name: '浙江', value: 40689.64},
+                        {name: '广东', value: 37659.78},
+                        {name: '河北', value: 45180.97},
+                        {name: '四川', value: 55204.26},
+                        {name: '云南', value: 21900.9},
+                        {name: '广西', value: 4918.26},
+                        {name: '海南', value: 5881.84},
+                        {name: '安徽', value: 4178.01},
+                        {name: '黑龙江', value: 2227.92},
+                        {name: '山西', value: 2180.98},
+                        {name: '内蒙古', value: 9172.94},
+                        {name: '山东', value: 3368},
+                        {name: '辽宁', value: 806.98}
+                    ],
+                }
+            ]
         }
         this.chart3.setOption(option3)
+        this.chart4 = this.$echarts.init(this.$refs.myEchart4)
+        var option4= {
+            title : {
+                text: 'top5应用',
+                // subtext: '35560',
+                x:'center'
+            },
+            grid: {
+                top: '20',
+                width: '90%',
+                bottom: '3%',
+                left: 10,
+                containLabel: true
+            },
+            yAxis : [
+                {
+                    type : 'category',
+                    data : ['07/18','07/19','07/20','07/21','07/22'],
+                    axisLine:{       //y轴
+                        show:false
+                    },
+                    axisTick:{       //y轴刻度线
+                        show:false
+                    },
+                    splitLine: {     //网格线
+                        show: false
+                    }
+                },
+                
+            ],
+            xAxis : [
+                {
+                    type : 'value',
+                    axisLine:{       //y轴
+                        show:false
+                    },
+                    axisTick:{       //y轴刻度线
+                        show:false
+                    },
+                    splitLine: {     //网格线
+                        show: false
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'教育',
+                    type:'bar',
+                    data:[320, 332, 301, 334, 390],
+                    // barGap:'50%',
+                    barCategoryGap:'10%',
+                    barWidth:12,
+                    itemStyle: {
+                        normal: {
+                            color: '#f5aba3'
+                        }
+                    }
+                }
+            ]
+        }
+        this.chart4.setOption(option4)
+        this.chart5 = this.$echarts.init(this.$refs.myEchart5)
+        var option5= {
+            title : {
+                text: 'top5客户占比',
+                // subtext: '35560',
+                x:'center'
+            },
+            grid: {
+                top: '20',
+                width: '90%',
+                bottom: '3%',
+                left: 10,
+                containLabel: true
+            },
+            yAxis : [
+                {
+                    type : 'category',
+                    data : ['07/18','07/19','07/20','07/21','07/22'],
+                    axisLine:{       //y轴
+                        show:false
+                    },
+                    axisTick:{       //y轴刻度线
+                        show:false
+                    },
+                    splitLine: {     //网格线
+                        show: false
+                    }
+                },
+                
+            ],
+            xAxis : [
+                {
+                    type : 'value',
+                    axisLine:{       //y轴
+                        show:false
+                    },
+                    axisTick:{       //y轴刻度线
+                        show:false
+                    },
+                    splitLine: {     //网格线
+                        show: false
+                    }
+                }
+            ],
+            series : [
+                {
+                    name:'教育',
+                    type:'bar',
+                    data:[320, 332, 301, 334, 390],
+                    // barGap:'50%',
+                    barCategoryGap:'10%',
+                    barWidth:12,
+                    itemStyle: {
+                        normal: {
+                            color: '#f5aba3'
+                        }
+                    }
+                }
+            ]
+        }
+        this.chart5.setOption(option5)
+        this.chart6 = this.$echarts.init(this.$refs.myEchart6)
+        var option6= {
+            tooltip : {
+                formatter: "{a} <br/>{c} {b}"
+            },
+            series:[
+                {
+                    name: '转速',
+                    type: 'gauge',
+                    center: ['50%', '90%'],    // 默认全局居中
+                    radius: '150%',
+                    min:0,
+                    max:100,
+                    startAngle:180,
+                    endAngle:0,
+                    splitNumber:4,
+                    axisLine: {            // 坐标轴线
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            width: 8
+                        }
+                    },
+                    axisTick: {            // 坐标轴小标记
+                        length:12,        // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {           // 分隔线
+                        length:20,         // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    pointer: {
+                        width:5
+                    },
+                    title: {
+                        offsetCenter: [0, 0],       // x, y，单位px
+                    },
+                    detail: {
+                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        show:false,
+                        fontWeight: 'bolder'
+                    },
+                    data:[{value: 80, name: ''}]
+                }
+            ]
+        }
+        this.chart6.setOption(option6)
+        this.chart7 = this.$echarts.init(this.$refs.myEchart7)
+        var option7 = {
+            tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            legend: {
+                data:['最高值','最低值','平均值',]
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['周一','周二','周三','周四','周五','周六','周日']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'最高值',
+                    type:'line',
+                    stack: '总量',
+                    smooth: true,
+                    areaStyle: {normal: {}},
+                    data:[40, 50, 30, 90, 65, 69, 90]
+                },
+                {
+                    name:'最低值',
+                    type:'line',
+                    stack: '总量',
+                    smooth: true,
+                    areaStyle: {normal: {}},
+                    data:[10, 5, 30, 45, 23, 39,17]
+                },
+
+                {
+                    name:'平均值',
+                    type:'line',
+                    stack: '总量',
+                    smooth: true,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top'
+                        }
+                    },
+                    areaStyle: {normal: {}},
+                    data:[79, 68, 56, 74, 89, 98, 84]
+                }
+            ]
+        };
+        this.chart7.setOption(option7)
+        this.chart8 = this.$echarts.init(this.$refs.myEchart8)
+        var option8 = {
+            tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            legend: {
+                data:['cpu','内存',]
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['周一','周二','周三','周四','周五','周六','周日']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'cpu',
+                    type:'line',
+                    stack: '总量',
+                    smooth: true,
+                    lineStyle: {
+                        normal: {
+                            color: '#c23531'
+                        }
+                    },
+                    showSymbol: false,
+                    // areaStyle: {normal: {}},
+                    data:[40, 50, 30, 90, 65, 69, 90]
+                },
+                {
+                    name:'内存',
+                    type:'line',
+                    stack: '总量',
+                    smooth: true,
+                    lineStyle: {
+                        normal: {
+                            color: '#93d6ca'
+                        }
+                    },
+                    showSymbol: false,
+                    // areaStyle: {normal: {}},
+                    data:[10, 5, 30, 45, 23, 39,17]
+                },
+            ]
+        };
+        this.chart8.setOption(option8)
+
     }
 }
 </script>
@@ -278,11 +709,11 @@ export default {
                     .toolbar{
                         float: right;
                         margin-right: 10px;
-                        margin-top: 10px;
+                        margin-top: 12px;
                         .icon{
                             display: inline-block;
-                            width: 20px;
-                            height: 20px;
+                            width: 16px;
+                            height: 16px;
                             background-size: contain;
                             background-position: center center;
                             background-repeat: no-repeat;

@@ -11,8 +11,20 @@
                     <div class="hht_user_role">超级管理员</div>
                 </div>
             </div>
-            <el-tree :data="data" node-key="id"  :render-content="renderContent" class="hht_list">
+            <el-tree
+            :data="data"
+            node-key="id"
+            :expand-on-click-node="true" class="hht_list">
+            <span class="custom-tree-node" slot-scope="{ node, data }">
+                <i class='icon' :class="[{ icon_driver: (node.icon=='driver') }]"  ></i>
+                <span class='icon-text '>
+                    {{node.label}}
+                </span>
+                <span></span>
+            </span>
             </el-tree>
+            <!-- <el-tree :data="data" node-key="id"  :render-content="renderContent" class="hht_list">
+            </el-tree> -->
         </div>
         <div class="hht_content">
             <div class="hht_content_header">
@@ -60,8 +72,8 @@ export default {
         renderContent(h, { node, data, store }) {
             return (
             <span class="custom-tree-node">
-                <i class='icon icon_driver'  ></i>
-                <span class='icon-text'>
+                <i class='icon icon_driver {node.icon}'  ></i>
+                <span class='icon-text '>
                     {node.label}
                 </span>
                 <span></span>
@@ -237,6 +249,9 @@ export default {
         }
         .el-tree-node__content{
             height: 37px;
+            .el-tree-node__expand-icon{
+                display: none;
+            }
         }
         .el-tree-node__content:hover{
             background-color: #24272C;
@@ -247,6 +262,7 @@ export default {
                 display: inline-block;
                 width: 20px;
                 height: 20px;
+                margin-left: 20px;
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center center;
