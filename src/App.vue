@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <router-link to="/login">Go to Bar</router-link> -->
     <router-view/>
   </div>
 </template>
@@ -17,8 +16,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #f0f0f0;
-  // padding: 10px;
   box-sizing: border-box;
-  background-clip:content-box
+  background-clip:content-box 
 }
 </style>

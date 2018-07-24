@@ -1,33 +1,54 @@
 <template>
     <div class="info-wrapper">
+        <div class="info-title">
+            <div class="hht-logo"><img src="./图层 3@3x.png" alt=""></div>
+            <h3>项目看板</h3>
+            <div class="other">
+                <div>项目名称：鸿合云</div>
+                <div>项目经理：濮晓明</div>
+                <div>当前迭代版本：七月份版本</div>
+            </div>
+        </div>
         <div class="general">
             <div class="general-health">
-                <h3 class="title">项目健康度</h3>              
-                <el-row >
-                    <!-- <el-col :span="16"> -->
-                        <div class="health-circle-wrapper">
-                            <div class="health-circle">
-                                <span>100</span>
-                            </div>
+                <h3 class="title">项目健康度</h3>  
+                <div class="health-content">
+                    <div class="health-circle-wrapper">
+                        <div class="health-circle">
+                            <span class="health-text">100</span>
                         </div>
-                    <!-- </el-col> -->
-                    <!-- <el-col :span="8"><p>你的项目很健康</p></el-col> -->
-                </el-row>             
+                    </div>
+                    <p class="health-rule">这里是健康度规则</p >
+                </div>                                  
             </div>
             <div class="general-progress">
                 <h3 class="title">项目进度偏差率</h3>
                 <el-row>
                     <el-col :span="14" >
-                        <div class='progress-circle'><el-progress type="circle" :percentage="80" :width='110' :stroke-width='8' ></el-progress></div>
+                        <div class='progress-circle' @mouseover="progressTip=true" @mouseout="progressTip=false">
+                            <el-progress type="circle" :percentage="80" :width='110' :stroke-width='8' ></el-progress>
+                            <div class="progress-tip" v-if='progressTip'>
+                                项目进度偏差率计算规则：已完工程实际时间-已完工程计划时间
+                            </div>   
+                        </div>                       
                     </el-col>
-                    <el-col :span="10"></el-col>
+                    <el-col :span="10">
+                        <div>当前项目进度：</div>
+                        <div>计划项目进度：</div>
+                        <div>查看更多></div>
+                    </el-col>
                 </el-row> 
             </div>
             <div class="general-defect">
                 <h3 class="title">缺陷率</h3>
                 <el-row>
                     <el-col :span="14">
-                        <div class='progress-circle'><el-progress type="circle" :percentage="80" :width='110' :stroke-width='8' ></el-progress></div>
+                       <div class='progress-circle' @mouseover="defectTip=true" @mouseout="defectTip=false">
+                            <el-progress type="circle" :percentage="80" :width='110' :stroke-width='8' ></el-progress>
+                            <div class="progress-tip" v-if='defectTip'>
+                                项目进度偏差率计算规则：已完工程实际时间-已完工程计划时间
+                            </div>   
+                        </div> 
                     </el-col>
                     <el-col :span="10">
                         <div>总缺陷数：10</div>
@@ -40,7 +61,12 @@
                 <h3 class="title">风险</h3>
                 <el-row>
                     <el-col :span="14">
-                        <div class='progress-circle'><el-progress type="circle" :percentage="80" :width='110' :stroke-width='8' ></el-progress></div>
+                       <div class='progress-circle' @mouseover="riskTip=true" @mouseout="riskTip=false">
+                            <el-progress type="circle" :percentage="80" :width='110' :stroke-width='8' ></el-progress>
+                            <div class="progress-tip" v-if='riskTip'>
+                                项目进度偏差率计算规则：已完工程实际时间-已完工程计划时间
+                            </div>   
+                        </div> 
                     </el-col>
                     <el-col :span="10">
                         <div>总风险数：10</div>
@@ -50,9 +76,10 @@
                 </el-row> 
             </div>
         </div>
+        <div class="schedule">里程碑</div>
         <div class="info">
             <div class="program">
-                <h3 class="title">鸿合云</h3>
+                <h3 class="title">项目概述</h3>
                 <table width="100%">
                     <tr>
                         <td width='50%'>当前版本</td>
@@ -91,7 +118,7 @@
                     <el-table-column prop="address" label="角色"></el-table-column>
                 </el-table>
             </div>
-            <div class="licheng">里程碑</div>     
+            <div class="huanj" style="flex:2">环境</div>     
         </div>
         <div style="margin-top: 10px;background-color:#fff;padding:0 20px 10px">
             <h3 style="height:40px;line-height:40px;margin-right:10px;margin-bottom:10px;font-size:18px;font-weight:bold">需求分配一览</h3>
@@ -142,19 +169,64 @@ export default {
                     name: '王小虎',
                     address: 'java'
                 }
-            ]
+            ],
+            progressTip:false,
+            defectTip:false,
+            riskTip:false,
         }
         
     }
 }
 </script>
-<style  scoped>
+<style lang='scss' scoped>
 .info-wrapper{
     padding: 10px;
+    padding-top: 90px;
+    >.info-title{
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        height: 80px;
+        background-color: #409eff;
+        color: #fff;         
+        width: 100%;
+        z-index: 9999;
+        >.hht-logo{
+            flex: 1;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        >h3{
+            flex: 1;
+            text-align: center;
+            line-height: 80px;
+            font-weight: 500;
+            font-size: 20px;
+        }
+        .other{
+            flex: 1;
+            text-align: right;
+            margin-right: 30px;
+            line-height: 25px;
+            font-size: 14px;
+        }
+    }
+}
+.progress-tip{
+    width: 150px;
+    padding: 10px;
+    background-color: #ff0;
+    position: absolute;
+    left: 50px;
+    top:60px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #c0c0c0
 }
     .general{
         display: flex;
-        height: 200px;
+        height: 230px;
+        // margin-top: 50px;
     }
     .general>div{
         flex: 1;
@@ -168,7 +240,15 @@ export default {
         height: 120px;
         border:4px dashed green;
         border-radius: 50%;
-        margin: 0 auto;
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+    .health-content{
+        display: flex;
+    }
+    .health-rule{
+        flex: 1;
+        margin-left: 40px;
     }
     .health-circle{
         width: 100px;
@@ -183,7 +263,6 @@ export default {
     }
     .feature{
         display: flex;
-        /* background-color: #fff; */
     }
     .feature-item{
         flex:1;
@@ -253,13 +332,11 @@ export default {
         color: #666;
     }
     .licheng{
-        flex: 3;
         background-color: #fff;
-        margin-left: 10px;
-        margin-right: 10px;
     }
     .progress-circle{
         width: 110px;
-        margin: 10px auto;
+        margin: 20px auto;
+        position: relative;
     }
 </style>

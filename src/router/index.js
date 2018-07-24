@@ -1,28 +1,36 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/login/login'
-import Welcome from '@/components/welcome/welcome'
-// import 'element-ui/lib/theme-chalk/index.css'
 import info from '@/components/info/info'
+import index from '@/components/index/index'
+import driver from '@/components/driver/driver'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-       path: '/',
+      path: '/',
       name: 'login',
       component: Login
-    },
-    {
-      path: '/welcome',
-      name: 'welcome',
-      component: Welcome
     },
     {
       path: '/info',
       name: 'info',
       component: info
     },
+    {
+      path: '/index',
+      name: 'index',
+      component: index,
+      children:[
+        {
+          path: '/index',
+          name: 'driver',
+          component: driver
+        },
+      ]
+    },
+    
   ]
 })

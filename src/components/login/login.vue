@@ -2,7 +2,6 @@
     <div class="wrapper">
         <div class="mask">
             <el-form  label-width="70px" class="login-wrapper" :model="ruleForm" :rules="rules" ref="ruleForm" >
-                <h3>鸿合云</h3>
                 <el-form-item label="用户名:"  prop="username"> 
                     <el-input placeholder="请输入用户名" v-model="ruleForm.username" clearable @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-user"></i></el-input>
                 </el-form-item>
@@ -41,7 +40,7 @@ export default {
         submit(){
             if(this.ruleForm.username=='admin'&& this.ruleForm.password=='admin'){
                 // 登录成功              
-                this.$router.push('welcome')
+                this.$router.push('index')
             }else{
                 // 登录失败
                this.$message.error('请检查用户名和密码');
@@ -64,7 +63,7 @@ export default {
         }
         .login-wrapper{
             width: 350px;
-            height: 260px;
+            height: 200px;
             background-color: #fff;
             border-radius: 10px;
             margin: auto;
