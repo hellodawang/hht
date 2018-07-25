@@ -1,6 +1,6 @@
 <template>
     <div class="hht_wrapper">
-        <div class="hht_aside">
+        <div class="hht_aside" v-if='showSideBar'>
             <div class="hht_logo">
                 <img src="../../assets/logo.png" alt="">
             </div>
@@ -16,19 +16,24 @@
             node-key="id"
             :expand-on-click-node="true" class="hht_list">
             <span class="custom-tree-node" slot-scope="{ node, data }">
-                <i class='icon' :class="[{ icon_driver: (node.icon=='driver') }]"  ></i>
+                <i class='icon' :class="[{ icon_driver: (node.icon=='driver')},
+                                        {icon_statistics:(node.icon=='statistics')},
+                                        {icon_maintenance:(node.icon=='maintenance')},
+                                        {icon_mall:(node.icon=='mall')},
+                                        {icon_user:(node.icon=='user')},
+                                        {icon_study:(node.icon=='study')},
+                                        {icon_setting:(node.icon=='setting')}
+                                        ]"  ></i>
                 <span class='icon-text '>
                     {{node.label}}
                 </span>
-                <span></span>
+                <span class="down " v-if='data.children' :class="[!node.expanded ? 'el-icon-arrow-right' : '', 'el-icon-arrow-down']"></span>
             </span>
             </el-tree>
-            <!-- <el-tree :data="data" node-key="id"  :render-content="renderContent" class="hht_list">
-            </el-tree> -->
         </div>
         <div class="hht_content">
             <div class="hht_content_header">
-                <i class="icon icon_menu"></i>
+                <i class="icon icon_menu" @click="showSideBar=!showSideBar"></i>
                 <div class="menubar">
                     <div class="mail"><span class="mail-text">5</span></div>
                     <div class="message"><span class="message-text">3</span></div>
@@ -39,18 +44,6 @@
                             </span>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>英文</el-dropdown-item>                             
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                    </div>
-                    <div class="role">
-                        <el-dropdown>
-                            <span class="el-dropdown-link">
-                                超级管理员<i class="el-icon-arrow-down el-icon--right"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>其他角色1</el-dropdown-item>                             
-                                <el-dropdown-item>其他角色2</el-dropdown-item>                             
-                                <el-dropdown-item>其他角色3</el-dropdown-item>                             
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -68,31 +61,17 @@
 </template>
 <script>
 export default {
-    methods:{
-        renderContent(h, { node, data, store }) {
-            return (
-            <span class="custom-tree-node">
-                <i class='icon icon_driver {node.icon}'  ></i>
-                <span class='icon-text '>
-                    {node.label}
-                </span>
-                <span></span>
-            </span>);
-      }
-    },
     data(){
         return{
             data:[
-                {id:1,label:'驾驶窗',children:[{id:11,label:'待定'}],icon:'driver'},
+                {id:1,label:'管理驾驶舱',icon:'driver'},
+                {id:9,label:'系统设置',icon:'setting',children:[{id:11,label:'用户管理',icon:'user'}]},
+                {id:5,label:'应用商城',icon:'mall'},                       
+                {id:8,label:'教育资源库',icon:'study'},
+                {id:3,label:'诊断维护',icon:'maintenance'},
                 {id:2,label:'统计报表',icon:'statistics'},
-                {id:3,label:'诊断维护',},
-                {id:4,label:'产品信息',},
-                {id:5,label:'应用商城',},
-                {id:6,label:'用户管理',},
-                {id:7,label:'版本信息',},
-                {id:8,label:'学习库',},
-                {id:9,label:'系统设置',},
-            ]
+            ],
+            showSideBar:true
         }
     }
 }
@@ -101,6 +80,8 @@ export default {
     .hht_wrapper{
         height: 100%;
         overflow-y: scroll;
+        overflow-x: hidden;
+        display: flex;
         .hht_aside{
             height: 100%;
             width:197px;
@@ -148,14 +129,10 @@ export default {
             }
         }
         .hht_content{
-            // height: 100%;
-            // overflow-y: scroll;
-            position: fixed;
-            left: 197px;
-            right: 0;
-            top: 0;
-            bottom: 0;
+            flex: 1;
+            height: 100%;
             background-color: #DBDCE0;
+            position: relative;
             .hht_content_header{
                 height: 52px;
                 background-color: #eff3f4;
@@ -216,14 +193,11 @@ export default {
                             color: #fff;
                         }
                     }
-                    .role{
-                        margin: 0 20px;
-                    }
                     .avator{
                         width: 32px;
                         height: 32px;
                         border-radius: 50%;
-                        margin-right: 20px;
+                        margin: 0 20px;
                         img{
                             width: 100%;
                         }
@@ -231,8 +205,8 @@ export default {
                 }
             }
             .hht-content_content{
-                position: fixed;
-                left: 197px;
+                position: absolute;
+                left: 0;
                 right: 0;
                 bottom: 0;
                 top: 52px;
@@ -248,6 +222,7 @@ export default {
             background-color: transparent;
         }
         .el-tree-node__content{
+            position: relative;
             height: 37px;
             .el-tree-node__expand-icon{
                 display: none;
@@ -258,6 +233,10 @@ export default {
             
         }
         .custom-tree-node{
+            .down{
+                position: absolute;
+                right: 20px;
+            }
             .icon{
                 display: inline-block;
                 width: 20px;
@@ -271,7 +250,28 @@ export default {
                 background-image: url('../../assets/icon-driver.png')
             }
             .icon_statistics{
-                 background-image: url('../../assets/icon-driver.png')
+                 background-image: url('../../assets/icon-statistics.png')
+            }
+            .icon_maintenance{
+                 background-image: url('../../assets/icon-maintenance.png')
+            }
+            .icon_product{
+                 background-image: url('../../assets/icon-product.png')
+            }
+            .icon_mall{
+                 background-image: url('../../assets/icon-mall.png')
+            }
+            .icon_user{
+                 background-image: url('../../assets/icon-user.png')
+            }
+            .icon_version{
+                 background-image: url('../../assets/icon-version.png')
+            }
+            .icon_study{
+                 background-image: url('../../assets/icon-study.png')
+            }
+            .icon_setting{
+                 background-image: url('../../assets/icon-setting.png')
             }
             .icon-text{
                 display: inline-block;
