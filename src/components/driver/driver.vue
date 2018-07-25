@@ -329,121 +329,91 @@ export default {
                 ]
             };
             this.chart2.setOption(option2)
-            // this.chart3 = this.$echarts.init(this.$refs.myEchart3)
-            // this.$echarts.registerMap('china', china)
-            // var option3={
-            //     backgroundColor: '#404a59',
-            //     tooltip: {
-            //         trigger: 'item',
-            //         showDelay: 0,
-            //         transitionDuration: 0.2,
-            //         // formatter: function (params) {
-            //         //     // var value = (params.value + '').split('.');
-            //         //     // value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-            //         //     return '用户数：' + params.data.data+'/'+params.data.data2+'<br/>'
-            //         //     // console.log(params.data)
-            //         //     // return params.value
-            //         // }
-            //     },
-            //     visualMap: {
-            //         min: 800,
-            //         max: 50000,
-            //         text:['High','Low'],
-            //         realtime: false,
-            //         calculable: true,
-            //         inRange: {
-            //              color: [ '#fff', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
-            //         }
-            //     },
-            //     series: [
-            //         {
-            //             // name: '香港18区人口密度',
-            //             type: 'map',
-            //             mapType: 'china', // 自定义扩展图表类型
-            //             selectedMode:'single',
-            //             roam: false,//禁止缩放
-            //             showLegendSymbol:true,
-            //             itemStyle:{
-            //                 normal:{
-            //                     areaStyle:{color:'red'}
-            //                 },
-            //             },
-            //             data:[
-            //                 {name: '湖北', value: 20057.34,data:230,data2:1000},
-            //                 {name: '湖南', value: 15477.48},
-            //                 {name: '北京', value: 31686.1},
-            //                 {name: '上海', value: 6992.6},
-            //                 {name: '江苏', value: 44045.49},
-            //                 {name: '浙江', value: 40689.64},
-            //                 {name: '广东', value: 37659.78},
-            //                 {name: '河北', value: 45180.97},
-            //                 {name: '四川', value: 55204.26},
-            //                 {name: '云南', value: 21900.9},
-            //                 {name: '广西', value: 4918.26},
-            //                 {name: '海南', value: 5881.84},
-            //                 {name: '安徽', value: 4178.01},
-            //                 {name: '黑龙江', value: 2227.92},
-            //                 {name: '山西', value: 2180.98},
-            //                 {name: '内蒙古', value: 9172.94},
-            //                 {name: '山东', value: 3368},
-            //                 {name: '辽宁', value: 806.98}
-            //             ],
-            //         }
-            //     ]
-            // }
-            var option3 = {
-                tooltip : {
-                    trigger: 'item'
-                },
-                geo: {
-                    roam: true,
-                    map: '',
-                    label: {
-                        emphasis: {
-                            show: false
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            areaColor: '#304553',
-                            borderColor: '#fff'
-                        }
-                    },
-                    silent: true
-                },
-                visualMap: {
-                    show: false,
-                    min: 80,
-                    max: 500,
-                    inRange: {
-                        colorLightness: [0, 1]
+            this.chart3 = this.$echarts.init(this.$refs.myEchart3)
+            this.$echarts.registerMap('china', china)
+            this.$echarts.registerMap('guangdong', guangdong)
+            var option3={
+                backgroundColor: '#404a59',
+                tooltip: {
+                    trigger: 'item',
+                    showDelay: 0,
+                    transitionDuration: 0.2,
+                    formatter: function (params) {
+                        // console.log(params)
+                        // var value = (params.value + '').split('.');
+                        // value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
+                        // return '用户数：' + params.data.data+'/'+params.data.data2+'<br/>'
+                        // console.log(params.data)
+                        // return params.value
                     }
                 },
-                series: []
+                visualMap: {
+                    min: 800,
+                    max: 50000,
+                    text:['High','Low'],
+                    realtime: false,
+                    calculable: true,
+                    inRange: {
+                         color: [ '#fff', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                    }
+                },
+                series: [
+                    {
+                        // name: '香港18区人口密度',
+                        type: 'map',
+                        mapType: 'china', // 自定义扩展图表类型
+                        selectedMode:'single',
+                        roam: false,//禁止缩放
+                        showLegendSymbol:true,
+                        itemStyle:{
+                            normal:{
+                                areaStyle:{color:'red'}
+                            },
+                        },
+                        data:[
+                            {name: '湖北', value: 20057.34,data:230,data2:1000},
+                            {name: '湖南', value: 15477.48},
+                            {name: '北京', value: 31686.1},
+                            {name: '上海', value: 6992.6},
+                            {name: '江苏', value: 44045.49},
+                            {name: '浙江', value: 40689.64},
+                            {name: '广东', value: 37659.78},
+                            {name: '河北', value: 45180.97},
+                            {name: '四川', value: 55204.26},
+                            {name: '云南', value: 21900.9},
+                            {name: '广西', value: 4918.26},
+                            {name: '海南', value: 5881.84},
+                            {name: '安徽', value: 4178.01},
+                            {name: '黑龙江', value: 2227.92},
+                            {name: '山西', value: 2180.98},
+                            {name: '内蒙古', value: 9172.94},
+                            {name: '山东', value: 3368},
+                            {name: '辽宁', value: 806.98}
+                        ],
+                    }
+                ]
             }
-            // var GDEcharts = map.GDEcharts
-            var chart = new GDEcharts({containerId: 'chart-panel', echartOption: option3})
-            // this.chart3.setOption(option3)
-            // var that = this.chart3
-            // this.chart3.on("click",function(params){
-                
-            //     let pro = params.name;
-            //     option3.series[0]={
-            //         // name: '香港18区人口密度',
-            //         type: 'map',
-            //         mapType: 'guangdong', // 自定义扩展图表类型
-            //         selectedMode:'single',
-            //         roam: false,//禁止缩放
-            //         showLegendSymbol:true,
-            //         itemStyle:{
-            //             normal:{
-            //                 areaStyle:{color:'red'}
-            //             },
-            //         },
-            //     }
-            //     console.log(option3)
-            //     that.setOption(option3)
-            // })
+            this.chart3.setOption(option3)
+            var that = this.chart3
+            this.chart3.on("click",function(params){
+                // console.log(guangdong)
+                // let pr o = params.name;
+                option3.series[0]={
+                    // name: '香港18区人口密度',
+                    type: 'map',
+                    mapType: 'guangdong', // 自定义扩展图表类型
+                    selectedMode:'single',
+                    roam: false,//禁止缩放
+                    showLegendSymbol:true,
+                    itemStyle:{
+                        normal:{
+                            areaStyle:{color:'red'}
+                        },
+                    },
+                    data:[{name:'深圳市',value:15477.48},{name:'广州市',value:15477.48}]
+                }
+                that.setOption(option3)
+            })
             
             this.chart4 = this.$echarts.init(this.$refs.myEchart4)
             var option4= {

@@ -1,3 +1,4 @@
+import { Option } from "element-ui";
 
 
 /*
@@ -23,8 +24,9 @@ var GDEcharts = function(options){
 	this.geoData = {"type": "FeatureCollection","features": []};
 	this.breadcrumbData = [{name: '全国', adcode: 100000}];
 	this.testData = [];
-
-	this.echart;
+	
+	this.echart = options.echart.init(this.container);
+	
 	this.districtExplorer;
 
 	this.init();
@@ -54,7 +56,7 @@ GDEcharts.prototype = {
 	},
 
 	initEchart: function(){
-		this.echart = echarts.init(this.container);
+		// this.echart = echarts.init(this.container);
 
 		var _this = this;
 		_this.echart.on('georoam', function(d){   	
@@ -391,6 +393,6 @@ var echartOption = {
     };
 
 
-var chart = new GDEcharts({containerId: 'chart-panel', echartOption: echartOption});
+// var chart = new GDEcharts({containerId: 'chart-panel', echartOption: echartOption});
 
 
