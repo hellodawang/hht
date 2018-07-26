@@ -6,26 +6,25 @@
                     <h3>用户登录统计</h3> 
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
                 <div class="section-content">
+                    <a href="" class="detail">查看详情>></a>
                     <div ref="myEchart" style="height:320px;margin-top:10px"></div>
                     <div ref="myEchart1" style="height:150px"></div>
                 </div>
             </div>
             <div class="section">
                 <div class="section-title"> 
-                    <h3>用户活跃度统计</h3> 
+                    <h3>用户活跃度统计</h3>
+                     
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart2" style="height:280px;margin-top:10px"></div>
+                    <a href="" class="detail">查看详情>></a>
+                    <div ref="myEchart2" style="height:250px"></div>
                 </div>
             </div>
         </el-col>
@@ -35,12 +34,11 @@
                     <h3>设备概览</h3> 
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart3" id='chart-panel' style="height:500px"></div>
+                    <a href="" class="detail">查看详情>></a>
+                    <div ref="myEchart3" id='chart-panel' style="height:470px"></div>
                     <div style="height:100px"></div>
                 </div>
             </div>
@@ -49,15 +47,15 @@
                     <h3>top应用/客户汇总</h3> 
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
                 <div class="section-content" style="height:180px">
                     <el-col :span='12'>
+                        <a href="" class="detail">查看详情>></a>
                         <div ref="myEchart4" style="height:180px"></div>   
                     </el-col>
                     <el-col :span='12'>
+                        <a href="" class="detail">查看详情>></a>
                         <div ref="myEchart5" style="height:180px"></div>   
                     </el-col>
                 </div>
@@ -69,16 +67,15 @@
                     <h3>云设备整体状态</h3> 
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
                 <div class="section-content" style="height:130px">
-                    <el-col :span='18'>
-                        <div ref="myEchart6" style="height:130px"></div>   
+                    <a href="" class="detail">查看详情>></a>                   
+                    <el-col :span='16'>
+                        <div ref="myEchart6" style="height:110px"></div>   
                     </el-col>
-                    <el-col :span='6'>
-                        <div>优</div>
+                    <el-col :span='8'>   
+                        <div style="width:54px;height:54px;border-radius:50%;border:4px solid green;text-align:center;line-height:46px;color:green;margin-top:20px">优</div>
                     </el-col>              
                 </div>
             </div>
@@ -87,16 +84,17 @@
                     <h3>容量</h3> 
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
-                <div class="section-content" style="height:130px">
-                    <el-col :span='18'>
-                        <!-- <div ref="myEchart6" style="height:180px"></div>    -->
+                <div class="section-content" style="height:140px">
+                    <a href="" class="detail">查看详情>></a>
+                    <el-col :span='12' style="text-align:center">
+                        <el-progress type="circle" :percentage="20" :width='80'></el-progress>
+                        <p>硬盘容量</p>
                     </el-col>
-                    <el-col :span='6'>
-                        <!-- <div>优</div> -->
+                    <el-col :span='12'>
+                        <el-progress type="circle" :percentage="20" :width='80'></el-progress>
+                        <p>数据库容量</p>
                     </el-col>              
                 </div>
             </div>
@@ -104,13 +102,12 @@
                 <div class="section-title"> 
                     <h3>带宽性能</h3> 
                     <div class="toolbar">
-                        <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
+                        <i class="icon icon-refresh"></i>                      
                     </div>
                 </div>
                 <div class="section-content" >
-                        <div ref="myEchart7" style="height:200px"></div>                
+                    <a href="" class="detail">查看详情>></a>
+                    <div ref="myEchart7" style="height:180px"></div>                
                 </div>
             </div>
             <div class="section">
@@ -118,12 +115,11 @@
                     <h3>cpu/内存</h3> 
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
-                        <i class="icon icon-fullScreen"></i>
-                        <i class="icon icon-close"></i>
                     </div>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart8" style="height:220px"></div>   
+                    <a href="" class="detail">查看详情>></a>
+                    <div ref="myEchart8" style="height:180px"></div>   
                 </div>
             </div>
         </el-col>
@@ -132,7 +128,7 @@
 <script>
 import china from 'echarts/map/json/china.json';
 import guangdong from 'echarts/map/json/province/guangdong.json'
-import {GDEcharts} from '../../commonFun/map.js'
+// import {GDEcharts} from '../../commonFun/map.js'
 import echarts from 'echarts'
 export default {
     mounted(){
@@ -143,7 +139,7 @@ export default {
             this.chart1 = this.$echarts.init(dom1)
             var option= {
                 title : {
-                    text: '今日用户登录数',
+                    text: '当前在线人数',
                     subtext: '35560',
                     subtextStyle:{
                         color:"#1E87D0",
@@ -160,12 +156,12 @@ export default {
                     },
                     x:'center'
                 },
-                legend: {
-                    data:['教育','商用','互联网'],
-                    right: 10,
-                    top: 85,
-                    bottom: 20,
-                },
+                // legend: {
+                //     data:['教育','商用','互联网'],
+                //     right: 10,
+                //     top: 85,
+                //     bottom: 20,
+                // },
                 grid: {
                     top: '120',
                     width: '90%',
@@ -176,45 +172,25 @@ export default {
                 xAxis : [
                     {
                         type : 'category',
-                        data : ['07/18','07/19','07/20','07/21','07/22','07/23']
+                        data : ['教育','商用','互联网','其他',]
                     }
                 ],
                 yAxis : [
                     {
-                        type : 'value'
+                        type : 'value',
+                        name:'人数'
                     }
                 ],
                 series : [
                     {
                         name:'教育',
                         type:'bar',
-                        data:[320, 332, 301, 334, 390, 330],
+                        data:[320, 332, 301, 334,],
                         barGap:'10%',
+                        barWidth:'50%',
                         itemStyle: {
                             normal: {
                                 color: '#f5aba3'
-                            }
-                        }
-                    },
-                    {
-                        name:'互联网',
-                        type:'bar',
-                        data:[120, 132, 101, 134, 90, 230],
-                        barGap:'10%',
-                        itemStyle: {
-                            normal: {
-                                color: '#93d6ca'
-                            }
-                        }
-                    },
-                    {
-                        name:'商用',
-                        type:'bar',
-                        data:[220, 182, 191, 234, 290, 330],
-                        barGap:'10%',
-                        itemStyle: {
-                            normal: {
-                                color: '#a5c6fe'
                             }
                         }
                     },
@@ -266,65 +242,53 @@ export default {
                     trigger: 'axis',
                     axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                         type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                    formatter:function(params){
+                        let data = params[0].data
+                        return  data.active +'/'+data.all
                     }
-                },
-                legend: {
-                    data:['不活跃','轻微','轻度','中度','重度','骨灰']
                 },
                 grid: {
                     left: '3%',
                     right: '4%',
                     bottom: '3%',
+                    top:'10%',
                     containLabel: true
                 },
                 xAxis : [
                     {
-                        type : 'category',
-                        data : ['07/21','07/22','07/23','07/24','07/25']
-                    }
+                        type : 'value',
+                        name:'活跃度',
+                    },
                 ],
                 yAxis : [
                     {
-                        type : 'value'
-                    }
+                        type : 'category',                    
+                        data : ['教育','商用','互联网','海外','华南','华东']
+                    },                  
                 ],
                 series : [                
                     {
-                        name:'轻微',
                         type:'bar',
-                        stack: '搜索引擎',
-                        data:[120, 132, 101, 134, 290, 230, 220]
-                    },
-                    {
-                        name:'轻度',
-                        type:'bar',
-                        barWidth : 20,
-                        stack: '搜索引擎',
-                        data:[620, 732, 701, 734, 1090, 1130, 1120]
-                    },
-                    {
-                        name:'不活跃',
-                        type:'bar',
-                        stack: '搜索引擎',
-                        data:[60, 72, 71, 74, 190, 130, 110]
-                    },
-                    {
-                        name:'中度',
-                        type:'bar',
-                        stack: '搜索引擎',
-                        data:[62, 82, 91, 84, 109, 110, 120]
-                    },
-                    {
-                        name:'重度',
-                        type:'bar',
-                        stack: '搜索引擎',
-                        data:[62, 82, 91, 84, 109, 110, 120]
-                    },
-                    {
-                        name:'骨灰',
-                        type:'bar',
-                        stack: '搜索引擎',
-                        data:[62, 82, 91, 84, 109, 110, 120]
+                        data:[{value:0.5,all:1000,active:400},
+                        {value:0.72,all:500,active:400},
+                        {value:0.56,all:788,active:400},
+                        {value:0.43,all:698,active:400},
+                        {value:0.62,all:698,active:400},
+                        {value:0.21,all:1010,active:400},],
+                        // barCategoryGap:'10%',
+                        barWidth:'50%',
+                        itemStyle: {
+                            normal: {
+                                color: '#f5aba3'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                // formatter: '{@active}'
+                            }
+                        }
                     },
                 ]
             };
@@ -418,7 +382,7 @@ export default {
             this.chart4 = this.$echarts.init(this.$refs.myEchart4)
             var option4= {
                 title : {
-                    text: 'top5应用',
+                    text: 'top5应用下载数',
                     // subtext: '35560',
                     x:'center'
                 },
@@ -456,16 +420,26 @@ export default {
                         },
                         splitLine: {     //网格线
                             show: false
-                        }
+                        },
+                        show:false,
+                        // axisLabel: {
+                        //     formatter: '{value}'
+                        // }
                     }
                 ],
                 series : [
                     {
-                        name:'电子书包',
+                        // name:'电子书包',
                         type:'bar',
                         data:[5.78, 6.33, 7.08, 9.21, 11.26],
                         barCategoryGap:'10%',
                         barWidth:12,
+                        label: {
+                            normal: {
+                                show: true,
+                                // formatter: '{b}'
+                            }
+                        },
                         itemStyle: {
                             normal: {
                                 color: '#f5aba3'
@@ -478,7 +452,7 @@ export default {
             this.chart5 = this.$echarts.init(this.$refs.myEchart5)
             var option5= {
                 title : {
-                    text: 'top5客户占比',
+                    text: 'top5客户设备数',
                     // subtext: '35560',
                     x:'center'
                 },
@@ -516,7 +490,8 @@ export default {
                         },
                         splitLine: {     //网格线
                             show: false
-                        }
+                        },
+                        show:false
                     }
                 ],
                 series : [
@@ -527,6 +502,12 @@ export default {
                         // barGap:'50%',
                         barCategoryGap:'10%',
                         barWidth:12,
+                        label: {
+                            normal: {
+                                show: true,
+                                // formatter: '{b}'
+                            }
+                        },
                         itemStyle: {
                             normal: {
                                 color: '#f5aba3'
@@ -545,7 +526,7 @@ export default {
                     {
                         name: '转速',
                         type: 'gauge',
-                        center: ['50%', '90%'],    // 默认全局居中
+                        center: ['50%', '80%'],    // 默认全局居中
                         radius: '150%',
                         min:0,
                         max:100,
@@ -575,11 +556,7 @@ export default {
                         title: {
                             offsetCenter: [0, 0],       // x, y，单位px
                         },
-                        detail: {
-                            // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                            show:false,
-                            fontWeight: 'bolder'
-                        },
+                        detail: {formatter:'{value}%',show:false},
                         data:[{value: 80, name: ''}]
                     }
                 ]
@@ -603,34 +580,38 @@ export default {
                     left: '3%',
                     right: '4%',
                     bottom: '3%',
+                    top:'15%',
                     containLabel: true
                 },
                 xAxis : [
                     {
                         type : 'category',
                         boundaryGap : false,
-                        data : ['周一','周二','周三','周四','周五','周六','周日']
+                        data : ['09:00','09:30','10:00','10:30','11:00','11:30','12:00']
                     }
                 ],
                 yAxis : [
                     {
-                        type : 'value'
+                        type : 'value',
+                        min: 0,
+                        max: 100,
+                        interval: 20,
                     }
                 ],
                 series : [
                     {
                         name:'最高值',
                         type:'line',
-                        stack: '总量',
                         smooth: true,
+                        showSymbol: false,
                         areaStyle: {normal: {}},
                         data:[40, 50, 30, 90, 65, 69, 90]
                     },
                     {
                         name:'最低值',
                         type:'line',
-                        stack: '总量',
                         smooth: true,
+                        showSymbol: false,
                         areaStyle: {normal: {}},
                         data:[10, 5, 30, 45, 23, 39,17]
                     },
@@ -638,8 +619,8 @@ export default {
                     {
                         name:'平均值',
                         type:'line',
-                        stack: '总量',
                         smooth: true,
+                        showSymbol: false,
                         label: {
                             normal: {
                                 show: true,
@@ -677,12 +658,15 @@ export default {
                     {
                         type : 'category',
                         boundaryGap : false,
-                        data : ['周一','周二','周三','周四','周五','周六','周日']
+                        data : ['09:00','09:30','10:00','10:30','11:00','11:30','12:00']
                     }
                 ],
                 yAxis : [
                     {
-                        type : 'value'
+                        type : 'value',
+                        min: 0,
+                        max: 100,
+                        interval: 20,
                     }
                 ],
                 series : [
@@ -691,6 +675,7 @@ export default {
                         type:'line',
                         stack: '总量',
                         smooth: true,
+                        showSymbol: false,
                         lineStyle: {
                             normal: {
                                 color: '#c23531'
@@ -703,8 +688,8 @@ export default {
                     {
                         name:'内存',
                         type:'line',
-                        stack: '总量',
                         smooth: true,
+                        showSymbol: false,
                         lineStyle: {
                             normal: {
                                 color: '#93d6ca'
@@ -768,9 +753,20 @@ export default {
                     }
                 }
             }
-        }
-        .col-two{
-            // margin: 0 10px;
+            .section-content{
+                .detail{
+                    text-decoration: none;
+                    color: #333;
+                    display: block;
+                    text-align: right;
+                    margin-right: 20px;
+                    line-height: 1.8em;
+                    font-size: 12px;
+                    &:hover{
+                        color: #f66
+                    }
+                }
+            }
         }
     }
 </style>
