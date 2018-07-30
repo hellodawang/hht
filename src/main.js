@@ -7,11 +7,11 @@ import axios from 'axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import echarts from 'echarts'
-
-Vue.prototype.$echarts = echarts 
-
+import store from './store/store'
+// mock数据
+import "./mock/index" 
 Vue.use(ElementUI);
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+Vue.prototype.$echarts = echarts 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
@@ -19,7 +19,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
-  // components: { App },
-  // template: '<App/>'
 })
