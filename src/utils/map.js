@@ -1,38 +1,3 @@
-var zhongguo = "/asset/get/s/data-1528971808162-BkOXf61WX.json";
-var hainan = "/asset/get/s/data-1528971693521-r18nZaybm.json";
-var xizang = "/asset/get/s/data-1528970391616-BJeoh2JW7.json";
-var zhejiang = "/asset/get/s/data-1528970380661-SkH93h1-m.json";
-var yunnan = "/asset/get/s/data-1528970362114-r1MK321WQ.json";
-var xinjiang = "/asset/get/s/data-1528970349852-H18u22kWX.json";
-var tianjin = "/asset/get/s/data-1528970339987-Hk2wnh1ZX.json";
-var sichuan = "/asset/get/s/data-1528970319531-Hy_8n3y-m.json";
-var shanxi = "/asset/get/s/data-1528970298351-HyzB32JZ7.json";
-var shangxi = "/asset/get/s/data-1528970273819-B1cmnnk-Q.json";
-var shanghai = "/asset/get/s/data-1528970254015-HJLfhnyWX.json";
-var shangdong = "/asset/get/s/data-1528970240242-Byu-hhybX.json";
-var qinghai = "/asset/get/s/data-1528970209434-Bytyh3kZ7.json";
-var ningxia = "/asset/get/s/data-1528970150882-SJJ2j2yWQ.json";
-var neimenggu = "/asset/get/s/data-1528970102554-HyJKo31bQ.json";
-var liaoning = "/asset/get/s/data-1528970052404-BJhHihkbQ.json";
-var jilin = "/asset/get/s/data-1528970024458-rkeEjhy-Q.json";
-var jiangxi = "/asset/get/s/data-1528969991368-BkkMi31Zm.json";
-var jiangsu = "/asset/get/s/data-1528969864934-BJ-qchkWQ.json";
-var hunan = "/asset/get/s/data-1528969831328-Sykuqh1bX.json";
-var hubei = "/asset/get/s/data-1528969822119-Bk8v93kZ7.json";
-var henan = "/asset/get/s/data-1528969802719-HyXIqhk-m.json";
-var heilongjiang = "/asset/get/s/data-1528969789631-ryLHcnJbm.json";
-var hebei = "/asset/get/s/data-1528969737020-HJWMqhy-Q.json";
-var guizhou = "/asset/get/s/data-1528969712502-Hy_g92yZQ.json";
-var guangxi = "/asset/get/s/data-1528969706270-HJMg5hkWQ.json";
-var guangdong = "/asset/get/s/data-1528969700634-BkT1qn1WQ.json";
-var gansu = "/asset/get/s/data-1528969694316-BJLkc2yZX.json";
-var chongqing = "/asset/get/s/data-1528969687660-r1ey9nkbX.json";
-var aomen = "/asset/get/s/data-1528969612486-rJ4qtnyZm.json";
-var anhui = "/asset/get/s/data-1528969607452-Hkk5tnJ-Q.json";
-var beijing = "/asset/get/s/data-1528969604941-Hk6Ytn1WQ.json";
-var fujian = "/asset/get/s/data-1528969599839-S1OFFn1ZQ.json";
-var xianggang = "/asset/get/s/data-1528969589857-S1ROthJWm.json";
-
 import china from 'echarts/map/json/china.json';
 import hainan from 'echarts/map/json/province/hainan.json'
 import xizang from 'echarts/map/json/province/xizang.json'
@@ -40,12 +5,38 @@ import zhejiang from 'echarts/map/json/province/zhejiang.json'
 import yunnan from 'echarts/map/json/province/yunnan.json'
 import xinjiang from 'echarts/map/json/province/xinjiang.json'
 import tianjin from 'echarts/map/json/province/tianjin.json'
+import sichuan from 'echarts/map/json/province/sichuan.json'
+import shanxi from 'echarts/map/json/province/shanxi1.json'
+import shangxi from 'echarts/map/json/province/shanxi.json'
+import shanghai from 'echarts/map/json/province/shanghai.json'
+import shangdong from 'echarts/map/json/province/shandong.json'
+import qinghai from 'echarts/map/json/province/qinghai.json'
+import ningxia from 'echarts/map/json/province/ningxia.json'
+import neimenggu from 'echarts/map/json/province/neimenggu.json'
+import liaoning from 'echarts/map/json/province/liaoning.json'
+import jilin from 'echarts/map/json/province/jilin.json'
+import jiangxi from 'echarts/map/json/province/jiangxi.json'
+import jiangsu from 'echarts/map/json/province/jiangsu.json'
+import hunan from 'echarts/map/json/province/hunan.json'
+import hubei from 'echarts/map/json/province/hubei.json'
+import henan from 'echarts/map/json/province/henan.json'
+import heilongjiang from 'echarts/map/json/province/heilongjiang.json'
+import hebei from 'echarts/map/json/province/hebei.json'
+import guizhou from 'echarts/map/json/province/guizhou.json'
+import guangxi from 'echarts/map/json/province/guangxi.json'
 import guangdong from 'echarts/map/json/province/guangdong.json'
+import gansu from 'echarts/map/json/province/gansu.json'
+import chongqing from 'echarts/map/json/province/chongqing.json'
+import aomen from 'echarts/map/json/province/aomen.json'
+import anhui from 'echarts/map/json/province/anhui.json'
+import beijing from 'echarts/map/json/province/beijing.json'
+import fujian from 'echarts/map/json/province/fujian.json'
+import xianggang from 'echarts/map/json/province/xianggang.json'
 
-echarts.extendsMap = function(id, opt) {
+import echarts from 'echarts'
+echarts.extendsMap = function(dom, opt) {
     // 实例
-    var chart = this.init(document.getElementById(id));
-
+    var chart = this.init(dom);
     var curGeoJson = {};
     var cityMap = {
         '中国': china,
@@ -138,12 +129,12 @@ echarts.extendsMap = function(id, opt) {
 
     // 层级索引
     var name = [opt.mapName];
-    var idx = 0;
+    chart.idx = 0;
     var pos = {
-        leftPlus: 115,
-        leftCur: 150,
-        left: 198,
-        top: 50
+        leftPlus: 60,
+        leftCur: 50,
+        left: 50,
+        top: 30
     };
 
     var line = [
@@ -177,32 +168,23 @@ echarts.extendsMap = function(id, opt) {
                     var cityJson;
                     for (var x = 0; x < opt.data.length; x++) {
                         if(n === opt.data[x].city){
-                            $([opt.data[x]]).each(function(index,data){
+                            [opt.data[x]].each(function(index,data){
                                 cityJson = {city:data.city,name:data.name,value:data.value,crew:data.crew,company:data.company,position:data.position,region:data.region};
                                 cityData.push(cityJson)
                             }) 
                         }
-                    }
-                    
-                    if(cityData!=null){
-                        o.series[0].data = handleEvents.initSeriesData(cityData);
-                    }else{
-                        o.series[0].data = [];
-                    }
-                    
-                    
+                    }    
                 }
                 name.push(n);
-                idx++;
+                chart.idx++;
             } else {
                 o.graphic.splice(j + 2, l);
                 if (o.graphic.length <= 2) {
                     o.graphic[0].children[0].shape.x2 = 60;
                     o.graphic[0].children[1].shape.x2 = 60;
-                    o.series[0].data = handleEvents.initSeriesData(opt.data);
                 };
                 name.splice(j + 1, l);
-                idx = j;
+                chart.idx = j;
                 pos.leftCur -= pos.leftPlus * (l - j - 1);
             };
 
@@ -219,7 +201,7 @@ echarts.extendsMap = function(id, opt) {
          **/
         createBreadcrumb: function(name) {
             var cityToPinyin = {
-                '中国': 'zhongguo',
+                '中国': 'china',
                 '上海': 'shanghai',
                 '河北': 'hebei',
                 '山西': 'shangxi',
@@ -296,7 +278,7 @@ echarts.extendsMap = function(id, opt) {
                     style: {
 
                         name: name,
-                        text: cityToPinyin[name] ? cityToPinyin[name].toUpperCase() : '',
+                        text: cityToPinyin[name] ? cityToPinyin[name] : '',
                         textAlign: 'center',
                         fill: style.textColor,
                         font: '12px "Microsoft YaHei", sans-serif',
@@ -313,49 +295,29 @@ echarts.extendsMap = function(id, opt) {
 
             return breadcrumb;
         },
-
-       // 设置effectscatter
-        initSeriesData: function(data) {
-            var temp = [];
-            for (var i = 0; i < data.length; i++) {
-                var geoCoord = geoCoordMap[data[i].name];
-                if (geoCoord) {
-                    temp.push({
-                        name: data[i].name,
-                        value: geoCoord.concat(data[i].value),
-                        crew:data[i].crew,
-						company:data[i].company,
-						position:data[i].position,
-						region:data[i].region
-                    });
-                }
-            };
-            return temp;
-        },
         zoomAnimation: function() {
             var count = null;
             var zoom = function(per) {
                 if (!count) count = per;
                 count = count + per;
-                // console.log(per,count);
                 chart.setOption({
                     geo: {
                         zoom: count
                     }
                 });
                 if (count < 1) window.requestAnimationFrame(function() {
-                    zoom(0.2);
+                    zoom(0.5);
                 });
             };
             window.requestAnimationFrame(function() {
-                zoom(0.2);
+                zoom(0.5);
             });
         }
     };
 
     var option = {
         backgroundColor: opt.bgColor,
-         tooltip: {
+        tooltip: {
             show: true,
             trigger:'item',
             alwaysShowContent:false,
@@ -364,9 +326,9 @@ echarts.extendsMap = function(id, opt) {
             triggerOn:'mousemove',
             enterable:true,
             position:['60%','70%'],
-            formatter:function(params, ticket, callback){
-                return '简称：'+params.data.name+'<br/>'+'机组：'+params.data.crew+'万千瓦'+'<br/>'+'公司名称：'+params.data.company+'<br/>'+'所属大区：'+params.data.region+'<br/>'+'所在位置：'+params.data.position
-            }
+            // formatter:function(params, ticket, callback){
+            //     return '简称：'+params.data.value+'<br/>'
+            // }
         },
         graphic: [{
             type: 'group',
@@ -401,7 +363,7 @@ echarts.extendsMap = function(id, opt) {
             }]
         }, 
         {
-            id: name[idx],
+            id: name[chart.idx],
             type: 'group',
             left: pos.left + 2,
             top: pos.top,
@@ -431,7 +393,7 @@ echarts.extendsMap = function(id, opt) {
                     font: style.font
                 },
                 onclick: function() {
-                    handleEvents.resetOption(chart, option, '中国');
+                    handleEvents.resetOption(chart, option, 'china');
                 }
             }, {
                 type: 'text',
@@ -444,7 +406,7 @@ echarts.extendsMap = function(id, opt) {
                     font: '12px "Microsoft YaHei", sans-serif',
                 },
                 onclick: function() {
-                    handleEvents.resetOption(chart, option, '中国');
+                    handleEvents.resetOption(chart, option, 'china');
                 }
             }]
         }],
@@ -454,7 +416,7 @@ echarts.extendsMap = function(id, opt) {
             zoom: 1,
             label: {
                 normal: {
-                    show: true,
+                    show: false,
                     textStyle: {
                         color: '#fff'
                     }
@@ -523,42 +485,77 @@ echarts.extendsMap = function(id, opt) {
                         }
                     }
                 }
-            })
+            }),
         },
-        series: [{
-            type: 'effectScatter',
-            coordinateSystem: 'geo',
-            showEffectOn: 'render',
-            rippleEffect: {
-                period:15,
-                scale: 4,
-                brushType: 'fill'
-            },
-            hoverAnimation: true,
-            itemStyle: {
-                normal: {
-                    color: '#FFC848',
-                    shadowBlur: 10,
-                    shadowColor: '#333'
-                }
-            },
-            data: handleEvents.initSeriesData(opt.data)
-        }]
+        visualMap: {
+            type: 'continuous',
+            show: true,
+            min: 0,
+            max: 200,
+            left: 'left',
+            top: 'bottom',
+            text: ['高    (亿元)', '低    (亿元)'], // 文本，默认为数值文本
+            calculable: true,
+            // seriesIndex: [0],
+            inRange: {
+                color: ['#00467F', '#A5CC82'] // 蓝绿
+            }
+        },
+        series:[
+            {
+                name: 'categoryA',
+                type: 'map',
+                geoIndex: 0,
+                // tooltip: {show: false},
+                data:[
+                    {name: '北京', value: 20},
+                    {name: '天津', value: 198},
+                    {name: '上海', value: 60},
+                    {name: '重庆', value: 250},
+                    {name: '河北', value: 200},
+                    {name: '河南', value: 200},
+                    {name: '云南', value: 200},
+                    {name: '辽宁', value: 0},
+                    {name: '黑龙江', value: 200},
+                    {name: '湖南', value: 200},
+                    {name: '安徽', value: 200},
+                    {name: '山东', value: 200},
+                    {name: '新疆', value: 200},
+                    {name: '江苏', value: 200},
+                    {name: '浙江', value: 200},
+                    {name: '江西', value: 200},
+                    {name: '湖北', value: 200},
+                    {name: '广西', value: 200},
+                    {name: '甘肃', value: 200},
+                    {name: '山西', value: 200},
+                    {name: '内蒙古', value: 200},
+                    {name: '陕西', value: 200},
+                    {name: '吉林', value: 200},
+                    {name: '福建', value: 200},
+                    {name: '贵州', value: 200},
+                    {name: '广东', value: 200},
+                    {name: '青海', value: 200},
+                    {name: '西藏', value: 200},
+                    {name: '四川', value: 200},
+                    {name: '宁夏', value: 200},
+                    {name: '海南', value: 200},
+                    {name: '台湾', value: 200},
+                    {name: '香港', value: 200},
+                    {name: '澳门', value: 200}
+                ]
+            }
+        ]
     };
 
     chart.setOption(option);
     // 添加事件
     chart.on('click', function(params) {
         var _self = this;
-        if (opt.goDown && params.name !== name[idx]) {
+        if (opt.goDown && params.name !== name[chart.idx]) {
             if (cityMap[params.name]) {
-                var url = cityMap[params.name];
-                $.get(url, function(response) {
-                    //console.log(response);
-                    curGeoJson = response;
-                    echarts.registerMap(params.name, response);
-                    handleEvents.resetOption(_self, option, params.name);
-                });
+                var data = cityMap[params.name];
+                echarts.registerMap(params.name, data);
+                handleEvents.resetOption(_self, option, params.name);
             }
         }
     });
@@ -569,12 +566,13 @@ echarts.extendsMap = function(id, opt) {
         var citySource = cityMap[mapName];
         if (citySource) {
             var url = './map/' + citySource + '.json';
-            $.get(url, function(response) {
+            console.log(citySource)
+            // $.get(url, function(response) {
                 // console.log(response);
-                curGeoJson = response;
-                echarts.registerMap(mapName, response);
-                handleEvents.resetOption(_self, option, mapName);
-            });
+                // curGeoJson = response;
+                // echarts.registerMap(mapName, response);
+                // handleEvents.resetOption(_self, option, mapName);
+            // });
         }
         
     };
@@ -582,51 +580,4 @@ echarts.extendsMap = function(id, opt) {
     return chart;
 };
 
-$.getJSON(zhongguo, function(geoJson) {
-    echarts.registerMap('中国', geoJson);
-    var myChart = echarts.extendsMap('chart-panel', {
-        bgColor: '#154e90', // 画布背景色
-        mapName: '中国', // 地图名
-        text:'火电业务',
-        goDown: true, // 是否下钻
-        // 下钻回调
-        callback: function(name, option, instance) {
-            //console.log(name, option, instance);
-        },
-        // 数据展示            	
-        data: [{city:'内蒙古',name: "磴口",value: 2*30,crew:'2*30',company:"磴口金牛煤电",position:'内蒙古自治区巴彦淖尔市磴口县',region:'北方大区'},
-                {city:'辽宁',name: "沈海",value: 3*20,crew:'3*20',company:"沈阳沈海热电",position:'辽宁省沈阳市大东区',region:'东北大区'},
-                {city:'辽宁',name: "盘锦",value: 2*35,crew:'2*35',company:"华润电力盘锦",position:'辽宁省盘锦市大洼区后胡嘴子',region:'东北大区'},
-                {city:'浙江',name: "温州苍南",value: 2*100,crew:'2*100',company:"华润电力(温州)有限公司",position:'浙江省温州市苍南县龙港镇',region:'东南大区'},
-                {city:'河北',name: "沧州",value: 2*33,crew:'2*33',company:"沧州华润热电",position:'河北省沧州市运河区北环西路',region:'华北大区'},
-                {city:'河北',name: "曹妃甸",value: 2*30,crew:'2*30',company:"唐山曹妃甸",position:'河北省唐山市曹妃甸工业区',region:'华北大区'},
-                {city:'河北',name: "唐山丰润",value: 2*35,crew:'2*35',company:"华润电力唐山丰润",position:'河北省唐山市路北区韩城镇',region:'华北大区'},
-                {city:'河北',name: "渤海新区",value: 2*35,crew:'2*35',company:"渤海华润电力",position:'河北省沧州市临港经济技术开发区',region:'华北大区'},
-                {city:'山东',name: "菏泽",value: 2*60,crew:'2*60',company:"华润热电（菏泽）有限公司",position:'山东省菏泽市东明县武胜桥镇',region:'华东大区'},
-                {city:'安徽',name: "阜阳",value: 2*64,crew:'2*64',company:"阜阳华润电力有限公司",position:'安徽省阜阳市颍泉区',region:'华东大区'},
-                {city:'广东',name: "海丰",value: 2*100,crew:'2*100',company:"华润电力(海丰)有限公司",position:'广东省汕尾市海丰县小漠镇',region:'华南大区'},
-                {city:'广西',name: "贺州",value: 2*100,crew:'2*100',company:"华润电力(贺州)有限公司",position:'广西贺州市贺州大道',region:'华南大区'},
-                {city:'湖南',name: "鲤鱼江A",value: 2*30,crew:'2*30',company:"华润电力湖南有限公司",position:'湖南省资兴市鲤鱼江镇',region:'华南大区'},
-                {city:'湖南',name: "鲤鱼江B",value: 2*65,crew:'2*65',company:"湖南华润电力鲤鱼江有限公司",position:'湖南省资兴市鲤鱼江镇',region:'华南大区'},
-                {city:'广东',name: "广州热电",value: 2*30,crew:'2*30',company:"广州华润热电有限公司",position:'广州市南沙区黄阁镇',region:'华南大区'},
-                {city:'湖北',name: "湖北一期",value: 2*30,crew:'2*30',company:"华润电力湖北有限公司",position:'湖北省赤壁市陆水大道99号',region:'华中大区'},
-                {city:'湖北',name: "湖北二期",value: 2*100,crew:'2*100',company:"华润电力湖北有限公司二期",position:'湖北省赤壁市陆水大道99号',region:'华中大区'},
-                {city:'湖南',name: "涟源",value: 2*30,crew:'2*30',company:"华润电力(涟源)有限公司",position:'湖南省娄底市涟源市',region:'华中大区'},
-                {city:'湖北',name: "宜昌",value: 2*35,crew:'2*35',company:"华润电力(宜昌)有限公司",position:'湖北省宜昌市猇亭区',region:'华中大区'},
-                {city:'江苏',name: "徐州一、二期",value: 4*32,crew:'4*32',company:"徐州华润电力有限公司",position:'江苏省徐州市华润路1号',region:'江苏大区'},
-                {city:'江苏',name: "南京热电",value: 2*60,crew:'2*60',company:"江苏南热发电有限责任公司",position:'江苏省南京市六合区',region:'江苏大区'},
-                {city:'江苏',name: "宜兴",value: 2*15,crew:'2*6',company:"宜兴华润热电有限公司",position:'江苏省无锡市宜兴市环保科技工业园',region:'江苏大区'},
-                {city:'江苏',name: "镇江",value: 2*63+2*13.5,crew:'2*63+2*13.5',company:"江苏镇江发电有限公司",position:'江苏省镇江市丹徒区高资镇',region:'江苏大区'},
-                {city:'湖北',name: "华鑫",value: 2*33,crew:'2*33',company:"徐州华鑫发电有限公司",position:'徐州市铜山区茅村工业园',region:'江苏大区'},
-                {city:'江苏',name: "常熟",value: 2*65,crew:'2*65',company:"华润电力(常熟)有限公司",position:'江苏省常熟市珠江东路',region:'江苏大区'},
-                {city:'江苏',name: "化工园一、二期",value: 2*5.5+2*30,crew:'2*5.5+2*30',company:"南京化学工业园热电有限公司",position:'南京市雨花经济开发区',region:'江苏大区'},
-                {city:'江苏',name: "南京板桥",value: 2*33,crew:'2*33',company:"南京华润热电有限公司",position:'江苏省徐州市铜山区',region:'江苏大区'},
-                {city:'江苏',name: "徐州三期",value: 2*100,crew:'2*100',company:"铜山华润电力有限公司",position:'江苏省徐州市铜山区',region:'江苏大区'},
-                {city:'贵州',name: "六枝",value: 2*66,crew:'2*66',company:"六枝华润电力",position:'贵州省六盘水市六枝特区岩脚镇',region:'西南大区'},
-                {city:'河南',name: "首阳山",value: 2*60,crew:'2*60',company:"河南华润电力首阳山有限公司",position:'河南省偃师市首阳山镇',region:'中西大区'},
-                {city:'河南',name: "焦作",value: 2*66,crew:'2*66',company:"华润电力焦作有限公司",position:'河南省焦作市博爱县柏山镇',region:'中西大区'},
-                {city:'河南',name: "登封一、二期",value: 2*32+2*60,crew:'2*32+2*60',company:"华润电力登封有限公司",position:'河南省登封市东刘碑村',region:'中西大区'},
-                {city:'河南',name: "洛阳",value: 2*15,crew:'2*5',company:"洛阳华润环保能源有限公司",position:'河南省偃师市城关工业区',region:'中西大区'},
-                {city:'河南',name: "古城",value: 2*30,crew:'2*30',company:"河南华润电力古城有限公司",position:'河南驻马店市驿城区古城乡',region:'中西大区'}]
-    });
-})
+export default echarts
