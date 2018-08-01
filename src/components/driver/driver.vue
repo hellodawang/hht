@@ -17,7 +17,6 @@
             <div class="section">
                 <div class="section-title"> 
                     <h3>用户活跃度统计</h3>
-                     
                     <div class="toolbar">
                         <i class="icon icon-refresh"></i>
                     </div>
@@ -139,7 +138,7 @@ export default {
             goDown: true, // 是否下钻
             // 下钻回调
             callback: function(name, option, instance) {
-                console.log(s.idx)
+                
             },
         });
         window.addEventListener("resize", function() {

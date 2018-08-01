@@ -3,7 +3,7 @@ import hainan from 'echarts/map/json/province/hainan.json'
 import xizang from 'echarts/map/json/province/xizang.json'
 import zhejiang from 'echarts/map/json/province/zhejiang.json'
 import yunnan from 'echarts/map/json/province/yunnan.json'
-import xinjiang from 'echarts/map/json/province/xinjiang.json'
+import xinjiang from '../../static/map/xinjiang.json'
 import tianjin from 'echarts/map/json/province/tianjin.json'
 import sichuan from 'echarts/map/json/province/sichuan.json'
 import shanxi from 'echarts/map/json/province/shanxi1.json'
@@ -73,43 +73,7 @@ echarts.extendsMap = function(dom, opt) {
         '重庆': chongqing,
         '香港': xianggang,
         '澳门': aomen
-    };
-    var geoCoordMap = {
-        "磴口": [107.012225,40.337792],
-        "沈海": [123.476404,41.811854],
-        "盘锦": [122.150954,41.146597],
-        "温州苍南": [120.434446,27.523467],
-        "沧州": [116.845318,38.310486],
-        "曹妃甸": [118.504805,39.004067],
-        "唐山丰润": [118.088961,39.599362],
-        "渤海新区": [117.639472,38.365606],
-        "菏泽": [115.182225,35.326397],
-        "海丰": [115.050769,22.762251],
-        "贺州": [111.371802,24.741613],
-        "鲤鱼江A": [113.233978,25.942699],
-        "鲤鱼江B": [113.205002,25.440064],
-        "广州热电": [113.535842,22.863521],
-        "湖北一期": [113.888854,29.667558],
-        "湖北二期": [114.119833,29.669091],
-        "涟源": [111.906695,27.767901],
-        "宜昌": [111.456005,30.50378],
-        "徐州一、二期": [117.091077,34.378713],
-        "南京热电": [118.828047,32.273218],
-        "宜兴": [119.801641,31.36496],
-        "镇江": [119.383774,32.188708],
-        "华鑫": [113.888833,29.669091],
-        "常熟": [119.283774,32.188708],
-        "化工园一、二期": [118.927993,32.27431],
-        "南京板桥": [118.64423,31.953574],
-        "徐州三期": [117.291077,34.378713],
-        "六枝": [105.403904,26.387848],
-        "首阳山": [112.695363,34.744379],
-        "焦作": [113.113088,35.222327],
-        "登封一、二期": [113.215689,34.396153],
-        "洛阳": [111.984763,34.746303],
-        "古城": [114.061156,32.878627],
-    };
-    
+    };    
     var levelColorMap = {
         '1': 'rgba(241, 109, 115, .8)',
         '2': 'rgba(255, 235, 59, .7)',
@@ -129,7 +93,7 @@ echarts.extendsMap = function(dom, opt) {
 
     // 层级索引
     var name = [opt.mapName];
-    chart.idx = 0;
+    var idx = 0;
     var pos = {
         leftPlus: 60,
         leftCur: 50,
@@ -176,7 +140,7 @@ echarts.extendsMap = function(dom, opt) {
                     }    
                 }
                 name.push(n);
-                chart.idx++;
+                idx++;
             } else {
                 o.graphic.splice(j + 2, l);
                 if (o.graphic.length <= 2) {
@@ -184,7 +148,7 @@ echarts.extendsMap = function(dom, opt) {
                     o.graphic[0].children[1].shape.x2 = 60;
                 };
                 name.splice(j + 1, l);
-                chart.idx = j;
+                 idx = j;
                 pos.leftCur -= pos.leftPlus * (l - j - 1);
             };
 
@@ -363,7 +327,7 @@ echarts.extendsMap = function(dom, opt) {
             }]
         }, 
         {
-            id: name[chart.idx],
+            id: name[idx],
             type: 'group',
             left: pos.left + 2,
             top: pos.top,
@@ -487,77 +451,25 @@ echarts.extendsMap = function(dom, opt) {
                 }
             }),
         },
-        visualMap: {
-            type: 'continuous',
-            show: true,
-            min: 0,
-            max: 200,
-            left: 'left',
-            top: 'bottom',
-            text: ['高    (亿元)', '低    (亿元)'], // 文本，默认为数值文本
-            calculable: true,
-            // seriesIndex: [0],
-            inRange: {
-                color: ['#00467F', '#A5CC82'] // 蓝绿
-            }
-        },
-        series:[
-            {
-                name: 'categoryA',
-                type: 'map',
-                geoIndex: 0,
-                // tooltip: {show: false},
-                data:[
-                    {name: '北京', value: 20},
-                    {name: '天津', value: 198},
-                    {name: '上海', value: 60},
-                    {name: '重庆', value: 250},
-                    {name: '河北', value: 200},
-                    {name: '河南', value: 200},
-                    {name: '云南', value: 200},
-                    {name: '辽宁', value: 0},
-                    {name: '黑龙江', value: 200},
-                    {name: '湖南', value: 200},
-                    {name: '安徽', value: 200},
-                    {name: '山东', value: 200},
-                    {name: '新疆', value: 200},
-                    {name: '江苏', value: 200},
-                    {name: '浙江', value: 200},
-                    {name: '江西', value: 200},
-                    {name: '湖北', value: 200},
-                    {name: '广西', value: 200},
-                    {name: '甘肃', value: 200},
-                    {name: '山西', value: 200},
-                    {name: '内蒙古', value: 200},
-                    {name: '陕西', value: 200},
-                    {name: '吉林', value: 200},
-                    {name: '福建', value: 200},
-                    {name: '贵州', value: 200},
-                    {name: '广东', value: 200},
-                    {name: '青海', value: 200},
-                    {name: '西藏', value: 200},
-                    {name: '四川', value: 200},
-                    {name: '宁夏', value: 200},
-                    {name: '海南', value: 200},
-                    {name: '台湾', value: 200},
-                    {name: '香港', value: 200},
-                    {name: '澳门', value: 200}
-                ]
-            }
-        ]
     };
 
     chart.setOption(option);
     // 添加事件
     chart.on('click', function(params) {
         var _self = this;
-        if (opt.goDown && params.name !== name[chart.idx]) {
+        if (opt.goDown && params.name !== name[idx]) {
+            // console.log(xinjiang)
+            // 判断当处于省级地图时 点击显示弹出框
+            if(idx == 1){
+                console.log(params)
+            }
             if (cityMap[params.name]) {
                 var data = cityMap[params.name];
                 echarts.registerMap(params.name, data);
-                handleEvents.resetOption(_self, option, params.name);
+                handleEvents.resetOption(_self, option, params.name);            
             }
         }
+        
     });
 
     chart.setMap = function(mapName) {
