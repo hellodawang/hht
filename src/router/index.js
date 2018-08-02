@@ -4,6 +4,7 @@ import Login from '@/components/login/login'
 import info from '@/components/info/info'
 import index from '@/components/index/index'
 import driver from '@/components/driver/driver'
+import map from '../view/map.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ const router =  new Router({
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
       }
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: map,
     },
     {
       path: '/index',

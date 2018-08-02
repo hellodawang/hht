@@ -34,7 +34,8 @@ import fujian from 'echarts/map/json/province/fujian.json'
 import xianggang from 'echarts/map/json/province/xianggang.json'
 
 import echarts from 'echarts'
-echarts.extendsMap = function(dom, opt) {
+ echarts.extendsMap = function(dom, opt) {
+    echarts.registerMap('china', china);
     // 实例
     var chart = this.init(dom);
     var curGeoJson = {};
@@ -154,6 +155,10 @@ echarts.extendsMap = function(dom, opt) {
 
             o.geo.map = n;
             o.geo.zoom = 0.4;
+            
+            // o.series[0].data=[
+            //     {name:'武汉市',value:200}
+            // ]
             i.clear();
             i.setOption(o);
             this.zoomAnimation();
@@ -451,6 +456,62 @@ echarts.extendsMap = function(dom, opt) {
                 }
             }),
         },
+        visualMap: {
+            min: 0,
+            max: 1500,
+            left: 'left',
+            top: 'bottom',
+            text: ['High','Low'],
+            seriesIndex: [0],
+            inRange: {
+                color: ['#e0ffff', '#006edd']
+            },
+            calculable : true
+        },
+        series:[
+            {
+                name: 'categoryA',
+                type: 'map',
+                geoIndex: 0,
+                // tooltip: {show: false},
+                data:[
+                    {name: '北京', value: 1000},
+                    {name: '天津', value: 1000},
+                    {name: '上海', value: 1000},
+                    {name: '重庆', value: 1000},
+                    {name: '河北', value: 1000},
+                    {name: '河南', value: 1000},
+                    {name: '云南', value: 1000},
+                    {name: '辽宁', value: 1000},
+                    {name: '黑龙江', value: 1000},
+                    {name: '湖南', value: 1000},
+                    {name: '安徽', value: 1000},
+                    {name: '山东', value: 1000},
+                    {name: '新疆', value: 1000},
+                    {name: '江苏', value: 1000},
+                    {name: '浙江', value: 1000},
+                    {name: '江西', value: 1000},
+                    {name: '湖北', value: 1000},
+                    {name: '广西', value: 1000},
+                    {name: '甘肃', value: 1000},
+                    {name: '山西', value: 1000},
+                    {name: '内蒙古', value: 1000},
+                    {name: '陕西', value: 1000},
+                    {name: '吉林', value: 1000},
+                    {name: '福建', value: 1000},
+                    {name: '贵州', value: 1000},
+                    {name: '广东', value: 1000},
+                    {name: '青海', value: 1000},
+                    {name: '西藏', value: 1000},
+                    {name: '四川', value: 1000},
+                    {name: '宁夏', value: 1000},
+                    {name: '海南', value: 1000},
+                    {name: '台湾', value: 1000},
+                    {name: '香港', value: 1000},
+                    {name: '澳门', value: 1000}
+                ]
+            }
+        ]
     };
 
     chart.setOption(option);
@@ -458,10 +519,9 @@ echarts.extendsMap = function(dom, opt) {
     chart.on('click', function(params) {
         var _self = this;
         if (opt.goDown && params.name !== name[idx]) {
-            // console.log(xinjiang)
             // 判断当处于省级地图时 点击显示弹出框
             if(idx == 1){
-                console.log(params)
+                alert(params.name)
             }
             if (cityMap[params.name]) {
                 var data = cityMap[params.name];
