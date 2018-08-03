@@ -1099,5 +1099,4 @@ var  cities = [{
     c[item.n] = item.g
   })
 
-
   export default c

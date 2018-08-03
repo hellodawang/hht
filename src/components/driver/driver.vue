@@ -126,7 +126,7 @@
 </template>
 <script>
 import china from 'echarts/map/json/china.json';
-import guangdong from 'echarts/map/json/province/guangdong.json'
+// import guangdong from 'echarts/map/json/province/guangdong.json'
 import mapchart from '../../utils/map.js'    
 import echarts from 'echarts'    
 export default {
