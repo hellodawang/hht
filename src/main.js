@@ -9,16 +9,16 @@ import 'element-ui/lib/theme-chalk/index.css';
 import echarts from 'echarts'
 import store from './store/store'
 // mock数据
-import "./mock/index" 
+import "./mock/index"
 Vue.use(ElementUI);
-Vue.prototype.$echarts = echarts 
+Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
+    el: '#app',
+    router,
+    store,
+    render: h => h(App)
 })

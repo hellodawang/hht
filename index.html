@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>mock</title>
     <link rel="stylesheet" href="./static/reset.css">
     <link rel="stylesheet" href="./static/font/iconfont.css">
+    <script>
+        var scale = window.innerWidth / 1920;
+        var html = document.documentElement;
+        html.style.fontSize = scale * 100 + "px";
+    </script>
+</head>
 
-  </head>
-  <body>
+<body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-  </body>
+</body>
+
 </html>
