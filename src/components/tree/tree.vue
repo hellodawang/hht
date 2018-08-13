@@ -25,6 +25,7 @@ export default {
 .hht_list {
 	background-color: transparent;
 	vertical-align: middle;
+	font-size: 12px;
 	.el-tree-node {
 		color: #dbdce0;
 		&:focus > .el-tree-node__content {

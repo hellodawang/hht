@@ -31,15 +31,15 @@ export default {
 	background-color: #eff3f4;
 	.icon-menu {
 		float: left;
-		margin-left: 0.23rem;
-		width: 0.15rem;
-		height: 0.15rem;
-		margin-top: 0.18rem;
+		margin-left: 23px;
+		width: 15px;
+		height: 15rem;
+		margin-top: 18px;
 	}
 	.menubar {
 		float: right;
-		margin: 0.1rem 0.5rem;
-		font-size: 0.12rem;
+		margin: 10px 50px;
+		font-size: 12px;
 		> div {
 			display: inline-block;
 			vertical-align: middle;
@@ -47,30 +47,31 @@ export default {
 		.icon-message {
 			display: inline-block;
 			position: relative;
-			width: 0.24rem;
-			height: 0.24rem;
-			margin-left: 0.2rem;
-			margin-right: 0.2rem;
+			width: 24px;
+			height: 24px;
+			margin-left: 20px;
+			margin-right: 20px;
 			font-size: 24px;
 			vertical-align: middle;
 			.message-text {
 				position: absolute;
-				top: -0.05rem;
-				left: -0.05rem;
-				width: 0.18rem;
-				height: 0.18rem;
+				top: -5px;
+				left: -5px;
+				width: 18px;
+				height: 18px;
 				border-radius: 50%;
 				background-color: #f66;
 				text-align: center;
-				line-height: 0.18rem;
+				line-height: 18px;
 				color: #fff;
+				font-size: 12px;
 			}
 		}
 		.avator {
-			width: 0.32rem;
-			height: 0.32rem;
+			width: 32px;
+			height: 32px;
 			border-radius: 50%;
-			margin: 0 0.2rem;
+			margin: 0 20px;
 			img {
 				width: 100%;
 			}

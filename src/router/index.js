@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Login from '../view/login/login'
 import index from '../view/index/index.vue'
 import driver from '../view/driver/driver'
+import zone from '../components/space/space'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -23,6 +25,10 @@ const router = new Router({
                 path: '/index',
                 name: 'driver',
                 component: driver
+            }, {
+                path: '/zone',
+                name: 'zone',
+                component: zone
             }]
         },
 
