@@ -19,6 +19,48 @@
                 <router-view to='/index/index'></router-view>
             </div>
         </div>
+		<div class="modal-setting-wrapper" v-if='setting'>
+			<div class="modal-setting">
+				<div class="modal-header clearfix">
+					<h3>个人设置</h3>
+					<i class="el-icon-close "></i>
+				</div>
+				<div class="modal-body">
+					<el-form  class="model-form"  label-width="200px"   :model="user" :rules="rules1"  >
+                        <el-form-item  label="账号" > 
+                            <el-input  v-model="user.id" clearable size="mini" disabled></el-input>
+                        </el-form-item>
+                        <el-form-item  label="昵称" prop="nickName"> 
+                            <el-input placeholder="昵称规范" v-model="user.nickName" clearable size="mini"></el-input>
+                        </el-form-item>
+                        <el-form-item label="旧密码" class="password"  prop="password">
+                            <el-input placeholder="密码规范"  v-model="user.oldPassword" size="mini" clearable type='password' required @keyup.enter.native="submit"></el-input>  
+                        </el-form-item>
+                        <el-form-item label="新密码" class="password"  prop="repassword">
+                            <el-input placeholder=" 请再次输入密码"  v-model="user.newPassword" clearable size="mini" type='password' required @keyup.enter.native="submit"></el-input>  
+                        </el-form-item>
+						<el-form-item label="新密码" class="password"  prop="repassword">
+                            <el-input placeholder=" 请再次输入密码"  v-model="user.reNewPassword" clearable size="mini" type='password' required @keyup.enter.native="submit"></el-input>  
+                        </el-form-item>
+                        <el-form-item label="常用邮箱"   prop="email">
+                            <el-input  v-model="user.email" size="mini" clearable  required @keyup.enter.native="submit"></el-input>  
+                        </el-form-item>
+                        <el-form-item label="手机"   prop="tel">
+                            <el-input   v-model="user.tel" size="mini" clearable  required @keyup.enter.native="submit"></el-input>  
+                        </el-form-item>
+                        <el-form-item label="头像">
+							<el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false">
+								<img v-if="user.avator" :src="user.avator" class="avatar">
+								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+							</el-upload>
+                        </el-form-item> 
+                        <el-form-item  >
+                            <el-button type="primary" class="submit-btn" @click="confirm" >确定</el-button>  
+                        </el-form-item>                       
+                    </el-form>
+				</div>
+			</div>
+		</div>
     </div>
 </template>
 <script>
@@ -39,6 +81,17 @@ export default {
 				{ id: 2, label: '统计报表', icon: 'statistics' },
 			],
 			showSideBar: true,
+			user: {
+				id: '',
+				nickName: '',
+				email: '',
+				tel: '',
+				oldPassword: '',
+				newPassword: '',
+				reNewPassword: '',
+				avator: '',
+			},
+			setting: false,
 		};
 	},
 };
@@ -107,6 +160,47 @@ export default {
 			right: 0;
 			bottom: 0;
 			top: 52px;
+		}
+	}
+	.modal-setting-wrapper {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		background-color: rgba(0, 0, 0, 0.7);
+		text-align: center;
+		&::after {
+			content: '';
+			display: inline-block;
+			height: 100%;
+			width: 0;
+			vertical-align: middle;
+		}
+		.modal-setting {
+			display: inline-block;
+			vertical-align: middle;
+			width: 946px;
+			height: 570px;
+			background-color: #fff;
+			.modal-header {
+				height: 50px;
+				background-color: #5d8bc5;
+				h3 {
+					float: left;
+					color: #fff;
+					font-weight: normal;
+					font-size: 16px;
+					text-indent: 1em;
+					line-height: 50px;
+				}
+				.el-icon-close {
+					float: right;
+					color: #fff;
+					line-height: 50px;
+					margin-right: 10px;
+				}
+			}
 		}
 	}
 }

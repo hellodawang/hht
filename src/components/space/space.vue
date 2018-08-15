@@ -1,21 +1,37 @@
 <template>
     <div class="space-wrapper">
         <h4>我的空间</h4>
-        <div class="toolbar"></div>
+        <div class="toolbar">
+			<el-button type="primary" size="mini" icon="el-icon-upload2">上传</el-button>
+			<el-button type="primary" size="mini" icon="el-icon-download">下载</el-button>
+			<el-button type="primary" size="mini" icon="el-icon-share">分享</el-button>
+			<el-button type="primary" size="mini" icon="el-icon-delete">删除</el-button>
+			<el-input
+				placeholder="请输入内容"
+				v-model="input23" size="mini" style="width:300px">
+				<i slot="suffix" class="el-input__icon el-icon-search"></i>
+			</el-input>
+		</div>
+		<div class="path">
+			<span v-if="path.length>1">返回上一级</span>
+			<span v-for="item in path" >{{item}}</span>
+		</div>
         <div class="file-wrapper">
             <el-table ref="multipleTable" :data="files" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55"> </el-table-column>
                 <el-table-column label="文件名" width="120"> 
-                    <template slot-scope="scope"> 
-                        <i class="iconfont" :class="[{'icon-fileFolder':scope.row.type ==1},
-                        {'icon-pic':scope.row.type == 2},
-                        {'icon-word':scope.row.type == 3},
-                        {'icon-excel':scope.row.type == 4},
-                        {'icon-ppt':scope.row.type == 5},
-                        {'icon-zip':scope.row.type == 6},
-                        {'icon-video':scope.row.type == 7},
-                        {'icon-pdf':scope.row.type == 8},
-                        {'icon-unknown':scope.row.type == 9},]"></i> {{ scope.row.name }}
+                    <template slot-scope="scope" > 
+						<div @click="s(scope.row)">
+							<i class="iconfont" :class="[{'icon-fileFolder':scope.row.type ==1},
+							{'icon-pic':scope.row.type == 2},
+							{'icon-word':scope.row.type == 3},
+							{'icon-excel':scope.row.type == 4},
+							{'icon-ppt':scope.row.type == 5},
+							{'icon-zip':scope.row.type == 6},
+							{'icon-video':scope.row.type == 7},
+							{'icon-pdf':scope.row.type == 8},
+							{'icon-unknown':scope.row.type == 9},]"></i> {{ scope.row.name }}	
+						</div>                      
                     </template> 
                 </el-table-column> 
                 <el-table-column prop="size" label="大小" width="120"> </el-table-column> 
@@ -47,14 +63,25 @@ export default {
 					files: [{ id: 11, name: '图片2', type: 3, size: '65kb', updateTime: '2018-08-05' }],
 				},
 			],
+			input23: '',
+			path: ['全部文件'],
 		};
 	},
 	methods: {
 		handleSelectionChange() {},
+		s(row) {
+			if (row.files) {
+				this.files = row.files;
+				this.path.push(row.name);
+			}
+		},
 	},
 };
 </script>
 <style lang='scss'>
+.space-wrapper {
+	background-color: #fff;
+}
 .el-table__row {
 	.cell {
 		.iconfont {

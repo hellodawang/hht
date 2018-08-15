@@ -4,6 +4,7 @@ import Login from '../view/login/login'
 import index from '../view/index/index.vue'
 import driver from '../view/driver/driver'
 import zone from '../components/space/space'
+import appStore from '../view/appStore/appStore'
 
 Vue.use(Router)
 
@@ -29,6 +30,10 @@ const router = new Router({
                 path: '/zone',
                 name: 'zone',
                 component: zone
+            }, {
+                path: '/appStore',
+                name: 'appStore',
+                component: appStore
             }]
         },
 
