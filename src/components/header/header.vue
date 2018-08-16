@@ -33,8 +33,10 @@ export default {
 		float: left;
 		margin-left: 23px;
 		width: 15px;
-		height: 15rem;
+		height: 15px;
 		margin-top: 18px;
+		background: url() no-repeat center center;
+		background-size: cover;
 	}
 	.menubar {
 		float: right;

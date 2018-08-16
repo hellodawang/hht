@@ -5,6 +5,8 @@ import index from '../view/index/index.vue'
 import driver from '../view/driver/driver'
 import zone from '../components/space/space'
 import appStore from '../view/appStore/appStore'
+import userManager from '../view/userManager/userManager'
+import maintenance from '../view/maintenance/maintenance'
 
 Vue.use(Router)
 
@@ -34,7 +36,15 @@ const router = new Router({
                 path: '/appStore',
                 name: 'appStore',
                 component: appStore
-            }]
+            }, {
+                path: '/userManager',
+                name: 'userManager',
+                component: userManager
+            }, {
+                path: '/maintenance',
+                name: 'maintenance',
+                component: maintenance
+            }, ]
         },
 
     ]
