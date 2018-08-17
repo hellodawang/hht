@@ -1,5 +1,5 @@
 <template>
-    <el-row class="driver-wrapper" :gutter="10">
+    <el-row class="driver-wrapper" :gutter="10" ref="driver">
         <el-col :span="5" class="col-one">
             <div class="section online">
                 <div class="section-title"> 
@@ -27,8 +27,19 @@
                     <h3>在线数据分布</h3>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart" style="height:500px"></div>
-					<div ref='myEchart2'></div>
+                    <div ref="myEchart" style="height:300px"></div>
+					<div>
+						<div ref='myEchart1' style="height:200px">
+						
+						</div>
+						<div class="period" style="height:100px">
+							<el-button-group>
+								<el-button size="mini">本周</el-button>
+								<el-button size="mini">本月</el-button>
+								<el-button size="mini">本年</el-button>
+							</el-button-group>
+						</div>	
+					</div>	
                 </div>
             </div>
         </el-col>
@@ -119,7 +130,7 @@ import echarts from 'echarts';
 export default {
 	mounted() {
 		echarts.registerMap('china', china);
-		var s = echarts.extendsMap(this.$refs.myEchart3, {
+		this.map = echarts.extendsMap(this.$refs.myEchart3, {
 			bgColor: '#154e90', // 画布背景色
 			mapName: 'china', // 地图名
 			// text:'火电业务',
@@ -127,28 +138,25 @@ export default {
 			// 下钻回调
 			callback: function(name, option, instance) {},
 		});
-		window.addEventListener('resize', function() {
-			s.resize();
-		});
 		this.$nextTick(() => {
 			let dom = this.$refs.myEchart;
 			this.chart = this.$echarts.init(dom);
-			let dom1 = this.$refs.myEchart2;
+			let dom1 = this.$refs.myEchart1;
 			this.chart1 = this.$echarts.init(dom1);
 			var option = {
 				grid: [
 					{
-						x: '2%',
-						y: '5%',
-						width: '100%',
-						height: '30%',
+						x: '5%',
+						y: '10%',
+						width: '90%',
+						height: '35%',
 						containLabel: true,
 					},
 					{
-						x: '2%',
-						y: '42%',
-						width: '100%',
-						height: '30%',
+						x: '5%',
+						y: '60%',
+						width: '90%',
+						height: '35%',
 						containLabel: true,
 					},
 				],
@@ -167,11 +175,17 @@ export default {
 					{
 						type: 'value',
 						name: '在线人数分布',
+						splitLine: {
+							show: false,
+						},
 					},
 					{
 						type: 'value',
 						gridIndex: 1,
 						name: '在线设备分布',
+						splitLine: {
+							show: false,
+						},
 					},
 				],
 				series: [
@@ -180,12 +194,28 @@ export default {
 						type: 'bar',
 						data: [320, 332, 301, 334],
 						barGap: '10%',
-						barWidth: '50%',
+						barWidth: '30%',
 						xAxisIndex: 0,
 						yAxisIndex: 0,
 						itemStyle: {
 							normal: {
-								color: '#f5aba3',
+								color: new this.$echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{
+											offset: 0,
+											color: '#00b0ff',
+										},
+										{
+											offset: 0.8,
+											color: '#7052f4',
+										},
+									],
+									false
+								),
 							},
 						},
 					},
@@ -194,7 +224,7 @@ export default {
 						type: 'bar',
 						data: [320, 332, 301, 334],
 						barGap: '10%',
-						barWidth: '50%',
+						barWidth: '30%',
 						xAxisIndex: 1,
 						yAxisIndex: 1,
 						itemStyle: {
@@ -207,41 +237,52 @@ export default {
 			};
 			var option1 = {
 				tooltip: {
-					trigger: 'item',
-					formatter: '{a} <br/>{b}: {c} ({d}%)',
-				},
-				legend: {
-					orient: 'vertical',
-					x: '60%',
-					y: 'center',
-					data: ['华东区域', '华南区域', '华北区域', '东北区域'],
-				},
-				series: [
-					{
-						type: 'pie',
-						radius: ['60%', '80%'],
-						center: ['30%', '50%'],
-						avoidLabelOverlap: false,
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
 						label: {
-							normal: {
-								show: false,
-								position: 'center',
-							},
+							backgroundColor: '#6a7985',
 						},
-						labelLine: {
-							normal: {
-								show: false,
-							},
-						},
-						data: [
-							{ value: 335, name: '东北区域' },
-							{ value: 310, name: '华南区域' },
-							{ value: 234, name: '华北区域' },
-							{ value: 1548, name: '华东区域' },
-						],
+					},
+				},
+				grid: {
+					left: '2%',
+					right: '2%',
+					bottom: '3%',
+					top: '20%',
+					containLabel: true,
+				},
+				xAxis: [
+					{
+						type: 'category',
+						boundaryGap: false,
+						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
 					},
 				],
-				color: ['#f7716e', '#a4e7f2', '#fde17e', '#92c79b'],
+				yAxis: [
+					{
+						name: '活跃度',
+						type: 'value',
+						min: 0,
+						max: 100,
+						interval: 20,
+					},
+				],
+				series: [
+					{
+						// name: '平均值',
+						type: 'line',
+						smooth: true,
+						// showSymbol: false,
+						label: {
+							normal: {
+								show: true,
+								position: 'top',
+							},
+						},
+						data: [79, 68, 56, 74, 89, 98, 84],
+					},
+				],
 			};
 			this.chart.setOption(option);
 			this.chart1.setOption(option1);
@@ -650,6 +691,22 @@ export default {
 			// 	};
 			// 	this.chart8.setOption(option8);
 		});
+	},
+	data() {
+		return {
+			map: {},
+		};
+	},
+	computed: {
+		getShowSidebar() {
+			return this.$store.state.showSideBar;
+		},
+	},
+	watch: {
+		// 如果 `question` 发生改变，这个函数就会运行
+		getShowSidebar: function(newQuestion, oldQuestion) {
+			this.map.resize();
+		},
 	},
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="hht_content_header">
-        <i class="iconfont icon-menu" @click="showSideBar=!showSideBar"></i>
+        <i class="iconfont icon-menu" @click="$store.commit('toggle')"></i>
         <div class="menubar">
             <i class="iconfont icon-message"><span class="message-text">3</span></i>
             <div class="language">

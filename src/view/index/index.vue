@@ -1,22 +1,43 @@
 <template>
     <div class="hht_wrapper">
-        <div class="hht_aside" v-if='showSideBar'>
-            <div class="hht_logo">
-                <img src="../../assets/logo.png" alt="">
-            </div>
-            <div class="hht_user">
-                <img src="../../assets/图层 36@3x.png" alt="" class="avator">
-                <div class="hht_user_text">
-                    <div class="hht_user_name">杨文兴</div>
-                    <div class="hht_user_role">超级管理员</div>
-                </div>
-            </div>
-            <hht-tree :list='data'></hht-tree>
-        </div>
+		<!-- <transition name="fade" > -->
+			<div class="hht_aside" v-if='$store.state.showSideBar'>
+				<div class="hht_logo">
+					<img src="../../assets/logo.png" alt="">
+				</div>
+				<div class="hht_user">
+					<img src="../../assets/图层 36@3x.png" alt="" class="avator">
+					<div class="hht_user_text">
+						<div class="hht_user_name">杨文兴</div>
+						<div class="hht_user_role">超级管理员</div>
+					</div>
+				</div>
+				<hht-tree :list='data'></hht-tree>
+			</div>	
+		<!-- </transition> -->
         <div class="hht_content">
-            <hht-header :showSideBar='showSideBar' ></hht-header>
+            <div class="hht_content_header">
+				<i class="iconfont icon-menu" @click="toggle"></i>
+				<div class="menubar">
+					<i class="iconfont icon-message"><span class="message-text">3</span></i>
+					<div class="language">
+						<el-dropdown>
+							<span class="el-dropdown-link">
+								中文<i class="el-icon-arrow-down el-icon--right"></i>
+							</span>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item>英文</el-dropdown-item>                             
+							</el-dropdown-menu>
+						</el-dropdown>
+					</div>
+					<div class="avator">
+						<img src="../../assets/图层 36@3x.png" alt="">
+					</div>
+					<div class="loginOut">退出</div>
+				</div>
+			</div>
             <div class="hht-content_content">
-                <router-view to='/index/index'></router-view>
+                <router-view to='/index/driver'></router-view>
             </div>
         </div>
 		<div class="modal-setting-wrapper" v-if='setting'>
@@ -65,11 +86,9 @@
 </template>
 <script>
 import hhtTree from '../../components/tree/tree';
-import hhtHeader from '../../components/header/header';
 export default {
 	components: {
 		hhtTree,
-		hhtHeader,
 	},
 	data() {
 		return {
@@ -80,7 +99,6 @@ export default {
 				{ id: 3, label: '诊断维护', icon: 'maintenance' },
 				{ id: 2, label: '统计报表', icon: 'statistics' },
 			],
-			showSideBar: true,
 			user: {
 				id: '',
 				nickName: '',
@@ -93,6 +111,11 @@ export default {
 			},
 			setting: false,
 		};
+	},
+	methods: {
+		toggle() {
+			this.$store.commit('toggle');
+		},
 	},
 };
 </script>
@@ -199,6 +222,60 @@ export default {
 					color: #fff;
 					line-height: 50px;
 					margin-right: 10px;
+				}
+			}
+		}
+	}
+	.hht_content_header {
+		height: 52px;
+		background-color: #eff3f4;
+		.icon-menu {
+			float: left;
+			margin-left: 23px;
+			width: 15px;
+			height: 15px;
+			margin-top: 18px;
+			background: url() no-repeat center center;
+			background-size: cover;
+		}
+		.menubar {
+			float: right;
+			margin: 10px 50px;
+			font-size: 12px;
+			> div {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			.icon-message {
+				display: inline-block;
+				position: relative;
+				width: 24px;
+				height: 24px;
+				margin-left: 20px;
+				margin-right: 20px;
+				font-size: 24px;
+				vertical-align: middle;
+				.message-text {
+					position: absolute;
+					top: -5px;
+					left: -5px;
+					width: 18px;
+					height: 18px;
+					border-radius: 50%;
+					background-color: #f66;
+					text-align: center;
+					line-height: 18px;
+					color: #fff;
+					font-size: 12px;
+				}
+			}
+			.avator {
+				width: 32px;
+				height: 32px;
+				border-radius: 50%;
+				margin: 0 20px;
+				img {
+					width: 100%;
 				}
 			}
 		}

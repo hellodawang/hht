@@ -7,7 +7,7 @@ import axios from 'axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import echarts from 'echarts'
-import store from './store/store'
+import store from './store/index'
 // mock数据
 import "./mock/index"
 Vue.use(ElementUI);
