@@ -1,42 +1,40 @@
 <template>
     <div class="app-wrapper">
 		<div class="app-title clearfix">
-			<span class="app-name">星际争霸</span>
-			<span class="app-size">32M</span>
+			<span class="app-name">{{item.name}}</span>
+			<span class="app-size">{{item.size}}</span>
 		</div>
 		<div class="app-rate">
-			<el-rate v-model="value5" disabled  text-color="#ff9900" ></el-rate>
+			<el-rate v-model="item.rate" disabled  text-color="#ff9900" ></el-rate>
 		</div>
-		<div class="app-text">一款在火星进行基地建设，与外星人进行战斗的游戏与外星人进行战斗的游戏..与外星人进行战斗的游戏..与外星人进行战斗的游戏..</div>
+		<div class="app-text">{{item.subscribe}}</div>
 		<div class="app-img"><img src="../../assets/logo.png" alt=""></div>
 		<div class="app-other">
-			<span class="download-num">下载100002次</span>
+			<span class="download-num">下载{{item.downloadTimes}}次</span>
 			<div class="app-operate">
-				<i class="el-icon-star-on"></i>
+				<i class="app-star el-icon-star-off"  ></i>
 				<i class="el-icon-download"></i>	
-			</div>
-			
+			</div>			
 		</div>
     </div>
 </template>
 <script>
 export default {
-	data() {
-		return {
-			value5: 3.7,
-		};
-	},
+	props: ['item'],
 };
 </script>
 <style lang='scss' >
 .app-wrapper {
 	display: inline-block;
 	width: 184px;
-	height: 188px;
+	// height: 188px;
 	box-shadow: 0 0 4px #ccc;
 	margin: 10px;
 	font-size: 12px;
 	padding: 10px 0;
+	&:hover {
+		box-shadow: 0 0 5px #409eff;
+	}
 	.app-title {
 		margin: 0 10px 6px;
 		// margin-bottom: 6px;
@@ -82,10 +80,26 @@ export default {
 	.app-other {
 		margin: 0 10px;
 		.download-num {
-			float: left;
+			// float: left;
+			display: inline-block;
+			width: 55%;
 		}
 		.app-operate {
-			float: right;
+			display: inline-block;
+			width: 40%;
+			text-align: right;
+			// float: right;
+			> i {
+				font-size: 16px;
+				display: inline-block;
+				vertical-align: baseline;
+				cursor: pointer;
+			}
+			.el-icon-download {
+				&:hover {
+					color: #409eff;
+				}
+			}
 		}
 	}
 }

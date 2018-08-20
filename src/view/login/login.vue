@@ -129,7 +129,7 @@ export default {
 	position: relative;
 	height: 100%;
 	width: 100%;
-	background: url('../../assets/login-bg.png');
+	background: url('../../assets/login-bg.png') no-repeat center center;
 	background-size: cover;
 	.title {
 		position: absolute;

@@ -1,6 +1,6 @@
 <template>
     <div class="user-management">
-        <h3>用户管理</h3>
+        <h3 class="user-management-title">用户管理</h3>
         <div class="toolbar">
              <el-button  plain size="mini">新增</el-button>
              <el-button  plain size="mini">停用</el-button>
@@ -22,13 +22,19 @@
                 <i slot="prefix" class="el-input__icon el-icon-search"></i>
             </el-input>
         </div>
-        <div class="content">
+        <div class="user-content">
             <el-table :data="tableData" style="width: 100%"> 
-                <el-table-column  prop="date" label="用户名"   width="180"> </el-table-column> 
-                <el-table-column  prop="name"  label="账号"   width="180"> </el-table-column> 
-                <el-table-column  prop="address" label="邮箱"> </el-table-column> 
-                <el-table-column  prop="address" label="注册时间"> </el-table-column> 
-                <el-table-column  prop="address" label="手机"> </el-table-column> 
+                <el-table-column  prop="name" label="用户名"   width="180"> </el-table-column> 
+                <el-table-column  prop="account"  label="账号"   width="180"> </el-table-column> 
+                <el-table-column  prop="email" label="邮箱"> </el-table-column> 
+                <el-table-column  prop="registerTime" label="注册时间"> </el-table-column> 
+                <el-table-column  prop="tel" label="手机"> </el-table-column>
+                <el-table-column label="操作" width="100">
+                    <template slot-scope="scope">
+                        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                        <el-button type="text" size="small">编辑</el-button>
+                    </template>
+                </el-table-column> 
             </el-table>
         </div>
     </div>
@@ -37,7 +43,43 @@
 export default {
 	data() {
 		return {
-			tableData: [],
+			tableData: [
+				{
+					name: '用户1',
+					account: 'shjshklhaoswo',
+					email: 'ahpwerkaslfhoi@qq.com',
+					registerTime: '2018-09-01',
+					tel: '188888888',
+				},
+				{
+					name: '用户1',
+					account: 'shjshklhaoswo',
+					email: 'ahpwerkaslfhoi@qq.com',
+					registerTime: '2018-09-01',
+					tel: '188888888',
+				},
+				{
+					name: '用户1',
+					account: 'shjshklhaoswo',
+					email: 'ahpwerkaslfhoi@qq.com',
+					registerTime: '2018-09-01',
+					tel: '188888888',
+				},
+				{
+					name: '用户1',
+					account: 'shjshklhaoswo',
+					email: 'ahpwerkaslfhoi@qq.com',
+					registerTime: '2018-09-01',
+					tel: '188888888',
+				},
+				{
+					name: '用户1',
+					account: 'shjshklhaoswo',
+					email: 'ahpwerkaslfhoi@qq.com',
+					registerTime: '2018-09-01',
+					tel: '188888888',
+				},
+			],
 			options: [{ value: 1, label: '部门1' }, { value: 2, label: '部门2' }, { value: 3, label: '部门3' }],
 			options1: [{ value: 1, label: '地域1' }, { value: 2, label: '地域2' }, { value: 3, label: '地域3' }],
 			value: '',
@@ -51,5 +93,19 @@ export default {
 .user-management {
 	background-color: #fff;
 	height: 100%;
+	.user-management-title {
+		line-height: 40px;
+		font-size: 12px;
+		font-weight: normal;
+		text-indent: 2em;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.toolbar {
+		margin-left: 20px;
+		padding: 10px;
+	}
+	.user-content {
+		padding-left: 40px;
+	}
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <el-row class="driver-wrapper" :gutter="10" ref="driver">
-        <el-col :span="5" class="col-one">
+        <el-col :span="6" class="col-one">
             <div class="section online">
                 <div class="section-title"> 
                     <h3>在线统计</h3>
@@ -29,14 +29,12 @@
                 <div class="section-content">
                     <div ref="myEchart" style="height:300px"></div>
 					<div>
-						<div ref='myEchart1' style="height:200px">
-						
-						</div>
-						<div class="period" style="height:100px">
+						<div ref='myEchart1' style="height:200px"></div>
+						<div class="period" style="height:50px;text-align:center;margin-top:15px">
 							<el-button-group>
-								<el-button size="mini">本周</el-button>
-								<el-button size="mini">本月</el-button>
-								<el-button size="mini">本年</el-button>
+								<el-button size="mini" type="primary" @click="showWeek">本周</el-button>
+								<el-button size="mini" @click="showMonth">本月</el-button>
+								<el-button size="mini" @click="showYear">本年</el-button>
 							</el-button-group>
 						</div>	
 					</div>	
@@ -66,17 +64,8 @@
                 </div>
             </div>
         </el-col>
-        <el-col :span="7">
-			<div class="section ">
-                <div class="section-title"> 
-                    <h3>在线统计</h3>
-                </div>
-                <div class="section-content">
-                    <div class="online-person"></div>
-                    <div class="online-person"></div>
-                </div>
-            </div>
-            <!-- <div class="section">
+        <el-col :span="6">
+            <div class="section">
                 <div class="section-title"> 
                     <h3>云设备整体状态</h3> 
                 </div>
@@ -119,7 +108,7 @@
                 <div class="section-content">
                     <div ref="myEchart8" style="height:180px"></div>   
                 </div>
-            </div> -->
+            </div>
         </el-col>
     </el-row>
 </template>
@@ -247,7 +236,7 @@ export default {
 				},
 				grid: {
 					left: '2%',
-					right: '2%',
+					right: '5%',
 					bottom: '3%',
 					top: '20%',
 					containLabel: true,
@@ -286,415 +275,372 @@ export default {
 			};
 			this.chart.setOption(option);
 			this.chart1.setOption(option1);
-			// 	this.chart2 = this.$echarts.init(this.$refs.myEchart2);
-			// 	var option2 = {
-			// 		tooltip: {
-			// 			trigger: 'axis',
-			// 			axisPointer: {
-			// 				// 坐标轴指示器，坐标轴触发有效
-			// 				type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
-			// 			},
-			// 			formatter: function(params) {
-			// 				let data = params[0].data;
-			// 				return data.active + '/' + data.all;
-			// 			},
-			// 		},
-			// 		grid: {
-			// 			left: '3%',
-			// 			right: '4%',
-			// 			bottom: '3%',
-			// 			top: '10%',
-			// 			containLabel: true,
-			// 		},
-			// 		xAxis: [
-			// 			{
-			// 				type: 'value',
-			// 				name: '活跃度',
-			// 			},
-			// 		],
-			// 		yAxis: [
-			// 			{
-			// 				type: 'category',
-			// 				data: ['教育', '商用', '互联网', '海外', '华南', '华东'],
-			// 			},
-			// 		],
-			// 		series: [
-			// 			{
-			// 				type: 'bar',
-			// 				data: [
-			// 					{ value: 0.5, all: 1000, active: 400 },
-			// 					{ value: 0.72, all: 500, active: 400 },
-			// 					{ value: 0.56, all: 788, active: 400 },
-			// 					{ value: 0.43, all: 698, active: 400 },
-			// 					{ value: 0.62, all: 698, active: 400 },
-			// 					{ value: 0.21, all: 1010, active: 400 },
-			// 				],
-			// 				// barCategoryGap:'10%',
-			// 				barWidth: '50%',
-			// 				itemStyle: {
-			// 					normal: {
-			// 						color: '#f5aba3',
-			// 					},
-			// 				},
-			// 				label: {
-			// 					normal: {
-			// 						show: true,
-			// 						// formatter: '{@active}'
-			// 					},
-			// 				},
-			// 			},
-			// 		],
-			// 	};
-			// 	this.chart2.setOption(option2);
-			// 	this.chart4 = this.$echarts.init(this.$refs.myEchart4);
-			// 	var option4 = {
-			// 		title: {
-			// 			text: 'top5应用下载数',
-			// 			// subtext: '35560',
-			// 			x: 'center',
-			// 		},
-			// 		grid: {
-			// 			top: '20',
-			// 			width: '90%',
-			// 			bottom: '3%',
-			// 			left: 10,
-			// 			containLabel: true,
-			// 		},
-			// 		yAxis: [
-			// 			{
-			// 				type: 'category',
-			// 				data: ['OA办公', 'UC业务', '魔兽世界', 'i学', '电子书包'],
-			// 				axisLine: {
-			// 					//y轴
-			// 					show: false,
-			// 				},
-			// 				axisTick: {
-			// 					//y轴刻度线
-			// 					show: false,
-			// 				},
-			// 				splitLine: {
-			// 					//网格线
-			// 					show: false,
-			// 				},
-			// 			},
-			// 		],
-			// 		xAxis: [
-			// 			{
-			// 				type: 'value',
-			// 				axisLine: {
-			// 					//y轴
-			// 					show: false,
-			// 				},
-			// 				axisTick: {
-			// 					//y轴刻度线
-			// 					show: false,
-			// 				},
-			// 				splitLine: {
-			// 					//网格线
-			// 					show: false,
-			// 				},
-			// 				show: false,
-			// 				// axisLabel: {
-			// 				//     formatter: '{value}'
-			// 				// }
-			// 			},
-			// 		],
-			// 		series: [
-			// 			{
-			// 				// name:'电子书包',
-			// 				type: 'bar',
-			// 				data: [5.78, 6.33, 7.08, 9.21, 11.26],
-			// 				barCategoryGap: '10%',
-			// 				barWidth: 12,
-			// 				label: {
-			// 					normal: {
-			// 						show: true,
-			// 						// formatter: '{b}'
-			// 					},
-			// 				},
-			// 				itemStyle: {
-			// 					normal: {
-			// 						color: '#f5aba3',
-			// 					},
-			// 				},
-			// 			},
-			// 		],
-			// 	};
-			// 	this.chart4.setOption(option4);
-			// 	this.chart5 = this.$echarts.init(this.$refs.myEchart5);
-			// 	var option5 = {
-			// 		title: {
-			// 			text: 'top5客户设备数',
-			// 			// subtext: '35560',
-			// 			x: 'center',
-			// 		},
-			// 		grid: {
-			// 			top: '20',
-			// 			width: '90%',
-			// 			bottom: '3%',
-			// 			left: 10,
-			// 			containLabel: true,
-			// 		},
-			// 		yAxis: [
-			// 			{
-			// 				type: 'category',
-			// 				data: [
-			// 					'上海精锐教育培训有限公司',
-			// 					'深圳市海陵生物科技有限公司',
-			// 					'中国铝业',
-			// 					'昆明工口科技有限公司',
-			// 					'深圳市超网科技有限公司',
-			// 				],
-			// 				axisLine: {
-			// 					//y轴
-			// 					show: false,
-			// 				},
-			// 				axisTick: {
-			// 					//y轴刻度线
-			// 					show: false,
-			// 				},
-			// 				splitLine: {
-			// 					//网格线
-			// 					show: false,
-			// 				},
-			// 			},
-			// 		],
-			// 		xAxis: [
-			// 			{
-			// 				type: 'value',
-			// 				axisLine: {
-			// 					//y轴
-			// 					show: false,
-			// 				},
-			// 				axisTick: {
-			// 					//y轴刻度线
-			// 					show: false,
-			// 				},
-			// 				splitLine: {
-			// 					//网格线
-			// 					show: false,
-			// 				},
-			// 				show: false,
-			// 			},
-			// 		],
-			// 		series: [
-			// 			{
-			// 				name: '教育',
-			// 				type: 'bar',
-			// 				data: [320, 332, 301, 334, 390],
-			// 				// barGap:'50%',
-			// 				barCategoryGap: '10%',
-			// 				barWidth: 12,
-			// 				label: {
-			// 					normal: {
-			// 						show: true,
-			// 						// formatter: '{b}'
-			// 					},
-			// 				},
-			// 				itemStyle: {
-			// 					normal: {
-			// 						color: '#f5aba3',
-			// 					},
-			// 				},
-			// 			},
-			// 		],
-			// 	};
-			// 	this.chart5.setOption(option5);
-			// 	this.chart6 = this.$echarts.init(this.$refs.myEchart6);
-			// 	var option6 = {
-			// 		tooltip: {
-			// 			formatter: '{a} <br/>{c} {b}',
-			// 		},
-			// 		series: [
-			// 			{
-			// 				name: '转速',
-			// 				type: 'gauge',
-			// 				center: ['50%', '80%'], // 默认全局居中
-			// 				radius: '150%',
-			// 				min: 0,
-			// 				max: 100,
-			// 				startAngle: 180,
-			// 				endAngle: 0,
-			// 				splitNumber: 4,
-			// 				axisLine: {
-			// 					// 坐标轴线
-			// 					lineStyle: {
-			// 						// 属性lineStyle控制线条样式
-			// 						width: 8,
-			// 					},
-			// 				},
-			// 				axisTick: {
-			// 					// 坐标轴小标记
-			// 					length: 12, // 属性length控制线长
-			// 					lineStyle: {
-			// 						// 属性lineStyle控制线条样式
-			// 						color: 'auto',
-			// 					},
-			// 				},
-			// 				splitLine: {
-			// 					// 分隔线
-			// 					length: 20, // 属性length控制线长
-			// 					lineStyle: {
-			// 						// 属性lineStyle（详见lineStyle）控制线条样式
-			// 						color: 'auto',
-			// 					},
-			// 				},
-			// 				pointer: {
-			// 					width: 5,
-			// 				},
-			// 				title: {
-			// 					offsetCenter: [0, 0], // x, y，单位px
-			// 				},
-			// 				detail: { formatter: '{value}%', show: false },
-			// 				data: [{ value: 80, name: '' }],
-			// 			},
-			// 		],
-			// 	};
-			// 	this.chart6.setOption(option6);
-			// 	this.chart7 = this.$echarts.init(this.$refs.myEchart7);
-			// 	var option7 = {
-			// 		tooltip: {
-			// 			trigger: 'axis',
-			// 			axisPointer: {
-			// 				type: 'cross',
-			// 				label: {
-			// 					backgroundColor: '#6a7985',
-			// 				},
-			// 			},
-			// 		},
-			// 		legend: {
-			// 			data: ['最高值', '最低值', '平均值'],
-			// 		},
-			// 		grid: {
-			// 			left: '3%',
-			// 			right: '4%',
-			// 			bottom: '3%',
-			// 			top: '15%',
-			// 			containLabel: true,
-			// 		},
-			// 		xAxis: [
-			// 			{
-			// 				type: 'category',
-			// 				boundaryGap: false,
-			// 				data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-			// 			},
-			// 		],
-			// 		yAxis: [
-			// 			{
-			// 				type: 'value',
-			// 				min: 0,
-			// 				max: 100,
-			// 				interval: 20,
-			// 			},
-			// 		],
-			// 		series: [
-			// 			{
-			// 				name: '最高值',
-			// 				type: 'line',
-			// 				smooth: true,
-			// 				showSymbol: false,
-			// 				areaStyle: { normal: {} },
-			// 				data: [40, 50, 30, 90, 65, 69, 90],
-			// 			},
-			// 			{
-			// 				name: '最低值',
-			// 				type: 'line',
-			// 				smooth: true,
-			// 				showSymbol: false,
-			// 				areaStyle: { normal: {} },
-			// 				data: [10, 5, 30, 45, 23, 39, 17],
-			// 			},
-			// 			{
-			// 				name: '平均值',
-			// 				type: 'line',
-			// 				smooth: true,
-			// 				showSymbol: false,
-			// 				label: {
-			// 					normal: {
-			// 						show: true,
-			// 						position: 'top',
-			// 					},
-			// 				},
-			// 				areaStyle: { normal: {} },
-			// 				data: [79, 68, 56, 74, 89, 98, 84],
-			// 			},
-			// 		],
-			// 	};
-			// 	this.chart7.setOption(option7);
-			// 	this.chart8 = this.$echarts.init(this.$refs.myEchart8);
-			// 	var option8 = {
-			// 		tooltip: {
-			// 			trigger: 'axis',
-			// 			axisPointer: {
-			// 				type: 'cross',
-			// 				label: {
-			// 					backgroundColor: '#6a7985',
-			// 				},
-			// 			},
-			// 		},
-			// 		legend: {
-			// 			data: ['cpu', '内存'],
-			// 		},
-			// 		grid: {
-			// 			left: '3%',
-			// 			right: '4%',
-			// 			bottom: '3%',
-			// 			top: '10%',
-			// 			containLabel: true,
-			// 		},
-			// 		xAxis: [
-			// 			{
-			// 				type: 'category',
-			// 				boundaryGap: false,
-			// 				data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-			// 			},
-			// 		],
-			// 		yAxis: [
-			// 			{
-			// 				type: 'value',
-			// 				min: 0,
-			// 				max: 100,
-			// 				interval: 20,
-			// 			},
-			// 		],
-			// 		series: [
-			// 			{
-			// 				name: 'cpu',
-			// 				type: 'line',
-			// 				stack: '总量',
-			// 				smooth: true,
-			// 				showSymbol: false,
-			// 				lineStyle: {
-			// 					normal: {
-			// 						color: '#c23531',
-			// 					},
-			// 				},
-			// 				showSymbol: false,
-			// 				// areaStyle: {normal: {}},
-			// 				data: [40, 50, 30, 90, 65, 69, 90],
-			// 			},
-			// 			{
-			// 				name: '内存',
-			// 				type: 'line',
-			// 				smooth: true,
-			// 				showSymbol: false,
-			// 				lineStyle: {
-			// 					normal: {
-			// 						color: '#93d6ca',
-			// 					},
-			// 				},
-			// 				showSymbol: false,
-			// 				// areaStyle: {normal: {}},
-			// 				data: [10, 5, 30, 45, 23, 39, 17],
-			// 			},
-			// 		],
-			// 	};
-			// 	this.chart8.setOption(option8);
+			this.chart4 = this.$echarts.init(this.$refs.myEchart4);
+			var option4 = {
+				title: {
+					text: 'top5应用下载数',
+					// subtext: '35560',
+					x: 'center',
+				},
+				grid: {
+					top: '20',
+					width: '90%',
+					bottom: '3%',
+					left: 10,
+					containLabel: true,
+				},
+				yAxis: [
+					{
+						type: 'category',
+						data: ['OA办公', 'UC业务', '魔兽世界', 'i学', '电子书包'],
+						axisLine: {
+							//y轴
+							show: false,
+						},
+						axisTick: {
+							//y轴刻度线
+							show: false,
+						},
+						splitLine: {
+							//网格线
+							show: false,
+						},
+					},
+				],
+				xAxis: [
+					{
+						type: 'value',
+						axisLine: {
+							//y轴
+							show: false,
+						},
+						axisTick: {
+							//y轴刻度线
+							show: false,
+						},
+						splitLine: {
+							//网格线
+							show: false,
+						},
+						show: false,
+						// axisLabel: {
+						//     formatter: '{value}'
+						// }
+					},
+				],
+				series: [
+					{
+						// name:'电子书包',
+						type: 'bar',
+						data: [578, 633, 708, 921, 1126],
+						barCategoryGap: '10%',
+						barWidth: 12,
+						label: {
+							normal: {
+								show: true,
+								// formatter: '{b}'
+							},
+						},
+						itemStyle: {
+							normal: {
+								color: '#f5aba3',
+							},
+						},
+					},
+				],
+			};
+			this.chart4.setOption(option4);
+			this.chart5 = this.$echarts.init(this.$refs.myEchart5);
+			var option5 = {
+				title: {
+					text: 'top5客户设备数',
+					// subtext: '35560',
+					x: 'center',
+				},
+				grid: {
+					top: '20',
+					width: '90%',
+					bottom: '3%',
+					left: 10,
+					containLabel: true,
+				},
+				yAxis: [
+					{
+						type: 'category',
+						data: [
+							'上海精锐教育培训有限公司',
+							'深圳市海陵生物科技有限公司',
+							'中国铝业',
+							'昆明工口科技有限公司',
+							'深圳市超网科技有限公司',
+						],
+						axisLine: {
+							//y轴
+							show: false,
+						},
+						axisTick: {
+							//y轴刻度线
+							show: false,
+						},
+						splitLine: {
+							//网格线
+							show: false,
+						},
+					},
+				],
+				xAxis: [
+					{
+						type: 'value',
+						axisLine: {
+							//y轴
+							show: false,
+						},
+						axisTick: {
+							//y轴刻度线
+							show: false,
+						},
+						splitLine: {
+							//网格线
+							show: false,
+						},
+						show: false,
+					},
+				],
+				series: [
+					{
+						name: '教育',
+						type: 'bar',
+						data: [320, 332, 301, 334, 390],
+						// barGap:'50%',
+						barCategoryGap: '10%',
+						barWidth: 12,
+						label: {
+							normal: {
+								show: true,
+								// formatter: '{b}'
+							},
+						},
+						itemStyle: {
+							normal: {
+								color: '#f5aba3',
+							},
+						},
+					},
+				],
+			};
+			this.chart5.setOption(option5);
+			this.chart6 = this.$echarts.init(this.$refs.myEchart6);
+			var option6 = {
+				tooltip: {
+					formatter: '{a} <br/>{c} {b}',
+				},
+				series: [
+					{
+						name: '转速',
+						type: 'gauge',
+						center: ['50%', '90%'], // 默认全局居中
+						radius: '150%',
+						min: 0,
+						max: 100,
+						startAngle: 180,
+						endAngle: 0,
+						splitNumber: 4,
+						axisLine: {
+							// 坐标轴线
+							lineStyle: {
+								// 属性lineStyle控制线条样式
+								width: 8,
+								color: [
+									[
+										1,
+										new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+											{
+												offset: 0,
+												color: '#ae3df6',
+											},
+											{
+												offset: 1,
+												color: '#53bef9',
+											},
+										]),
+									],
+									[1, '#222e7d'],
+								],
+							},
+						},
+						axisTick: {
+							// 坐标轴小标记
+							length: 12, // 属性length控制线长
+							lineStyle: {
+								// 属性lineStyle控制线条样式
+								color: 'auto',
+							},
+						},
+						splitLine: {
+							// 分隔线
+							length: 20, // 属性length控制线长
+							lineStyle: {
+								// 属性lineStyle（详见lineStyle）控制线条样式
+								color: 'auto',
+							},
+						},
+						pointer: {
+							width: 5,
+						},
+						title: {
+							offsetCenter: [0, 0], // x, y，单位px
+						},
+						detail: { formatter: '{value}%', show: false },
+						data: [{ value: 80, name: '' }],
+					},
+				],
+			};
+			this.chart6.setOption(option6);
+			this.chart7 = this.$echarts.init(this.$refs.myEchart7);
+			var option7 = {
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						label: {
+							backgroundColor: '#6a7985',
+						},
+					},
+				},
+				legend: {
+					data: ['最高值', '最低值', '平均值'],
+				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					top: '15%',
+					containLabel: true,
+				},
+				xAxis: [
+					{
+						type: 'category',
+						boundaryGap: false,
+						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
+					},
+				],
+				yAxis: [
+					{
+						type: 'value',
+						min: 0,
+						max: 100,
+						interval: 20,
+					},
+				],
+				series: [
+					{
+						name: '最高值',
+						type: 'line',
+						smooth: true,
+						showSymbol: false,
+						areaStyle: { normal: {} },
+						data: [40, 50, 30, 90, 65, 69, 90],
+					},
+					{
+						name: '最低值',
+						type: 'line',
+						smooth: true,
+						showSymbol: false,
+						areaStyle: { normal: {} },
+						data: [10, 5, 30, 45, 23, 39, 17],
+					},
+					{
+						name: '平均值',
+						type: 'line',
+						smooth: true,
+						showSymbol: false,
+						label: {
+							normal: {
+								show: true,
+								position: 'top',
+							},
+						},
+						areaStyle: { normal: {} },
+						data: [79, 68, 56, 74, 89, 98, 84],
+					},
+				],
+			};
+			this.chart7.setOption(option7);
+			this.chart8 = this.$echarts.init(this.$refs.myEchart8);
+			var option8 = {
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						label: {
+							backgroundColor: '#6a7985',
+						},
+					},
+				},
+				legend: {
+					data: ['cpu', '内存'],
+				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					top: '10%',
+					containLabel: true,
+				},
+				xAxis: [
+					{
+						type: 'category',
+						boundaryGap: false,
+						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
+					},
+				],
+				yAxis: [
+					{
+						type: 'value',
+						min: 0,
+						max: 100,
+						interval: 20,
+					},
+				],
+				series: [
+					{
+						name: 'cpu',
+						type: 'line',
+						stack: '总量',
+						smooth: true,
+						showSymbol: false,
+						lineStyle: {
+							normal: {
+								color: '#c23531',
+							},
+						},
+						showSymbol: false,
+						// areaStyle: {normal: {}},
+						data: [40, 50, 30, 90, 65, 69, 90],
+					},
+					{
+						name: '内存',
+						type: 'line',
+						smooth: true,
+						showSymbol: false,
+						lineStyle: {
+							normal: {
+								color: '#93d6ca',
+							},
+						},
+						showSymbol: false,
+						// areaStyle: {normal: {}},
+						data: [10, 5, 30, 45, 23, 39, 17],
+					},
+				],
+			};
+			this.chart8.setOption(option8);
 		});
 	},
 	data() {
 		return {
 			map: {},
+			chart1: {},
 		};
 	},
 	computed: {
@@ -708,12 +654,69 @@ export default {
 			this.map.resize();
 		},
 	},
+	methods: {
+		showMonth() {
+			this.$nextTick(() => {
+				var option1 = {
+					tooltip: {
+						trigger: 'axis',
+						axisPointer: {
+							type: 'cross',
+							label: {
+								backgroundColor: '#6a7985',
+							},
+						},
+					},
+					grid: {
+						left: '2%',
+						right: '5%',
+						bottom: '3%',
+						top: '20%',
+						containLabel: true,
+					},
+					xAxis: [
+						{
+							type: 'category',
+							boundaryGap: false,
+							data: ['08-01', '08-02', '08-03', '08-04', '08-05', '08-06', '08-07'],
+						},
+					],
+					yAxis: [
+						{
+							name: '活跃度',
+							type: 'value',
+							min: 0,
+							max: 100,
+							interval: 20,
+						},
+					],
+					series: [
+						{
+							// name: '平均值',
+							type: 'line',
+							smooth: true,
+							// showSymbol: false,
+							label: {
+								normal: {
+									show: true,
+									position: 'top',
+								},
+							},
+							data: [79, 68, 56, 74, 89, 98, 84],
+						},
+					],
+				};
+				this.chart1.setOption(option1);
+			});
+		},
+		showWeek() {},
+		showYear() {},
+	},
 };
 </script>
 <style lang='scss' scoped>
 .driver-wrapper {
 	height: 100%;
-	padding: 15px;
 	overflow-y: scroll;
 	> .el-col {
 		height: 100%;

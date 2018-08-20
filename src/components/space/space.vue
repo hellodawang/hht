@@ -6,6 +6,7 @@
 			<el-button type="primary" size="mini" icon="el-icon-download">下载</el-button>
 			<el-button type="primary" size="mini" icon="el-icon-share">分享</el-button>
 			<el-button type="primary" size="mini" icon="el-icon-delete">删除</el-button>
+			<el-button type="primary" size="mini" icon="el-icon-plus">新建文件夹</el-button>
 			<el-input
 				placeholder="请输入内容"
 				v-model="input23" size="mini" style="width:300px">
@@ -13,8 +14,9 @@
 			</el-input>
 		</div>
 		<div class="path">
-			<span v-if="path.length>1">返回上一级</span>
-			<span v-for="item in path" >{{item}}</span>
+			<!-- <span v-if="path.length>1">返回上一级</span> -->
+			<el-button v-if="path.length>1" size="mini" @click="back " icon="el-icon-back"> 返回上一级</el-button>
+			<span v-for="item in path" :key="item.name" @click="go(item)" class="path-item">{{item.name}}></span>
 		</div>
         <div class="file-wrapper">
             <el-table ref="multipleTable" :data="files" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -60,20 +62,49 @@ export default {
 					type: 1,
 					size: '748kb',
 					updateTime: '2018-09-01',
-					files: [{ id: 11, name: '图片2', type: 3, size: '65kb', updateTime: '2018-08-05' }],
+					files: [
+						{
+							id: 11,
+							name: '图片2',
+							type: 3,
+							size: '65kb',
+							updateTime: '2018-08-05',
+						},
+						{
+							id: 12,
+							name: '文件夹2',
+							type: 1,
+							size: '748kb',
+							files: [{ id: 21, name: '图片3', type: 3, size: '1098kb', updateTime: '2018-08-19' }],
+						},
+					],
 				},
 			],
 			input23: '',
-			path: ['全部文件'],
+			path: [],
 		};
+	},
+	mounted() {
+		this.path.push({
+			name: '全部文件',
+			files: this.files,
+		});
 	},
 	methods: {
 		handleSelectionChange() {},
 		s(row) {
 			if (row.files) {
 				this.files = row.files;
-				this.path.push(row.name);
+				this.path.push({ name: row.name, files: row.files });
 			}
+		},
+		back() {
+			this.path.pop();
+			this.files = this.path[this.path.length - 1].files;
+		},
+		go(item) {
+			this.files = item.files;
+			this.path = this.path.slice(0, this.path.indexOf(item) + 1);
 		},
 	},
 };
@@ -81,6 +112,37 @@ export default {
 <style lang='scss'>
 .space-wrapper {
 	background-color: #fff;
+	height: 100%;
+	h4 {
+		font-weight: normal;
+		font-size: 12px;
+		line-height: 40px;
+		border-bottom: 1px solid #f0f0f0;
+		text-indent: 2em;
+	}
+	.toolbar {
+		padding: 10px;
+		margin-left: 30px;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.path {
+		margin-left: 30px;
+		.path-item {
+			display: inline-block;
+			height: 36px;
+			line-height: 36px;
+			color: #666;
+			cursor: pointer;
+			font-size: 12px;
+			margin-left: 10px;
+			&:hover {
+				color: #409eff;
+			}
+		}
+	}
+	.file-wrapper {
+		padding: 10px 40px;
+	}
 }
 .el-table__row {
 	.cell {

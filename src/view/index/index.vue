@@ -6,7 +6,16 @@
 					<img src="../../assets/logo.png" alt="">
 				</div>
 				<div class="hht_user">
-					<img src="../../assets/图层 36@3x.png" alt="" class="avator">
+					<el-popover
+						placement="right"
+						width="100"
+						v-model="visible2">
+						<div class="user-operate">
+							<div class="personal-settings" @click="setting = !setting">个人设置</div>
+							<div class="login-out">退出登录</div>
+						</div>
+						<img slot="reference" src="../../assets/图层 36@3x.png" alt="" class="avator" >
+					</el-popover>	
 					<div class="hht_user_text">
 						<div class="hht_user_name">杨文兴</div>
 						<div class="hht_user_role">超级管理员</div>
@@ -44,15 +53,21 @@
 			<div class="modal-setting">
 				<div class="modal-header clearfix">
 					<h3>个人设置</h3>
-					<i class="el-icon-close "></i>
+					<i class="el-icon-close" @click="setting = !setting" style="cursor: pointer"></i>
 				</div>
-				<div class="modal-body">
-					<el-form  class="model-form"  label-width="200px"   :model="user" :rules="rules1"  >
+				<div class="modal-body" style="width:700px">
+					<el-form  class="model-form"  label-width="200px"   :model="user"  >
                         <el-form-item  label="账号" > 
                             <el-input  v-model="user.id" clearable size="mini" disabled></el-input>
                         </el-form-item>
                         <el-form-item  label="昵称" prop="nickName"> 
                             <el-input placeholder="昵称规范" v-model="user.nickName" clearable size="mini"></el-input>
+                        </el-form-item>
+						<el-form-item label="常用邮箱"   prop="email">
+                            <el-input  v-model="user.email" size="mini" placeholder="请输入常用邮箱"  clearable  required @keyup.enter.native="submit"></el-input>  
+                        </el-form-item>
+                        <el-form-item label="手机"   prop="tel">
+                            <el-input   v-model="user.tel" size="mini" clearable placeholder=" 请输入电话号码"  required @keyup.enter.native="submit"></el-input>  
                         </el-form-item>
                         <el-form-item label="旧密码" class="password"  prop="password">
                             <el-input placeholder="密码规范"  v-model="user.oldPassword" size="mini" clearable type='password' required @keyup.enter.native="submit"></el-input>  
@@ -62,18 +77,13 @@
                         </el-form-item>
 						<el-form-item label="新密码" class="password"  prop="repassword">
                             <el-input placeholder=" 请再次输入密码"  v-model="user.reNewPassword" clearable size="mini" type='password' required @keyup.enter.native="submit"></el-input>  
-                        </el-form-item>
-                        <el-form-item label="常用邮箱"   prop="email">
-                            <el-input  v-model="user.email" size="mini" clearable  required @keyup.enter.native="submit"></el-input>  
-                        </el-form-item>
-                        <el-form-item label="手机"   prop="tel">
-                            <el-input   v-model="user.tel" size="mini" clearable  required @keyup.enter.native="submit"></el-input>  
-                        </el-form-item>
-                        <el-form-item label="头像">
-							<el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false">
+                        </el-form-item>                    
+                        <el-form-item label="头像" style="text-align:left">
+							<img src="../../assets/图层 36@3x.png" alt="" class="avatar">
+							<!-- <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false">
 								<img v-if="user.avator" :src="user.avator" class="avatar">
 								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-							</el-upload>
+							</el-upload> -->
                         </el-form-item> 
                         <el-form-item  >
                             <el-button type="primary" class="submit-btn" @click="confirm" >确定</el-button>  
@@ -110,12 +120,14 @@ export default {
 				avator: '',
 			},
 			setting: false,
+			visible2: false,
 		};
 	},
 	methods: {
 		toggle() {
 			this.$store.commit('toggle');
 		},
+		confirm() {},
 	},
 };
 </script>
@@ -143,6 +155,7 @@ export default {
 			height: 117px;
 			padding-top: 29px;
 			padding-left: 21px;
+			position: relative;
 			.avator {
 				width: 57px;
 				height: 57px;
@@ -179,10 +192,10 @@ export default {
 
 		.hht-content_content {
 			position: absolute;
-			left: 0;
+			left: 10px;
 			right: 0;
 			bottom: 0;
-			top: 52px;
+			top: 62px;
 		}
 	}
 	.modal-setting-wrapper {
@@ -193,6 +206,7 @@ export default {
 		top: 0;
 		background-color: rgba(0, 0, 0, 0.7);
 		text-align: center;
+		z-index: 10000;
 		&::after {
 			content: '';
 			display: inline-block;
@@ -222,6 +236,11 @@ export default {
 					color: #fff;
 					line-height: 50px;
 					margin-right: 10px;
+				}
+			}
+			.modal-body {
+				.el-form-item {
+					margin-bottom: 0;
 				}
 			}
 		}
@@ -281,4 +300,19 @@ export default {
 		}
 	}
 }
+.user-operate {
+	> div {
+		line-height: 1.8em;
+		cursor: pointer;
+		&:hover {
+			color: #409eff;
+		}
+	}
+}
 </style>
+<style>
+.el-popover {
+	min-width: 100px !important;
+}
+</style>
+
