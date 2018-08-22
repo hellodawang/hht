@@ -11,6 +11,9 @@ const store = new Vuex.Store({
         toggle(state) {
             state.showSideBar = !state.showSideBar
                 // 所有的echart全部resize
+        },
+        hide(state) {
+            state.showSideBar = false
         }
     }
 })

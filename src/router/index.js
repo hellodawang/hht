@@ -7,6 +7,9 @@ import zone from '../components/space/space'
 import appStore from '../view/appStore/appStore'
 import userManager from '../view/userManager/userManager'
 import maintenance from '../view/maintenance/maintenance'
+import user1 from '../view/driver/user1'
+import managerSimple from '../view/driver/managerSimple'
+import deviceInfo from '../view/deviceInfo/deviceInfo'
 
 Vue.use(Router)
 
@@ -44,6 +47,18 @@ const router = new Router({
                     path: '/maintenance',
                     name: 'maintenance',
                     component: maintenance
+                }, {
+                    path: '/user1',
+                    name: 'user1',
+                    component: user1
+                }, {
+                    path: '/managerSimple',
+                    name: 'managerSimple',
+                    component: managerSimple
+                }, {
+                    path: '/deviceInfo',
+                    name: 'deviceInfo',
+                    component: deviceInfo
                 }, ]
             },
 

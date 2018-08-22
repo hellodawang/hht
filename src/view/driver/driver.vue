@@ -717,6 +717,7 @@ export default {
 <style lang='scss' scoped>
 .driver-wrapper {
 	height: 100%;
+	// min-width: 1300px;
 	overflow-y: scroll;
 	> .el-col {
 		height: 100%;
