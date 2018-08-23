@@ -10,6 +10,7 @@ import maintenance from '../view/maintenance/maintenance'
 import user1 from '../view/driver/user1'
 import managerSimple from '../view/driver/managerSimple'
 import deviceInfo from '../view/deviceInfo/deviceInfo'
+import statistics from '../view/statistics/statistics'
 
 Vue.use(Router)
 
@@ -21,44 +22,48 @@ const router = new Router({
                 component: Login
             },
             {
-                path: '/index',
+                path: '/gui/index',
                 name: 'index',
                 component: index,
                 meta: {
                     requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
                 },
                 children: [{
-                    path: '/driver',
+                    path: '/gui/driver',
                     name: 'driver',
                     component: driver
                 }, {
-                    path: '/zone',
+                    path: '/gui/zone',
                     name: 'zone',
                     component: zone
                 }, {
-                    path: '/appStore',
+                    path: '/gui/appStore',
                     name: 'appStore',
                     component: appStore
                 }, {
-                    path: '/userManager',
+                    path: '/gui/userManager',
                     name: 'userManager',
                     component: userManager
                 }, {
-                    path: '/maintenance',
+                    path: '/gui/maintenance',
                     name: 'maintenance',
                     component: maintenance
                 }, {
-                    path: '/user1',
+                    path: '/gui/user1',
                     name: 'user1',
                     component: user1
                 }, {
-                    path: '/managerSimple',
+                    path: '/gui/managerSimple',
                     name: 'managerSimple',
                     component: managerSimple
                 }, {
-                    path: '/deviceInfo',
+                    path: '/gui/deviceInfo',
                     name: 'deviceInfo',
                     component: deviceInfo
+                }, {
+                    path: '/gui/statistics',
+                    name: 'statistics',
+                    component: statistics
                 }, ]
             },
 

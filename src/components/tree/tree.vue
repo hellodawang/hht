@@ -1,24 +1,27 @@
 <template>
     <el-tree :data="list"  node-key="id" :expand-on-click-node="true" class="hht_list">
         <span class="custom-tree-node" slot-scope="{ node, data }" >
-            <i class='iconfont' :class="[{ 'icon-driver': (node.icon=='driver')},
-                                    {'icon-statistics':(node.icon=='statistics')},
-                                    {'icon-maintenance':(node.icon=='maintenance')},
-                                    {'icon-mall':(node.icon=='mall')},
-                                    {'icon-user':(node.icon=='user')},
-                                    {'icon-study':(node.icon=='study')},
-                                    {'icon-setting':(node.icon=='setting')}
-                                    ]"  ></i>
-            <span class='icon-text '>
-                {{node.label}}
-            </span>
-            <span class="iconfont down" v-if='data.children' :class="{'icon-left':!node.expanded, 'icon-down':node.expanded}"></span>
+			<router-link :to="data.url" class="tree-link">
+				<i class='iconfont' :class="'icon-'+data.icon"></i>
+					<span class='icon-text '>
+						{{node.label}}
+					</span>	
+					<span class="iconfont down" v-if='node.childNodes.length>0' :class="{'icon-left':!node.expanded, 'icon-down':node.expanded}"></span>
+			</router-link>   
         </span>
     </el-tree>
 </template>
 <script>
 export default {
 	props: ['list'],
+	computed: {
+		classObject: function(icon) {
+			console.log(icon);
+			// return {
+
+			// }
+		},
+	},
 };
 </script>
 <style lang='scss'>
@@ -26,6 +29,9 @@ export default {
 	background-color: transparent;
 	vertical-align: middle;
 	font-size: 12px;
+	.is-current {
+		background-color: #f00;
+	}
 	.el-tree-node {
 		color: #dbdce0;
 		&:focus > .el-tree-node__content {
@@ -34,12 +40,13 @@ export default {
 		.el-tree-node__content {
 			position: relative;
 			height: 37px;
+			line-height: 37px;
 			.el-tree-node__expand-icon {
 				display: none;
 			}
 		}
 		.el-tree-node__content:hover {
-			background-color: #24272c;
+			background-color: #f00;
 		}
 		.custom-tree-node {
 			.down {
@@ -60,6 +67,11 @@ export default {
 				color: #dbdce0;
 			}
 		}
+	}
+	.tree-link {
+		color: #fff;
+		text-decoration: none;
+		display: inline-block;
 	}
 }
 </style>

@@ -5,7 +5,7 @@
             <span>鸿合云管理平台</span>
         </div>
         <div class="login-box">
-            <el-form  class="login-wrapper" :model="ruleForm1" :rules="rules1" ref="ruleForm" >
+            <el-form  class="login-wrapper" :model="ruleForm" :rules="rules" ref="ruleForm" >
                 <el-form-item>
                     <h3>登录</h3>
                 </el-form-item>
@@ -15,9 +15,9 @@
                 <el-form-item  class="password"  prop="password">
                     <el-input placeholder="请输入密码"  v-model="ruleForm.password" clearable type='password' required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-password"></i></el-input>  
                 </el-form-item>
-                <el-form-item  class="verification"  prop="verification">
-                    <el-input placeholder="验证码"  v-model="ruleForm.verification" clearable  required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-verification"></i></el-input>  
-					<div class="verification-box" ></div>
+                <el-form-item  class="verification"  prop="captcha">
+                    <el-input placeholder="验证码"  v-model="ruleForm.captcha" clearable  required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-verification"></i></el-input>  
+					<div class="verification-box"  ><span v-html="captchaUrl" style="display: inline-block; transform-origin: 0 0; transform: scale(0.5)"></span></div>
 				</el-form-item> 
                 <el-form-item class="submit-btn" >
                    <el-button type="primary"  @click="submit" >登录</el-button> 
@@ -80,12 +80,12 @@ export default {
 			ruleForm: {
 				username: '',
 				password: '',
-				verification: '',
+				captcha: '',
 			},
 			rules: {
 				username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
 				password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-				verification: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+				captcha: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 			},
 			ruleForm1: {
 				id: '',
@@ -106,17 +106,41 @@ export default {
 			checked: false,
 			showModel: false,
 			imageUrl: '',
+			captchaUrl: '',
 		};
+	},
+	mounted() {
+		let that = this;
+		this.$axios
+			.get('aux/captcha')
+			.then(function(response) {
+				that.captchaUrl = response.data;
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
 	},
 	methods: {
 		submit() {
-			if (this.ruleForm.username == 'admin' && this.ruleForm.password == 'admin') {
-				// 登录成功
-				this.$router.push('index');
-			} else {
-				// 登录失败
-				this.$message.error('请检查用户名和密码');
-			}
+			this.$axios
+				.post('/user/login', {
+					username: this.ruleForm.username,
+					password: this.ruleForm.password,
+					captcha: this.ruleForm.captcha,
+				})
+				.then(response => {
+					if (response.data.code == 0) {
+						this.$axios.get('/user/info').then(response => {
+							this.$store.commit('setUserDate', response.data);
+							// if(response.data.role =='admin'){
+							this.$router.push('/gui/index');
+							// }
+						});
+					}
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
 		},
 		confirm() {
 			this.showModel = false;

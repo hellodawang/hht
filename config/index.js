@@ -11,15 +11,12 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            // '/api':{
-            //   target: 'http://192.168.45.197:8831',
-            //   // target:'https://www.imooc.com',
-            //   secure: true, // 接受 运行在 https 上的服务
-            //   changeOrigin: true,
-            //   pathRewrite: {
-            //     '^/api': ''
-            //   }
-            // }
+            "/": {
+                target: "http://localhost:3000",
+                pathRewrite: {
+                    "^/": ""
+                } //后面可以使重写的新路径，一般不做更改
+            }
         },
 
         // Various Dev Server settings

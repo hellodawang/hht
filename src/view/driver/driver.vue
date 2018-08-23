@@ -44,7 +44,7 @@
         <el-col :span="12" class="col-two">
 			<div class="section device-distribution">
                 <div class="section-title"> 
-                    <h3>设备概览</h3>
+                    <h3 @click="ss">设备概览</h3>
                 </div>
                 <div class="section-content">
 					<div ref="myEchart3" id='chart-panel' style="height:470px"></div>
@@ -114,20 +114,24 @@
 </template>
 <script>
 import china from 'echarts/map/json/china.json';
+import world from 'echarts/map/json/world.json';
 import mapchart from '../../utils/map.js';
+import { value, nameMap } from '../../utils/worldmap.js';
 import echarts from 'echarts';
+
 export default {
 	mounted() {
 		echarts.registerMap('china', china);
-		this.map = echarts.extendsMap(this.$refs.myEchart3, {
-			bgColor: '#154e90', // 画布背景色
-			mapName: 'china', // 地图名
-			// text:'火电业务',
-			goDown: true, // 是否下钻
-			// 下钻回调
-			callback: function(name, option, instance) {},
-		});
+		echarts.registerMap('world', world);
 		this.$nextTick(() => {
+			this.map = echarts.extendsMap(this.$refs.myEchart3, {
+				bgColor: '#154e90', // 画布背景色
+				mapName: 'china', // 地图名
+				// text:'火电业务',
+				goDown: true, // 是否下钻
+				// 下钻回调
+				callback: function(name, option, instance) {},
+			});
 			let dom = this.$refs.myEchart;
 			this.chart = this.$echarts.init(dom);
 			let dom1 = this.$refs.myEchart1;
@@ -711,6 +715,33 @@ export default {
 		},
 		showWeek() {},
 		showYear() {},
+		ss() {
+			this.$echarts.dispose(this.$refs.myEchart3);
+			this.map = this.$echarts.init(this.$refs.myEchart3);
+			this.map.setOption({
+				backgroundColor: '#154e90',
+				visualMap: {
+					min: 0,
+					max: 10000,
+					left: 'right',
+					top: 'bottom',
+					text: ['High', 'Low'],
+					seriesIndex: [0],
+					inRange: {
+						color: ['#e0ffff', '#006edd'],
+					},
+					calculable: true,
+				},
+				series: [
+					{
+						type: 'map',
+						map: 'world',
+						data: value,
+						nameMap: nameMap,
+					},
+				],
+			});
+		},
 	},
 };
 </script>

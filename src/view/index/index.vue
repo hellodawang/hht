@@ -3,7 +3,7 @@
 		<!-- <transition name="fade" > -->
 			<div class="hht_aside" v-if='$store.state.showSideBar'>
 				<div class="hht_logo">
-					<img src="../../assets/logo.png" alt="">
+					<img src='../../assets/logo.png' alt="">
 				</div>
 				<div class="hht_user">
 					<el-popover
@@ -14,14 +14,14 @@
 							<div class="personal-settings" @click="setting = !setting">个人设置</div>
 							<div class="login-out">退出登录</div>
 						</div>
-						<img slot="reference" src="../../assets/图层 36@3x.png" alt="" class="avator" >
+						<img slot="reference" :src="$store.state.userData.avatar" alt="" class="avator" >
 					</el-popover>	
 					<div class="hht_user_text">
-						<div class="hht_user_name">杨文兴</div>
-						<div class="hht_user_role">超级管理员</div>
+						<div class="hht_user_name">{{$store.state.userData.alias}}</div>
+						<div class="hht_user_role">{{$store.state.userData.role}}</div>
 					</div>
 				</div>
-				<hht-tree :list='data'></hht-tree>
+				<hht-tree :list='data1'></hht-tree>
 			</div>	
 		<!-- </transition> -->
         <div class="hht_content">
@@ -40,13 +40,13 @@
 						</el-dropdown>
 					</div>
 					<div class="avator">
-						<img src="../../assets/图层 36@3x.png" alt="">
+						<img :src="$store.state.userData.avatar" alt="">
 					</div>
 					<div class="loginOut">退出</div>
 				</div>
 			</div>
             <div class="hht-content_content">
-                <router-view to='/index/driver'></router-view>
+                <router-view to='' ></router-view>
             </div>
         </div>
 		<div class="modal-setting-wrapper" v-if='setting'>
@@ -102,12 +102,12 @@ export default {
 	},
 	data() {
 		return {
-			data: [
-				{ id: 1, label: '管理驾驶舱', icon: 'driver' },
-				{ id: 9, label: '系统设置', icon: 'setting', children: [{ id: 11, label: '用户管理', icon: 'user' }] },
-				{ id: 5, label: '应用商城', icon: 'mall' },
-				{ id: 3, label: '诊断维护', icon: 'maintenance' },
-				{ id: 2, label: '统计报表', icon: 'statistics' },
+			data1: [
+				// { id: 1, label: '管理驾驶舱', icon: 'driver' },
+				// { id: 9, label: '系统设置', icon: 'setting', children: [{ id: 11, label: '用户管理', icon: 'user' }] },
+				// { id: 5, label: '应用商城', icon: 'mall' },
+				// { id: 3, label: '诊断维护', icon: 'maintenance' },
+				// { id: 2, label: '统计报表', icon: 'statistics' },
 			],
 			user: {
 				id: '',
@@ -128,6 +128,12 @@ export default {
 			this.$store.commit('toggle');
 		},
 		confirm() {},
+	},
+	created() {
+		this.data1 = this.$store.state.userData.menu;
+		console.log(this.data1[0].url);
+		// console.log(this.$router);
+		this.$router.push(this.data1[0].url);
 	},
 };
 </script>
@@ -293,6 +299,7 @@ export default {
 				height: 32px;
 				border-radius: 50%;
 				margin: 0 20px;
+				overflow: hidden;
 				img {
 					width: 100%;
 				}
