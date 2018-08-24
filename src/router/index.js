@@ -11,6 +11,7 @@ import user1 from '../view/driver/user1'
 import managerSimple from '../view/driver/managerSimple'
 import deviceInfo from '../view/deviceInfo/deviceInfo'
 import statistics from '../view/statistics/statistics'
+import driverCompany from '../view/driver/driverCompany'
 
 Vue.use(Router)
 
@@ -64,6 +65,10 @@ const router = new Router({
                     path: '/gui/statistics',
                     name: 'statistics',
                     component: statistics
+                }, {
+                    path: '/gui/driverCompany',
+                    name: 'driverCompany',
+                    component: driverCompany
                 }, ]
             },
 
