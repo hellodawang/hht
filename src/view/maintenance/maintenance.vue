@@ -17,9 +17,11 @@
 						</div>
                         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" > 
                             <el-table-column type="selection" width="55"> </el-table-column> 
-                            <el-table-column label="编码1" width="120" prop="name1"> </el-table-column> 
-                            <el-table-column prop="name1" label="编码2" width="120"> </el-table-column> 
-                            <el-table-column prop="name2" label="编码3" show-overflow-tooltip></el-table-column>
+                            <el-table-column label="云识别号" width="120" prop="name1"> </el-table-column> 
+                            <el-table-column prop="name2" label="型号" width="120"> </el-table-column> 
+                            <el-table-column prop="name3" label="产品类型" show-overflow-tooltip></el-table-column>
+                            <el-table-column prop="customer" label="客户名称" show-overflow-tooltip></el-table-column>
+                            <el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
                         </el-table>
                     </div>        
                 </el-col>
@@ -86,14 +88,14 @@ export default {
 	data() {
 		return {
 			tableData: [
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
-				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: 'BN12345666' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '故障' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
+				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
 			],
 			search: '',
 			updateVersion: [

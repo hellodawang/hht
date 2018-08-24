@@ -131,8 +131,6 @@ export default {
 	},
 	created() {
 		this.data1 = this.$store.state.userData.menu;
-		console.log(this.data1[0].url);
-		// console.log(this.$router);
 		this.$router.push(this.data1[0].url);
 	},
 };

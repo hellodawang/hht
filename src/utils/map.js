@@ -109,7 +109,7 @@ echarts.extendsMap = function(dom, opt) {
     ];
     // style
     var style = {
-        font: '18px "Microsoft YaHei", sans-serif',
+        font: '16px "Microsoft YaHei", sans-serif',
         textColor: '#eee',
         lineColor: 'rgba(147, 235, 248, .8)'
     };
@@ -134,7 +134,15 @@ echarts.extendsMap = function(dom, opt) {
                     for (var x = 0; x < opt.data.length; x++) {
                         if (n === opt.data[x].city) {
                             [opt.data[x]].each(function(index, data) {
-                                cityJson = { city: data.city, name: data.name, value: data.value, crew: data.crew, company: data.company, position: data.position, region: data.region };
+                                cityJson = {
+                                    city: data.city,
+                                    name: data.name,
+                                    value: data.value,
+                                    crew: data.crew,
+                                    company: data.company,
+                                    position: data.position,
+                                    region: data.region
+                                };
                                 cityData.push(cityJson)
                             })
                         }
@@ -245,7 +253,6 @@ echarts.extendsMap = function(dom, opt) {
                     left: -68,
                     top: 10,
                     style: {
-
                         name: name,
                         text: cityToPinyin[name] ? cityToPinyin[name] : '',
                         textAlign: 'center',
@@ -334,11 +341,11 @@ echarts.extendsMap = function(dom, opt) {
             {
                 id: name[idx],
                 type: 'group',
-                left: pos.left + 2,
+                left: pos.left + 14,
                 top: pos.top,
                 children: [{
                     type: 'polyline',
-                    left: 90,
+                    left: 100,
                     top: -12,
                     shape: {
                         points: line
@@ -474,41 +481,142 @@ echarts.extendsMap = function(dom, opt) {
             type: 'map',
             geoIndex: 0,
             // tooltip: {show: false},
-            data: [
-                { name: '北京', value: 1000 },
-                { name: '天津', value: 1000 },
-                { name: '上海', value: 1000 },
-                { name: '重庆', value: 250 },
-                { name: '河北', value: 100 },
-                { name: '河南', value: 300 },
-                { name: '云南', value: 1000 },
-                { name: '辽宁', value: 1000 },
-                { name: '黑龙江', value: 1000 },
-                { name: '湖南', value: 1000 },
-                { name: '安徽', value: 500 },
-                { name: '山东', value: 1000 },
-                { name: '新疆', value: 800 },
-                { name: '江苏', value: 1000 },
-                { name: '浙江', value: 0 },
-                { name: '江西', value: 1000 },
-                { name: '湖北', value: 1000 },
-                { name: '广西', value: 1000 },
-                { name: '甘肃', value: 1000 },
-                { name: '山西', value: 1000 },
-                { name: '内蒙古', value: 1000 },
-                { name: '陕西', value: 1000 },
-                { name: '吉林', value: 1000 },
-                { name: '福建', value: 1000 },
-                { name: '贵州', value: 1000 },
-                { name: '广东', value: 1000 },
-                { name: '青海', value: 1000 },
-                { name: '西藏', value: 1000 },
-                { name: '四川', value: 1000 },
-                { name: '宁夏', value: 1000 },
-                { name: '海南', value: 1000 },
-                { name: '台湾', value: 1000 },
-                { name: '香港', value: 1000 },
-                { name: '澳门', value: 1000 }
+            data: [{
+                    name: '北京',
+                    value: 1000
+                },
+                {
+                    name: '天津',
+                    value: 1000
+                },
+                {
+                    name: '上海',
+                    value: 1000
+                },
+                {
+                    name: '重庆',
+                    value: 250
+                },
+                {
+                    name: '河北',
+                    value: 100
+                },
+                {
+                    name: '河南',
+                    value: 300
+                },
+                {
+                    name: '云南',
+                    value: 1000
+                },
+                {
+                    name: '辽宁',
+                    value: 1000
+                },
+                {
+                    name: '黑龙江',
+                    value: 1000
+                },
+                {
+                    name: '湖南',
+                    value: 1000
+                },
+                {
+                    name: '安徽',
+                    value: 500
+                },
+                {
+                    name: '山东',
+                    value: 1000
+                },
+                {
+                    name: '新疆',
+                    value: 800
+                },
+                {
+                    name: '江苏',
+                    value: 1000
+                },
+                {
+                    name: '浙江',
+                    value: 0
+                },
+                {
+                    name: '江西',
+                    value: 1000
+                },
+                {
+                    name: '湖北',
+                    value: 1000
+                },
+                {
+                    name: '广西',
+                    value: 1000
+                },
+                {
+                    name: '甘肃',
+                    value: 1000
+                },
+                {
+                    name: '山西',
+                    value: 1000
+                },
+                {
+                    name: '内蒙古',
+                    value: 1000
+                },
+                {
+                    name: '陕西',
+                    value: 1000
+                },
+                {
+                    name: '吉林',
+                    value: 1000
+                },
+                {
+                    name: '福建',
+                    value: 1000
+                },
+                {
+                    name: '贵州',
+                    value: 1000
+                },
+                {
+                    name: '广东',
+                    value: 1000
+                },
+                {
+                    name: '青海',
+                    value: 1000
+                },
+                {
+                    name: '西藏',
+                    value: 1000
+                },
+                {
+                    name: '四川',
+                    value: 1000
+                },
+                {
+                    name: '宁夏',
+                    value: 1000
+                },
+                {
+                    name: '海南',
+                    value: 1000
+                },
+                {
+                    name: '台湾',
+                    value: 1000
+                },
+                {
+                    name: '香港',
+                    value: 1000
+                },
+                {
+                    name: '澳门',
+                    value: 1000
+                }
             ]
         }]
     };

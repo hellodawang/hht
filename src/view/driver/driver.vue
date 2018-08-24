@@ -27,9 +27,9 @@
                     <h3>在线数据分布</h3>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart" style="height:300px"></div>
+                    <div ref="myEchart" style="height:325px"></div>
 					<div>
-						<div ref='myEchart1' style="height:200px"></div>
+						<div ref='myEchart1' style="height:220px"></div>
 						<div class="period" style="height:50px;text-align:center;margin-top:15px">
 							<el-button-group>
 								<el-button size="mini" type="primary" @click="showWeek">本周</el-button>
@@ -44,10 +44,20 @@
         <el-col :span="12" class="col-two">
 			<div class="section device-distribution">
                 <div class="section-title"> 
-                    <h3 @click="ss">设备概览</h3>
+                    <h3 >设备概览</h3>
                 </div>
                 <div class="section-content">
-					<div ref="myEchart3" id='chart-panel' style="height:470px"></div>
+					<div ref="myEchart3" id='chart-panel' style="height:500px"></div>
+					<div class="device-text">
+						<div class="device-text-item">
+							<span class="device-num">15558</span>
+							<span class="device-num-text">今日设备运行总数</span>
+						</div>
+						<div class="device-text-item">
+							<span class="device-num">15558</span>
+							<span class="device-num-text">今日设备运行总数</span>
+						</div>
+					</div>
                 </div>
             </div>
             <div class="section">
@@ -653,7 +663,7 @@ export default {
 		},
 	},
 	watch: {
-		// 如果 `question` 发生改变，这个函数就会运行
+		// 如果 `getShowSidebar` 发生改变，这个函数就会运行
 		getShowSidebar: function(newQuestion, oldQuestion) {
 			this.map.resize();
 		},
@@ -715,33 +725,33 @@ export default {
 		},
 		showWeek() {},
 		showYear() {},
-		ss() {
-			this.$echarts.dispose(this.$refs.myEchart3);
-			this.map = this.$echarts.init(this.$refs.myEchart3);
-			this.map.setOption({
-				backgroundColor: '#154e90',
-				visualMap: {
-					min: 0,
-					max: 10000,
-					left: 'right',
-					top: 'bottom',
-					text: ['High', 'Low'],
-					seriesIndex: [0],
-					inRange: {
-						color: ['#e0ffff', '#006edd'],
-					},
-					calculable: true,
-				},
-				series: [
-					{
-						type: 'map',
-						map: 'world',
-						data: value,
-						nameMap: nameMap,
-					},
-				],
-			});
-		},
+		// ss() {
+		// 	this.$echarts.dispose(this.$refs.myEchart3);
+		// 	this.map = this.$echarts.init(this.$refs.myEchart3);
+		// 	this.map.setOption({
+		// 		backgroundColor: '#154e90',
+		// 		visualMap: {
+		// 			min: 0,
+		// 			max: 10000,
+		// 			left: 'right',
+		// 			top: 'bottom',
+		// 			text: ['High', 'Low'],
+		// 			seriesIndex: [0],
+		// 			inRange: {
+		// 				color: ['#e0ffff', '#006edd'],
+		// 			},
+		// 			calculable: true,
+		// 		},
+		// 		series: [
+		// 			{
+		// 				type: 'map',
+		// 				map: 'world',
+		// 				data: value,
+		// 				nameMap: nameMap,
+		// 			},
+		// 		],
+		// 	});
+		// },
 	},
 };
 </script>
@@ -785,6 +795,24 @@ export default {
 					font-size: 12px;
 					&:hover {
 						color: #f66;
+					}
+				}
+				.device-text {
+					height: 80px;
+					padding: 0 60px;
+					.device-text-item {
+						display: inline-block;
+						margin-right: 20px;
+						text-align: center;
+						> span {
+							display: block;
+						}
+						.device-num {
+							font-size: 28px;
+							color: #1a8034;
+							line-height: 54px;
+							font-weight: 500;
+						}
 					}
 				}
 			}

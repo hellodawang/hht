@@ -14,14 +14,6 @@
 <script>
 export default {
 	props: ['list'],
-	computed: {
-		classObject: function(icon) {
-			console.log(icon);
-			// return {
-
-			// }
-		},
-	},
 };
 </script>
 <style lang='scss'>
@@ -30,7 +22,7 @@ export default {
 	vertical-align: middle;
 	font-size: 12px;
 	.is-current {
-		background-color: #f00;
+		background-color: #014099;
 	}
 	.el-tree-node {
 		color: #dbdce0;
@@ -46,7 +38,8 @@ export default {
 			}
 		}
 		.el-tree-node__content:hover {
-			background-color: #f00;
+			background-color: #014099;
+			color: #409eff;
 		}
 		.custom-tree-node {
 			.down {
