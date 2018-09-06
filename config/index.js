@@ -12,7 +12,7 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             "/": {
-                target: "http://localhost:3000",
+                target: "http://localhost:4000",
                 pathRewrite: {
                     "^/": ""
                 } //后面可以使重写的新路径，一般不做更改

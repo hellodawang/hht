@@ -4,30 +4,32 @@
             <img src="../../assets/logo.png" alt="">
             <span>鸿合云管理平台</span>
         </div>
-        <div class="login-box">
-            <el-form  class="login-wrapper" :model="ruleForm" :rules="rules" ref="ruleForm" >
-                <el-form-item>
-                    <h3>登录</h3>
-                </el-form-item>
-                <el-form-item   prop="username"> 
-                    <el-input placeholder="请输入用户名" v-model="ruleForm.username" clearable @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-user"></i></el-input>
-                </el-form-item>
-                <el-form-item  class="password"  prop="password">
-                    <el-input placeholder="请输入密码"  v-model="ruleForm.password" clearable type='password' required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-password"></i></el-input>  
-                </el-form-item>
-                <el-form-item  class="verification"  prop="captcha">
-                    <el-input placeholder="验证码"  v-model="ruleForm.captcha" clearable  required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-verification"></i></el-input>  
-					<div class="verification-box"  ><span v-html="captchaUrl" style="display: inline-block; transform-origin: 0 0; transform: scale(0.5)"></span></div>
-				</el-form-item> 
-                <el-form-item class="submit-btn" >
-                   <el-button type="primary"  @click="submit" >登录</el-button> 
-                </el-form-item> 
-                <el-form-item  >
-                   <el-checkbox v-model="checked">记住账号</el-checkbox> 
-                   <a href="" class="foget-password">忘记密码</a>
-                </el-form-item>                         
-            </el-form>
-        </div>
+		<div style="width:1200px; margin:0 auto;position: relative">
+			<div class="login-box">
+				<el-form  class="login-wrapper" :model="ruleForm" :rules="rules" ref="ruleForm" >
+					<el-form-item>
+						<h3>登录</h3>
+					</el-form-item>
+					<el-form-item   prop="username"> 
+						<el-input placeholder="请输入用户名" v-model="ruleForm.username" clearable @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-user"></i></el-input>
+					</el-form-item>
+					<el-form-item  class="password"  prop="password">
+						<el-input placeholder="请输入密码"  v-model="ruleForm.password" clearable type='password' required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-password"></i></el-input>  
+					</el-form-item>
+					<el-form-item  class="verification"  prop="captcha">
+						<el-input placeholder="验证码"  v-model="ruleForm.captcha" clearable  required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-verification"></i></el-input>  
+						<div class="verification-box"  ><span v-html="captchaUrl" style="display: inline-block; transform-origin: 0 0; transform: scale(0.5)"></span></div>
+					</el-form-item> 
+					<el-form-item class="submit-btn" >
+					<el-button type="primary"  @click="submit" >登录</el-button> 
+					</el-form-item> 
+					<el-form-item  >
+					<el-checkbox v-model="checked">记住账号</el-checkbox> 
+					<a href="" class="foget-password">忘记密码</a>
+					</el-form-item>                         
+				</el-form>
+			</div>	
+		</div>
         <div class="mask" v-if='showModel'>
             <div class="model">
                 <div class="model-header">
@@ -131,10 +133,9 @@ export default {
 				.then(response => {
 					if (response.data.code == 0) {
 						this.$axios.get('/user/info').then(response => {
+							sessionStorage.username = this.ruleForm.username;
 							this.$store.commit('setUserDate', response.data);
-							// if(response.data.role =='admin'){
 							this.$router.push('/gui/index');
-							// }
 						});
 					}
 				})
@@ -177,7 +178,7 @@ export default {
 	.login-box {
 		position: absolute;
 		top: 236px;
-		right: 275px;
+		right: 0;
 		width: 398px;
 		background-color: #fff;
 		padding: 10px 50px;

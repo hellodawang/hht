@@ -25,7 +25,7 @@
                     <template slot-scope="scope" > 
 						<div @click="s(scope.row)">
 							<i class="iconfont" :class="[{'icon-fileFolder':scope.row.type ==1},
-							{'icon-pic':scope.row.type == 2},
+							{'icon-image':scope.row.type == 2},
 							{'icon-word':scope.row.type == 3},
 							{'icon-excel':scope.row.type == 4},
 							{'icon-ppt':scope.row.type == 5},

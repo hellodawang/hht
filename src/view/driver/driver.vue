@@ -1,41 +1,28 @@
 <template>
     <el-row class="driver-wrapper" :gutter="10" ref="driver">
         <el-col :span="6" class="col-one">
-            <div class="section online">
-                <div class="section-title"> 
-                    <h3>在线统计</h3>
-                </div>
-                <div class="section-content">
-                    <div class="online-item clearfix">
-						<h5>上线人数</h5>
-						<div class="online-num">
-							<span class="onlines">8500</span>
-							<span class="all">/12000</span>
-						</div>
-					</div>
-                    <div class="online-item clearfix">
-						<h5>上线设备</h5>
-						<div class="online-num">
-							<span class="onlines">8500</span>
-							<span class="all">/12000</span>
-						</div>
-					</div>
-                </div>
-            </div>
+            <online-stats :account="onlineStats.account" :device="onlineStats.device"/>
 			<div class="section online-distribution">
                 <div class="section-title"> 
                     <h3>在线数据分布</h3>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart" style="height:325px"></div>
+					<bar-chart :data="barChartData" style="height:325px"/>
+                    <!-- <div ref="myEchart" style="height:325px"></div> -->
 					<div>
-						<div ref='myEchart1' style="height:220px"></div>
+						<bar-chart :data="activityData" style="height:220px"/>
+						<!-- <div ref='myEchart1' style="height:220px"></div> -->
 						<div class="period" style="height:50px;text-align:center;margin-top:15px">
-							<el-button-group>
-								<el-button size="mini" type="primary" @click="showWeek">本周</el-button>
+							<!-- <el-button-group>
+								<el-button size="mini" @click="showWeek" class="current-btn">本周</el-button>
 								<el-button size="mini" @click="showMonth">本月</el-button>
 								<el-button size="mini" @click="showYear">本年</el-button>
-							</el-button-group>
+							</el-button-group> -->
+							<el-radio-group v-model="period"   size="small" @change='handleChange'>
+								<el-radio-button label="week">本周</el-radio-button>
+								<el-radio-button label="month">本月</el-radio-button>
+								<el-radio-button label="year">本年</el-radio-button>
+							</el-radio-group>
 						</div>	
 					</div>	
                 </div>
@@ -44,7 +31,11 @@
         <el-col :span="12" class="col-two">
 			<div class="section device-distribution">
                 <div class="section-title"> 
-                    <h3 >设备概览</h3>
+                    <h3 >全景图</h3>
+					<div style="float:right;line-height:38px;margin-right:20px">
+						<el-radio v-model="mapType" label="1">国内</el-radio>
+						<el-radio v-model="mapType" label="2">海外</el-radio>	
+					</div>				
                 </div>
                 <div class="section-content">
 					<div ref="myEchart3" id='chart-panel' style="height:500px"></div>
@@ -55,21 +46,21 @@
 						</div>
 						<div class="device-text-item">
 							<span class="device-num">15558</span>
-							<span class="device-num-text">今日设备运行总数</span>
+							<span class="device-num-text">当前设备运行总数</span>
 						</div>
 					</div>
                 </div>
             </div>
             <div class="section">
                 <div class="section-title"> 
-                    <h3>top应用/客户汇总</h3> 
+                    <h3>TOP应用/客户汇总</h3> 
                 </div>
                 <div class="section-content" style="height:180px">
                     <el-col :span='12'>
-                        <div ref="myEchart4" style="height:180px"></div>   
+                        <bar-chart :data="topAppData" style="height:180px"/>   
                     </el-col>
                     <el-col :span='12'>
-                        <div ref="myEchart5" style="height:180px"></div>   
+                        <bar-chart :data="topClientData" style="height:180px"/>  
                     </el-col>
                 </div>
             </div>
@@ -81,7 +72,7 @@
                 </div>
                 <div class="section-content" style="height:130px">                 
                     <el-col :span='16'>
-                        <div ref="myEchart6" style="height:110px"></div>   
+                        <bar-chart :data="deviceStatus" style="height:110px"/>   
                     </el-col>
                     <el-col :span='8'>   
                         <div style="width:54px;height:54px;border-radius:50%;border:4px solid green;text-align:center;line-height:46px;color:green;margin-top:20px">优</div>
@@ -108,7 +99,7 @@
                     <h3>带宽性能</h3> 
                 </div>
                 <div class="section-content" >
-                    <div ref="myEchart7" style="height:180px"></div>                
+                    <bar-chart :data="bendwidth" style="height:180px"/>                
                 </div>
             </div>
             <div class="section">
@@ -116,7 +107,7 @@
                     <h3>cpu/内存</h3> 
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart8" style="height:180px"></div>   
+                    <bar-chart :data="cpuAndRamStatus" style="height:180px"/> 
                 </div>
             </div>
         </el-col>
@@ -129,7 +120,22 @@ import mapchart from '../../utils/map.js';
 import { value, nameMap } from '../../utils/worldmap.js';
 import echarts from 'echarts';
 
+import onlineStats from './onlineStats'
+import barChart from './barChart'
+
+import distributionData4BarChart from '../../mock/distributionData4BarChart'
+import activityData from '../../mock/activityData'
+import topAppData from '../../mock/topAppData'
+import topClientData from '../../mock/topClientData'
+import deviceStatus from '../../mock/deviceStatus'
+import bendwidth from '../../mock/bendwidth'
+import cpuAndRamStatus from '../../mock/cpuAndRamStatus'
+
 export default {
+	components: {
+		onlineStats,
+		barChart,
+	},
 	mounted() {
 		echarts.registerMap('china', china);
 		echarts.registerMap('world', world);
@@ -140,526 +146,51 @@ export default {
 				// text:'火电业务',
 				goDown: true, // 是否下钻
 				// 下钻回调
-				callback: function(name, option, instance) {},
+				callback: function(name, option, instance) {
+					
+				},
 			});
-			let dom = this.$refs.myEchart;
-			this.chart = this.$echarts.init(dom);
-			let dom1 = this.$refs.myEchart1;
-			this.chart1 = this.$echarts.init(dom1);
-			var option = {
-				grid: [
-					{
-						x: '5%',
-						y: '10%',
-						width: '90%',
-						height: '35%',
-						containLabel: true,
-					},
-					{
-						x: '5%',
-						y: '60%',
-						width: '90%',
-						height: '35%',
-						containLabel: true,
-					},
-				],
-				xAxis: [
-					{
-						type: 'category',
-						data: ['教育', '商用', 'i学', '其他'],
-					},
-					{
-						gridIndex: 1,
-						type: 'category',
-						data: ['教育', '商用', 'i学', '其他'],
-					},
-				],
-				yAxis: [
-					{
-						type: 'value',
-						name: '在线人数分布',
-						splitLine: {
-							show: false,
-						},
-					},
-					{
-						type: 'value',
-						gridIndex: 1,
-						name: '在线设备分布',
-						splitLine: {
-							show: false,
-						},
-					},
-				],
-				series: [
-					{
-						name: '教育',
-						type: 'bar',
-						data: [320, 332, 301, 334],
-						barGap: '10%',
-						barWidth: '30%',
-						xAxisIndex: 0,
-						yAxisIndex: 0,
-						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(
-									0,
-									0,
-									0,
-									1,
-									[
-										{
-											offset: 0,
-											color: '#00b0ff',
-										},
-										{
-											offset: 0.8,
-											color: '#7052f4',
-										},
-									],
-									false
-								),
-							},
-						},
-					},
-					{
-						name: '教育',
-						type: 'bar',
-						data: [320, 332, 301, 334],
-						barGap: '10%',
-						barWidth: '30%',
-						xAxisIndex: 1,
-						yAxisIndex: 1,
-						itemStyle: {
-							normal: {
-								color: '#f5aba3',
-							},
-						},
-					},
-				],
-			};
-			var option1 = {
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				grid: {
-					left: '2%',
-					right: '5%',
-					bottom: '3%',
-					top: '20%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-					},
-				],
-				yAxis: [
-					{
-						name: '活跃度',
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						// name: '平均值',
-						type: 'line',
-						smooth: true,
-						// showSymbol: false,
-						label: {
-							normal: {
-								show: true,
-								position: 'top',
-							},
-						},
-						data: [79, 68, 56, 74, 89, 98, 84],
-					},
-				],
-			};
-			this.chart.setOption(option);
-			this.chart1.setOption(option1);
-			this.chart4 = this.$echarts.init(this.$refs.myEchart4);
-			var option4 = {
-				title: {
-					text: 'top5应用下载数',
-					// subtext: '35560',
-					x: 'center',
-				},
-				grid: {
-					top: '20',
-					width: '90%',
-					bottom: '3%',
-					left: 10,
-					containLabel: true,
-				},
-				yAxis: [
-					{
-						type: 'category',
-						data: ['OA办公', 'UC业务', '魔兽世界', 'i学', '电子书包'],
-						axisLine: {
-							//y轴
-							show: false,
-						},
-						axisTick: {
-							//y轴刻度线
-							show: false,
-						},
-						splitLine: {
-							//网格线
-							show: false,
-						},
-					},
-				],
-				xAxis: [
-					{
-						type: 'value',
-						axisLine: {
-							//y轴
-							show: false,
-						},
-						axisTick: {
-							//y轴刻度线
-							show: false,
-						},
-						splitLine: {
-							//网格线
-							show: false,
-						},
-						show: false,
-						// axisLabel: {
-						//     formatter: '{value}'
-						// }
-					},
-				],
-				series: [
-					{
-						// name:'电子书包',
-						type: 'bar',
-						data: [578, 633, 708, 921, 1126],
-						barCategoryGap: '10%',
-						barWidth: 12,
-						label: {
-							normal: {
-								show: true,
-								// formatter: '{b}'
-							},
-						},
-						itemStyle: {
-							normal: {
-								color: '#f5aba3',
-							},
-						},
-					},
-				],
-			};
-			this.chart4.setOption(option4);
-			this.chart5 = this.$echarts.init(this.$refs.myEchart5);
-			var option5 = {
-				title: {
-					text: 'top5客户设备数',
-					// subtext: '35560',
-					x: 'center',
-				},
-				grid: {
-					top: '20',
-					width: '90%',
-					bottom: '3%',
-					left: 10,
-					containLabel: true,
-				},
-				yAxis: [
-					{
-						type: 'category',
-						data: [
-							'上海精锐教育培训有限公司',
-							'深圳市海陵生物科技有限公司',
-							'中国铝业',
-							'昆明工口科技有限公司',
-							'深圳市超网科技有限公司',
-						],
-						axisLine: {
-							//y轴
-							show: false,
-						},
-						axisTick: {
-							//y轴刻度线
-							show: false,
-						},
-						splitLine: {
-							//网格线
-							show: false,
-						},
-					},
-				],
-				xAxis: [
-					{
-						type: 'value',
-						axisLine: {
-							//y轴
-							show: false,
-						},
-						axisTick: {
-							//y轴刻度线
-							show: false,
-						},
-						splitLine: {
-							//网格线
-							show: false,
-						},
-						show: false,
-					},
-				],
-				series: [
-					{
-						name: '教育',
-						type: 'bar',
-						data: [320, 332, 301, 334, 390],
-						// barGap:'50%',
-						barCategoryGap: '10%',
-						barWidth: 12,
-						label: {
-							normal: {
-								show: true,
-								// formatter: '{b}'
-							},
-						},
-						itemStyle: {
-							normal: {
-								color: '#f5aba3',
-							},
-						},
-					},
-				],
-			};
-			this.chart5.setOption(option5);
-			this.chart6 = this.$echarts.init(this.$refs.myEchart6);
-			var option6 = {
-				tooltip: {
-					formatter: '{a} <br/>{c} {b}',
-				},
-				series: [
-					{
-						name: '转速',
-						type: 'gauge',
-						center: ['50%', '90%'], // 默认全局居中
-						radius: '150%',
-						min: 0,
-						max: 100,
-						startAngle: 180,
-						endAngle: 0,
-						splitNumber: 4,
-						axisLine: {
-							// 坐标轴线
-							lineStyle: {
-								// 属性lineStyle控制线条样式
-								width: 8,
-								color: [
-									[
-										1,
-										new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-											{
-												offset: 0,
-												color: '#ae3df6',
-											},
-											{
-												offset: 1,
-												color: '#53bef9',
-											},
-										]),
-									],
-									[1, '#222e7d'],
-								],
-							},
-						},
-						axisTick: {
-							// 坐标轴小标记
-							length: 12, // 属性length控制线长
-							lineStyle: {
-								// 属性lineStyle控制线条样式
-								color: 'auto',
-							},
-						},
-						splitLine: {
-							// 分隔线
-							length: 20, // 属性length控制线长
-							lineStyle: {
-								// 属性lineStyle（详见lineStyle）控制线条样式
-								color: 'auto',
-							},
-						},
-						pointer: {
-							width: 5,
-						},
-						title: {
-							offsetCenter: [0, 0], // x, y，单位px
-						},
-						detail: { formatter: '{value}%', show: false },
-						data: [{ value: 80, name: '' }],
-					},
-				],
-			};
-			this.chart6.setOption(option6);
-			this.chart7 = this.$echarts.init(this.$refs.myEchart7);
-			var option7 = {
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				legend: {
-					data: ['最高值', '最低值', '平均值'],
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					top: '15%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-					},
-				],
-				yAxis: [
-					{
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						name: '最高值',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						areaStyle: { normal: {} },
-						data: [40, 50, 30, 90, 65, 69, 90],
-					},
-					{
-						name: '最低值',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						areaStyle: { normal: {} },
-						data: [10, 5, 30, 45, 23, 39, 17],
-					},
-					{
-						name: '平均值',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						label: {
-							normal: {
-								show: true,
-								position: 'top',
-							},
-						},
-						areaStyle: { normal: {} },
-						data: [79, 68, 56, 74, 89, 98, 84],
-					},
-				],
-			};
-			this.chart7.setOption(option7);
-			this.chart8 = this.$echarts.init(this.$refs.myEchart8);
-			var option8 = {
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				legend: {
-					data: ['cpu', '内存'],
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					top: '10%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-					},
-				],
-				yAxis: [
-					{
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						name: 'cpu',
-						type: 'line',
-						stack: '总量',
-						smooth: true,
-						showSymbol: false,
-						lineStyle: {
-							normal: {
-								color: '#c23531',
-							},
-						},
-						showSymbol: false,
-						// areaStyle: {normal: {}},
-						data: [40, 50, 30, 90, 65, 69, 90],
-					},
-					{
-						name: '内存',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						lineStyle: {
-							normal: {
-								color: '#93d6ca',
-							},
-						},
-						showSymbol: false,
-						// areaStyle: {normal: {}},
-						data: [10, 5, 30, 45, 23, 39, 17],
-					},
-				],
-			};
-			this.chart8.setOption(option8);
+
 		});
 	},
 	data() {
 		return {
 			map: {},
 			chart1: {},
+			mapType:'1',
+			period:'week'
 		};
 	},
 	computed: {
 		getShowSidebar() {
 			return this.$store.state.showSideBar;
+		},
+		onlineStats() {
+			return {// todo 假数据
+				account: {online: 34551, all: 82342},
+				device: {online: 321243, all: 912341}
+			}
+		},
+		barChartData() {
+			return distributionData4BarChart // todo 假数据
+		},
+		activityData() {
+			return activityData // todo 假数据
+		},
+		topAppData() {
+			return topAppData // todo 假数据
+		},
+		topClientData() {
+			return topClientData // todo 假数据
+		},
+		deviceStatus() {
+			return deviceStatus // todo 假数据
+		},
+		bendwidth() {
+			return bendwidth // todo 假数据
+		},
+		cpuAndRamStatus() {
+			return cpuAndRamStatus // todo 假数据
 		},
 	},
 	watch: {
@@ -667,10 +198,65 @@ export default {
 		getShowSidebar: function(newQuestion, oldQuestion) {
 			this.map.resize();
 		},
+		mapType:function(n,o){
+			if(n=='1'){
+				this.$nextTick(()=>{
+					this.$echarts.dispose(this.$refs.myEchart3);
+					this.map = echarts.extendsMap(this.$refs.myEchart3, {
+						bgColor: '#154e90', // 画布背景色
+						mapName: 'china', // 地图名
+						// text:'火电业务',
+						goDown: true, // 是否下钻
+						// 下钻回调
+						callback: function(name, option, instance) {},
+					});
+				})
+			}else{
+				this.$nextTick(()=>{
+					this.$echarts.dispose(this.$refs.myEchart3);
+					this.map = this.$echarts.init(this.$refs.myEchart3);
+					this.map.setOption({
+						backgroundColor: '#154e90',
+						visualMap: {
+							min: 0,
+							max: 10000,
+							left: 'right',
+							top: 'bottom',
+							text: ['High', 'Low'],
+							seriesIndex: [0],
+							inRange: {
+								color: ['#e0ffff', '#006edd'],
+							},
+							calculable: true,
+						},
+						series: [
+							{
+								type: 'map',
+								map: 'world',
+								data: value,
+								nameMap: nameMap,
+							},
+						],
+					});
+				})
+			}
+		}
 	},
 	methods: {
-		showMonth() {
-			this.$nextTick(() => {
+		handleChange(value){
+			let data;
+			let xdata
+			if(value=='week'){
+				xdata = ['08-01', '08-02', '08-03', '08-04', '08-05', '08-06', '08-07']
+				data = [79, 68, 56, 74, 89, 98, 84]
+			}else if(value=='month'){
+				xdata = ['08-01', '08-02', '08-03', '08-04', '08-05', '08-06', '08-07', '08-08', '08-09', '08-10', '08-11', '08-12', '08-13', '08-14', '08-15', '08-16', '08-17'];
+				data = [79, 68, 56, 74, 89, 98, 84,100,90,22,33,46,78,51,66,11,69]
+			}else{
+				xdata = ['2018-01', '2018-02', '2018-03', '2018-04', '2018-05', '2018-06', '2018-07', '2018-08', '2018-09', '2018-10', '2018-11', '2018-12']
+				data = [79, 68, 56, 74, 89, 98, 84,12,56,23,33,67]
+			}
+			this.$nextTick(()=>{
 				var option1 = {
 					tooltip: {
 						trigger: 'axis',
@@ -692,7 +278,7 @@ export default {
 						{
 							type: 'category',
 							boundaryGap: false,
-							data: ['08-01', '08-02', '08-03', '08-04', '08-05', '08-06', '08-07'],
+							data:xdata
 						},
 					],
 					yAxis: [
@@ -716,49 +302,19 @@ export default {
 									position: 'top',
 								},
 							},
-							data: [79, 68, 56, 74, 89, 98, 84],
+							data: data
 						},
 					],
 				};
 				this.chart1.setOption(option1);
-			});
+			})
 		},
-		showWeek() {},
-		showYear() {},
-		// ss() {
-		// 	this.$echarts.dispose(this.$refs.myEchart3);
-		// 	this.map = this.$echarts.init(this.$refs.myEchart3);
-		// 	this.map.setOption({
-		// 		backgroundColor: '#154e90',
-		// 		visualMap: {
-		// 			min: 0,
-		// 			max: 10000,
-		// 			left: 'right',
-		// 			top: 'bottom',
-		// 			text: ['High', 'Low'],
-		// 			seriesIndex: [0],
-		// 			inRange: {
-		// 				color: ['#e0ffff', '#006edd'],
-		// 			},
-		// 			calculable: true,
-		// 		},
-		// 		series: [
-		// 			{
-		// 				type: 'map',
-		// 				map: 'world',
-		// 				data: value,
-		// 				nameMap: nameMap,
-		// 			},
-		// 		],
-		// 	});
-		// },
 	},
 };
 </script>
 <style lang='scss' scoped>
 .driver-wrapper {
 	height: 100%;
-	// min-width: 1300px;
 	overflow-y: scroll;
 	> .el-col {
 		height: 100%;
@@ -816,28 +372,6 @@ export default {
 					}
 				}
 			}
-			&.online .online-item {
-				height: 60px;
-				line-height: 60px;
-				h5 {
-					font-weight: normal;
-					font-size: 14px;
-					width: 58px;
-					float: left;
-				}
-				.online-num {
-					text-align: center;
-					.onlines {
-						font-size: 28px;
-						color: #1e87d0;
-						font-weight: bold;
-					}
-					.all {
-						font-size: 16px;
-						color: #ccc;
-					}
-				}
-			}
 			&.device-distribution {
 				.section-content {
 					padding: 0;
@@ -845,5 +379,9 @@ export default {
 			}
 		}
 	}
+}
+.current-btn{
+	background-color: #f66;
+	color: #fff;
 }
 </style>

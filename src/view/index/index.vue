@@ -244,7 +244,7 @@ export default {
 			}
 			.modal-body {
 				.el-form-item {
-					margin-bottom: 0;
+					// margin-bottom: 0;
 				}
 			}
 		}
