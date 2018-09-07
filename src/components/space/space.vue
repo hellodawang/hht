@@ -144,7 +144,7 @@ export default {
 		padding: 10px 40px;
 	}
 }
-.el-table__row {
+.space-wrapper .el-table__row {
 	.cell {
 		.iconfont {
 			font-size: 18px;
