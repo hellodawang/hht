@@ -32,7 +32,7 @@
 
 							</div>
 							<div class="section">
-								<chart :period='period1'>
+								<chart :period='period1' v-on:periodchange='periodchange1'>
 									<div ref="useRatio" style="height:300px"></div>
 								</chart>
 							</div>
@@ -125,6 +125,11 @@ export default {
 	methods:{
 		changeCurrent(id){
 			this.current = id
+		},
+		periodchange1(value){
+			if(value=='week'){
+
+			}
 		}
 	},
 	components:{
