@@ -9,9 +9,10 @@
 			<el-button size="mini">关机</el-button>
 		</div>
 		<div class="content clearfix">
+			<!-- 侧边列表 -->
 			<div class="device-list-wrapper">
 				<el-table :data="tableData" style="width: 100%">
-					<el-table-column type="selection" width="35" > 全选</el-table-column>
+					<el-table-column type="selection" width="35" label="全选"></el-table-column>
 					<el-table-column  label=''>
 						<template slot-scope="scope">
 							<div class="device" :class="{busy:scope.row.status=='忙碌',close:scope.row.status=='未开机',available:scope.row.status=='空闲',current: current==scope.row.id}" @click="changeCurrent(scope.row.id)">
@@ -23,25 +24,55 @@
 					</el-table-column>
 				</el-table>
 			</div>
+			<!-- 右边图表信息 -->
 			<div class="device-other-info-wrapper"> 
-				<!-- <div class="device-other-info"> -->
-					<el-row class="device-other-info">
-						<el-col :span='12' class="col">
-							<div class="section">
-								<h5>基础信息</h5>
-
-							</div>
-							<div class="section">
-								<chart :period='period1' v-on:periodchange='periodchange1'>
-									<div ref="useRatio" style="height:300px"></div>
-								</chart>
-							</div>
-						</el-col>
-						<el-col :span='12' class="col">
-							<div class="section"></div>
-							<div class="section"></div>
-						</el-col>
-					</el-row>
+				<el-row class="device-other-info">
+					<el-col :span='12' class="col">
+						<div class="section">
+							<h5>基础信息</h5>
+							<el-row class="basic-info">
+								<el-col :span="12">
+									<h5>软件信息：</h5>
+									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">id</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">数据库容量</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">最新版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">当前版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+								</el-col>
+								<el-col :span="12">
+									<h5>硬件信息：</h5>
+									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">id</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">数据库容量</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">最新版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">当前版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+								</el-col>
+							</el-row>
+						</div>
+						<div class="section">
+							<h5>使用时长</h5>
+							<chart :period='period1' v-on:periodchange='periodchange1'>
+								<div ref="useRatio" style="height:250px"></div>
+							</chart>
+						</div>
+					</el-col>
+					<el-col :span='12' class="col">
+						<div class="section">
+							<h5>使用率</h5>
+							<chart :period='period2' v-on:periodchange='periodchange2'>
+								<div ref="useRatio1" style="height:250px"></div>
+							</chart>
+						</div>
+						<div class="section">
+							<h5>异常统计</h5>
+							<chart :period='period3' v-on:periodchange='periodchange3'>
+								<div ref="useRatio2" style="height:250px"></div>
+							</chart>
+						</div>
+					</el-col>
+				</el-row>
 			</div>	
 		</div>
 	</div>
@@ -63,12 +94,16 @@ export default {
 			],
 			current:null,
 			period1:'week',
+			period2:'week',
+			period3:'week',
 			useRatio:null,
+			useRatio2:null,
 		}
 	},
 	mounted() {
 		this.current = this.tableData[0].id;
 		this.useRatio = this.$echarts.init(this.$refs.useRatio)
+		this.useRatio2 = this.$echarts.init(this.$refs.useRatio2)
 		this.$nextTick(()=>{
 			this.useRatio.setOption({
 				tooltip: {
@@ -118,7 +153,56 @@ export default {
 						data: [79, 68, 56, 74, 89, 98, 84,12,56,23,33,67]
 					},
 				],
-			})	
+			})
+			this.useRatio2.setOption({
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						label: {
+							backgroundColor: '#6a7985',
+						},
+					},
+				},
+				grid: {
+					left: '2%',
+					right: '5%',
+					bottom: '3%',
+					top: '20%',
+					containLabel: true,
+				},
+				xAxis: [
+					{
+						type: 'category',
+						boundaryGap: false,
+						data:['2018-01', '2018-02', '2018-03', '2018-04', '2018-05', '2018-06', '2018-07', '2018-08', '2018-09', '2018-10', '2018-11', '2018-12']
+					},
+				],
+				yAxis: [
+					{
+						name: '活跃度',
+						type: 'value',
+						min: 0,
+						max: 100,
+						interval: 20,
+					},
+				],
+				series: [
+					{
+						// name: '平均值',
+						type: 'line',
+						smooth: true,
+						// showSymbol: false,
+						label: {
+							normal: {
+								show: true,
+								position: 'top',
+							},
+						},
+						data: [79, 68, 56, 74, 89, 98, 84,12,56,23,33,67]
+					},
+				],
+			})		
 		})
 		
 	},
@@ -127,6 +211,16 @@ export default {
 			this.current = id
 		},
 		periodchange1(value){
+			if(value=='week'){
+
+			}
+		},
+		periodchange2(value){
+			if(value=='week'){
+					
+			}
+		},
+		periodchange3(value){
 			if(value=='week'){
 
 			}
@@ -167,10 +261,39 @@ export default {
 					height: 100%;
 					border:1px solid #cfcfcf;
 					border-radius: 4px;
+					padding: 10px 40px;
 					.col{
 						height: 100%;
 						.section{
 							height: 50%;
+							padding: 0 30px;
+							h5{
+								text-align: center;
+								color: #333;
+								margin-top: 10px;
+								// line-height: 30px;
+							}
+							.basic-info{
+								h5{
+									font-weight: 500;
+									margin-top: 40px;
+									margin-bottom: 10px;
+								}
+								.info-item{
+									line-height: 30px;
+									font-size: 12px;
+									.info-item-label{
+										display: inline-block;
+										width: 25%;
+										text-align: right;
+										margin-right: 20px;
+									}
+									.info-item-text{
+										display: inline-block;
+										width: 60%;
+									}
+								}
+							}
 						}
 					}
 				}

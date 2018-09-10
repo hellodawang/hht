@@ -34,7 +34,7 @@ import fujian from 'echarts/map/json/province/fujian.json'
 import xianggang from 'echarts/map/json/province/xianggang.json'
 
 import echarts from 'echarts'
-echarts.extendsMap = function(dom, opt) {
+echarts.extendsMap = function(dom, opt, mapData) {
     echarts.registerMap('china', china);
     // 实例
     var chart = this.init(dom);
@@ -302,9 +302,13 @@ echarts.extendsMap = function(dom, opt) {
             triggerOn: 'mousemove',
             enterable: true,
             // position:['60%','70%'],
-            // formatter:function(params, ticket, callback){
-            //     return '简称：'+params.data.value+'<br/>'
-            // }
+            formatter:function(params, ticket, callback){
+                let d = params.data
+                if (!d) return '未获取到数据'
+                return d.name + '设备统计' + '<br/>' + '在线: ' +
+                 d.online + '，总计：' + d.value
+                // return '简称：'+ JSON.stringify(params.data) +'<br/>'
+            }
         },
         graphic: [{
                 type: 'group',
@@ -466,7 +470,7 @@ echarts.extendsMap = function(dom, opt) {
         },
         visualMap: {
             min: 0,
-            max: 1500,
+            max: mapData ? mapData.reduce((a, v) => a > v.value ? a : v.value, 0) : 100,
             left: 'right',
             top: 'bottom',
             text: ['High', 'Low'],
@@ -481,143 +485,7 @@ echarts.extendsMap = function(dom, opt) {
             type: 'map',
             geoIndex: 0,
             // tooltip: {show: false},
-            data: [{
-                    name: '北京',
-                    value: 1000
-                },
-                {
-                    name: '天津',
-                    value: 1000
-                },
-                {
-                    name: '上海',
-                    value: 1000
-                },
-                {
-                    name: '重庆',
-                    value: 250
-                },
-                {
-                    name: '河北',
-                    value: 100
-                },
-                {
-                    name: '河南',
-                    value: 300
-                },
-                {
-                    name: '云南',
-                    value: 1000
-                },
-                {
-                    name: '辽宁',
-                    value: 1000
-                },
-                {
-                    name: '黑龙江',
-                    value: 1000
-                },
-                {
-                    name: '湖南',
-                    value: 1000
-                },
-                {
-                    name: '安徽',
-                    value: 500
-                },
-                {
-                    name: '山东',
-                    value: 1000
-                },
-                {
-                    name: '新疆',
-                    value: 800
-                },
-                {
-                    name: '江苏',
-                    value: 1000
-                },
-                {
-                    name: '浙江',
-                    value: 0
-                },
-                {
-                    name: '江西',
-                    value: 1000
-                },
-                {
-                    name: '湖北',
-                    value: 1000
-                },
-                {
-                    name: '广西',
-                    value: 1000
-                },
-                {
-                    name: '甘肃',
-                    value: 1000
-                },
-                {
-                    name: '山西',
-                    value: 1000
-                },
-                {
-                    name: '内蒙古',
-                    value: 1000
-                },
-                {
-                    name: '陕西',
-                    value: 1000
-                },
-                {
-                    name: '吉林',
-                    value: 1000
-                },
-                {
-                    name: '福建',
-                    value: 1000
-                },
-                {
-                    name: '贵州',
-                    value: 1000
-                },
-                {
-                    name: '广东',
-                    value: 1000
-                },
-                {
-                    name: '青海',
-                    value: 1000
-                },
-                {
-                    name: '西藏',
-                    value: 1000
-                },
-                {
-                    name: '四川',
-                    value: 1000
-                },
-                {
-                    name: '宁夏',
-                    value: 1000
-                },
-                {
-                    name: '海南',
-                    value: 1000
-                },
-                {
-                    name: '台湾',
-                    value: 1000
-                },
-                {
-                    name: '香港',
-                    value: 1000
-                },
-                {
-                    name: '澳门',
-                    value: 1000
-                }
-            ]
+            data: mapData
         }]
     };
 

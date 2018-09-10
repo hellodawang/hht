@@ -198,7 +198,7 @@ export default {
 			position: absolute;
 			left: 10px;
 			right: 0;
-			bottom: 0;
+			bottom: 10px;
 			top: 62px;
 		}
 	}
