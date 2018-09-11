@@ -27,7 +27,6 @@ export default {
 .app-wrapper {
 	display: inline-block;
 	width: 184px;
-	// height: 188px;
 	box-shadow: 0 0 4px #ccc;
 	margin: 10px;
 	font-size: 12px;

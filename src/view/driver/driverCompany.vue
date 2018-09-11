@@ -86,9 +86,8 @@
                 <div class="section-title"> 
                     <h3>网络质量</h3> 
                 </div>
-                <div class="section-content">
-					
-                    <div  style="height:180px"><half-circle></half-circle></div>   
+                <div class="section-content" style="height:180px">					
+                    <half-circle></half-circle>  
                 </div>
             </div>
 			<div class="section">
