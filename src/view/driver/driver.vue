@@ -114,8 +114,20 @@ export default {
         if (res.data.code != 0) {
           return console.log("get data error: ", res.message);
         }
-        this.stats = res.data.data;
+        this.china = res.data.data;
         // console.log('stats data: ', res.data)
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.$axios
+      .get("/report/term/stats/district?district=1", { responseType: "json" })
+      .then(res => {
+        if (res.data.code != 0) {
+          return console.log("get data error: ", res.message);
+        }
+        this.world = res.data.data;
+        // console.log('world data: ', this.world)
       })
       .catch(function(error) {
         console.log(error);
@@ -127,7 +139,9 @@ export default {
       chart1: {},
       mapType: "1",
       period: "",
-      stats: {}
+      stats: {},
+      china: {},
+      world: {},
     };
   },
   computed: {
@@ -150,19 +164,58 @@ export default {
     },
     chineseMapData() {
       //   return mapData.chineseData; // todo 假数据
-      let stats = this.stats.sumByArea;
+      // let china = this.stats.sumByArea;
+      let stats = this.china.detail
       if (!stats) return [];
-      // console.log(this.stats.sumByArea)
-      let data = Object.keys(stats).map(v => ({
-        name: v,
-        value: stats[v].total,
-        online: stats[v].online
-      }));
-      console.log("data: ", data);
-      return data;
+      // console.log('all data: ', this.stats)
+
+      let china = Object.keys(stats).map((v) => {
+        let province = stats[v]
+        let data = {name: v, value: 0, online: 0}
+        Object.keys(province).forEach((u) => {
+          let area = province[u]
+        
+          let value = 0
+          let online = 0
+          Object.keys(area).forEach((t) => {
+            value += area[t].total
+            online += area[t].online
+            if (!data[t]) data[t] = {online: 0, total: 0}
+            data[t].online += area[t].online
+            data[t].total += area[t].total
+          })
+          area.value = value
+          area.online = online
+          data.value += value
+          data.online += online
+        })
+
+        return data // 省数据
+      })
+
+      Object.keys(stats).forEach((v) => {
+        let province = stats[v]
+        stats[v] = Object.keys(province).map((u) => {
+          return Object.assign({name: u}, province[u])
+        })
+      })
+
+      stats.china = china
+      // console.log('china detail: ', stats)
+      return stats
+      ///////////////////////////
+
+      // let data = Object.keys(stats).map(v => ({
+      //   name: v,
+      //   value: stats[v].total,
+      //   online: stats[v].online
+      // }));
+      // console.log("data: ", data);
+      // return data;
     },
     worldMapData() {
-      return mapData.worldData; // todo 假数据
+      // console.log('world data: ', this.world)
+      return this.world
     },
     // activityData() {
     //   return {

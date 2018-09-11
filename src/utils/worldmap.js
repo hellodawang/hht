@@ -215,7 +215,7 @@ var nameMap = {
     'Estonia': '爱沙尼亚',
     'Ethiopia': '埃塞俄比亚',
     'Finland': '芬兰',
-    'Fiji': '斐',
+    'Fiji': '斐济',
     'Falkland Islands': '福克兰群岛',
     'France': '法国',
     'Gabon': '加蓬',

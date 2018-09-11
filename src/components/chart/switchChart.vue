@@ -28,7 +28,11 @@ export default {
   },
   computed: {
     buttons() {
-      return this.buttonList;
+      return this.buttonList || [
+        { type: "week", name: "每周" },
+        { type: "month", name: "每月" },
+        { type: "year", name: "每年" }
+      ];
     },
     config() {
         return  this.data

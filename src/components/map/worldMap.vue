@@ -12,6 +12,7 @@ import countryList from "../../utils/countryList.js";
 function display() {
   this.$echarts.dispose(this.$refs.echart);
   this.map = this.$echarts.init(this.$refs.echart);
+  // console.log('world map data: ', this.stats)
   this.map.setOption({
     backgroundColor: "#154e90",
     visualMap: {
@@ -26,8 +27,26 @@ function display() {
       },
       calculable: true
     },
+    tooltip: {
+        show: true,
+        trigger: 'item',
+        alwaysShowContent: false,
+        backgroundColor: 'rgba(50,50,50,0.7)',
+        hideDelay: 100,
+        triggerOn: 'mousemove',
+        enterable: true,
+        // position:['60%','70%'],
+        formatter:function(params, ticket, callback){
+            let d = params.data
+            if (!d) return '未获取到数据'
+            return d.name + '设备统计' + '<br/>' + '在线: ' +
+              d.online + '，总计：' + d.value
+            // return '简称：'+ JSON.stringify(params.data) +'<br/>'
+        }
+    },
     series: [
       {
+        roam: true,
         type: "map",
         map: "world",
         data: this.stats,

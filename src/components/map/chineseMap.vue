@@ -19,8 +19,8 @@ function display() {
         // 下钻回调
         callback: function(name, option, instance) {
             console.log('name: ', name)
-            console.log(option)
-            option.series.data = this.stats
+            // console.log(option)
+            // option.series.data = this.stats
             // option.serise[0]
         }
       },  this.stats);
@@ -58,7 +58,7 @@ export default {
   },
   watch: {
     stats: function(newQuestion, oldQuestion) {
-        this.$echarts.dispose(this.$refs.echart);
+        // this.$echarts.dispose(this.$refs.echart);
         display.bind(this)()
     }
   },

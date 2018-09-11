@@ -51,25 +51,29 @@
 								</el-col>
 							</el-row>
 						</div>
+						
 						<div class="section">
 							<h5>使用时长</h5>
-							<chart :period='period1' v-on:periodchange='periodchange1'>
+							<running-time  style="height:250px"/>
+							<!-- <chart :period='period1' v-on:periodchange='periodchange1'>
 								<div ref="useRatio" style="height:250px"></div>
-							</chart>
+							</chart> -->
 						</div>
 					</el-col>
 					<el-col :span='12' class="col">
 						<div class="section">
 							<h5>使用率</h5>
-							<chart :period='period2' v-on:periodchange='periodchange2'>
+							<device-usage style="heigth:250px" />
+							<!-- <chart :period='period2' v-on:periodchange='periodchange2'>
 								<div ref="useRatio1" style="height:250px"></div>
-							</chart>
+							</chart> -->
 						</div>
 						<div class="section">
 							<h5>异常统计</h5>
-							<chart :period='period3' v-on:periodchange='periodchange3'>
+							<exception-stats  style="height:250px"/>
+							<!-- <chart :period='period3' v-on:periodchange='periodchange3'>
 								<div ref="useRatio2" style="height:250px"></div>
-							</chart>
+							</chart> -->
 						</div>
 					</el-col>
 				</el-row>
@@ -79,7 +83,17 @@
 </template>
 <script>
 import chart from '../../components/chart/chart1';
+import runningTime from './runningTime'
+import deviceUsage from './deviceUsage'
+import exceptionStats from './exceptionStats'
+
 export default {
+	components: {
+		chart,
+		runningTime,
+		deviceUsage,
+		exceptionStats
+	},
 	// created() {
 	// 	this.$store.commit('hide');
 	// },
@@ -100,134 +114,25 @@ export default {
 			useRatio2:null,
 		}
 	},
-	mounted() {
-		this.current = this.tableData[0].id;
-		this.useRatio = this.$echarts.init(this.$refs.useRatio)
-		this.useRatio2 = this.$echarts.init(this.$refs.useRatio2)
-		this.$nextTick(()=>{
-			this.useRatio.setOption({
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				grid: {
-					left: '2%',
-					right: '5%',
-					bottom: '3%',
-					top: '20%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data:['2018-01', '2018-02', '2018-03', '2018-04', '2018-05', '2018-06', '2018-07', '2018-08', '2018-09', '2018-10', '2018-11', '2018-12']
-					},
-				],
-				yAxis: [
-					{
-						name: '活跃度',
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						// name: '平均值',
-						type: 'line',
-						smooth: true,
-						// showSymbol: false,
-						label: {
-							normal: {
-								show: true,
-								position: 'top',
-							},
-						},
-						data: [79, 68, 56, 74, 89, 98, 84,12,56,23,33,67]
-					},
-				],
-			})
-			this.useRatio2.setOption({
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				grid: {
-					left: '2%',
-					right: '5%',
-					bottom: '3%',
-					top: '20%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data:['2018-01', '2018-02', '2018-03', '2018-04', '2018-05', '2018-06', '2018-07', '2018-08', '2018-09', '2018-10', '2018-11', '2018-12']
-					},
-				],
-				yAxis: [
-					{
-						name: '活跃度',
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						// name: '平均值',
-						type: 'line',
-						smooth: true,
-						// showSymbol: false,
-						label: {
-							normal: {
-								show: true,
-								position: 'top',
-							},
-						},
-						data: [79, 68, 56, 74, 89, 98, 84,12,56,23,33,67]
-					},
-				],
-			})		
-		})
-		
-	},
 	methods:{
 		changeCurrent(id){
 			this.current = id
 		},
-		periodchange1(value){
-			if(value=='week'){
+		// periodchange1(value){
+		// 	if(value=='week'){
 
-			}
-		},
-		periodchange2(value){
-			if(value=='week'){
+		// 	}
+		// },
+		// periodchange2(value){
+		// 	if(value=='week'){
 					
-			}
-		},
-		periodchange3(value){
-			if(value=='week'){
+		// 	}
+		// },
+		// periodchange3(value){
+		// 	if(value=='week'){
 
-			}
-		}
-	},
-	components:{
-		chart
+		// 	}
+		// }
 	}
 };
 </script>

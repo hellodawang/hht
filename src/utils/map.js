@@ -373,6 +373,9 @@ echarts.extendsMap = function(dom, opt, mapData) {
                         font: style.font
                     },
                     onclick: function() {
+                        let data = mapData.china
+                        option.series[0].data = data
+                        option.visualMap.max = data ? data.reduce((a, v) => a > v.value ? a : v.value, 0) : 100
                         handleEvents.resetOption(chart, option, 'china');
                     }
                 }, {
@@ -386,6 +389,9 @@ echarts.extendsMap = function(dom, opt, mapData) {
                         font: '12px "Microsoft YaHei", sans-serif',
                     },
                     onclick: function() {
+                        let data = mapData.china
+                        option.series[0].data = data
+                        option.visualMap.max = data ? data.reduce((a, v) => a > v.value ? a : v.value, 0) : 100
                         handleEvents.resetOption(chart, option, 'china');
                     }
                 }]
@@ -470,7 +476,7 @@ echarts.extendsMap = function(dom, opt, mapData) {
         },
         visualMap: {
             min: 0,
-            max: mapData ? mapData.reduce((a, v) => a > v.value ? a : v.value, 0) : 100,
+            max: mapData.china ? mapData.china.reduce((a, v) => a > v.value ? a : v.value, 0) : 100,
             left: 'right',
             top: 'bottom',
             text: ['High', 'Low'],
@@ -485,7 +491,7 @@ echarts.extendsMap = function(dom, opt, mapData) {
             type: 'map',
             geoIndex: 0,
             // tooltip: {show: false},
-            data: mapData
+            data: mapData.china
         }]
     };
 
@@ -496,11 +502,14 @@ echarts.extendsMap = function(dom, opt, mapData) {
         if (opt.goDown && params.name !== name[idx]) {
             // 判断当处于省级地图时 点击显示弹出框
             if (idx == 1) {
-                alert(params.name)
+                // alert(params.name)
             }
             if (cityMap[params.name]) {
                 var data = cityMap[params.name];
                 echarts.registerMap(params.name, data);
+                let data = mapData[params.name]
+                option.series[0].data = data
+                option.visualMap.max = data ? data.reduce((a, v) => a > v.value ? a : v.value, 0) : 100
                 handleEvents.resetOption(_self, option, params.name);
             }
         }

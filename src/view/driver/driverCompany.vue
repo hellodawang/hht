@@ -60,33 +60,23 @@
 					</div>
                 </div>
             </div>
-            <div class="section">
+            <div class="section keyEvent">
                 <div class="section-title"> 
                     <h3>重要关键事件提醒</h3> 
                 </div>
                 <div class="section-content" style="height:180px">
+					<el-table :data="tableData" style="width: 100%">
+						<el-table-column prop="eventName" label="关键事件" width="180"> </el-table-column>
+						<el-table-column prop="eventDetail" label="事件详情" ></el-table-column>
+						<el-table-column  prop="deadLine"  label="截止时间" width="180"></el-table-column>
+					</el-table>
                 </div>
             </div>
         </el-col>
         <el-col :span="6">
             <div class="section">
                 <div class="section-title"> 
-                    <h3>容量</h3> 
-                </div>
-                <div class="section-content" style="height:140px">
-                    <el-col :span='12' style="text-align:center">
-                        <el-progress type="circle" :percentage="20" :width='80'></el-progress>
-                        <p>硬盘容量</p>
-                    </el-col>
-                    <el-col :span='12'>
-                        <el-progress type="circle" :percentage="20" :width='80'></el-progress>
-                        <p>数据库容量</p>
-                    </el-col>              
-                </div>
-            </div>
-            <div class="section">
-                <div class="section-title"> 
-                    <h3>带宽性能</h3> 
+                    <h3>云空间容量</h3> 
                 </div>
                 <div class="section-content" >
                     <div ref="myEchart7" style="height:180px"></div>                
@@ -94,17 +84,19 @@
             </div>
             <div class="section">
                 <div class="section-title"> 
-                    <h3>cpu/内存</h3> 
+                    <h3>网络质量</h3> 
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart8" style="height:180px"></div>   
+					
+                    <div  style="height:180px"><half-circle></half-circle></div>   
                 </div>
             </div>
 			<div class="section">
                 <div class="section-title"> 
-                    <h3>设备使用列表</h3> 
+                    <h3>公告</h3> 
                 </div>
-                <div class="section-content">
+                <div class="section-content"  style="height:350px">
+					<bulletin></bulletin>
                 </div>
             </div>
         </el-col>
@@ -117,6 +109,8 @@ import mapchart from '../../utils/map.js';
 import { value, nameMap } from '../../utils/worldmap.js';
 import echarts from 'echarts';
 import map1 from '../../utils/map1.js';
+import bulletin from '../../components/bulletin/bulletin'
+import halfCircle from '../../components/chart/halfCircle'
 
 export default {
 	mounted() {
@@ -342,81 +336,88 @@ export default {
 				],
 			};
 			this.chart7.setOption(option7);
-			this.chart8 = this.$echarts.init(this.$refs.myEchart8);
-			var option8 = {
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				legend: {
-					data: ['cpu', '内存'],
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					top: '10%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-					},
-				],
-				yAxis: [
-					{
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						name: 'cpu',
-						type: 'line',
-						stack: '总量',
-						smooth: true,
-						showSymbol: false,
-						lineStyle: {
-							normal: {
-								color: '#c23531',
-							},
-						},
-						showSymbol: false,
-						// areaStyle: {normal: {}},
-						data: [40, 50, 30, 90, 65, 69, 90],
-					},
-					{
-						name: '内存',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						lineStyle: {
-							normal: {
-								color: '#93d6ca',
-							},
-						},
-						showSymbol: false,
-						// areaStyle: {normal: {}},
-						data: [10, 5, 30, 45, 23, 39, 17],
-					},
-				],
-			};
-			this.chart8.setOption(option8);
+			// this.chart8 = this.$echarts.init(this.$refs.myEchart8);
+			// var option8 = {
+			// 	tooltip: {
+			// 		trigger: 'axis',
+			// 		axisPointer: {
+			// 			type: 'cross',
+			// 			label: {
+			// 				backgroundColor: '#6a7985',
+			// 			},
+			// 		},
+			// 	},
+			// 	legend: {
+			// 		data: ['cpu', '内存'],
+			// 	},
+			// 	grid: {
+			// 		left: '3%',
+			// 		right: '4%',
+			// 		bottom: '3%',
+			// 		top: '10%',
+			// 		containLabel: true,
+			// 	},
+			// 	xAxis: [
+			// 		{
+			// 			type: 'category',
+			// 			boundaryGap: false,
+			// 			data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
+			// 		},
+			// 	],
+			// 	yAxis: [
+			// 		{
+			// 			type: 'value',
+			// 			min: 0,
+			// 			max: 100,
+			// 			interval: 20,
+			// 		},
+			// 	],
+			// 	series: [
+			// 		{
+			// 			name: 'cpu',
+			// 			type: 'line',
+			// 			stack: '总量',
+			// 			smooth: true,
+			// 			showSymbol: false,
+			// 			lineStyle: {
+			// 				normal: {
+			// 					color: '#c23531',
+			// 				},
+			// 			},
+			// 			showSymbol: false,
+			// 			// areaStyle: {normal: {}},
+			// 			data: [40, 50, 30, 90, 65, 69, 90],
+			// 		},
+			// 		{
+			// 			name: '内存',
+			// 			type: 'line',
+			// 			smooth: true,
+			// 			showSymbol: false,
+			// 			lineStyle: {
+			// 				normal: {
+			// 					color: '#93d6ca',
+			// 				},
+			// 			},
+			// 			showSymbol: false,
+			// 			// areaStyle: {normal: {}},
+			// 			data: [10, 5, 30, 45, 23, 39, 17],
+			// 		},
+			// 	],
+			// };
+			// this.chart8.setOption(option8);
 		});
 	},
 	data() {
 		return {
 			map: {},
 			chart1: {},
+			tableData:[
+				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
+				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
+				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
+				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
+				// {eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
+			]
 		};
 	},
 	computed: {
@@ -488,12 +489,15 @@ export default {
 		showWeek() {},
 		showYear() {},
 	},
+	components:{
+		bulletin,
+		halfCircle
+	}
 };
 </script>
 <style lang='scss' scoped>
 .driver-wrapper {
 	height: 100%;
-	// min-width: 1300px;
 	overflow-y: scroll;
 	> .el-col {
 		height: 100%;
@@ -519,7 +523,6 @@ export default {
 				}
 			}
 			.section-content {
-				padding: 10px;
 				.detail {
 					text-decoration: none;
 					color: #333;
@@ -578,7 +581,26 @@ export default {
 					padding: 0;
 				}
 			}
+			&.keyEvent{
+				.section-content{
+					padding: 0 20px;
+					// font-size: 12px;
+				}
+				// overflow-y: scroll;
+			}
 		}
 	}
 }
+</style>
+<style lang='scss'>
+.driver-wrapper{
+	.section.keyEvent{
+		.el-table td, .el-table th{
+			padding: 4px;
+		}
+		table{
+			font-size: 12px;
+		}
+	}	
+} 
 </style>
