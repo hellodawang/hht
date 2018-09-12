@@ -58,6 +58,9 @@ export default{
                         show:false
                     }
                 }
+                item.labelLine={
+                    show:false
+                }
             }
         })
         this.chart =   this.$echarts.init(this.$refs.six);
@@ -87,20 +90,16 @@ export default{
                     hoverAnimation: false,
                     startAngle: 180,
                     label: {
-                        normal: {
+                        // normal: {
                             show: true,
-                            position: 'inside',
                             textStyle: {
                                 fontSize: '10',
-                                color:'#fff',
+                                color:'#666',
                             },
                             formatter:function(param){
                                 return param.data.level
                             }
-                        },
-                        emphasis: {
-                            show: true,
-                        }
+                        // },
                     },
                     data: this.allData
                 },

@@ -10,7 +10,7 @@
             <distribution-bar-chart :data="barChartData" style="height:325px"/>
                 <!-- <div ref="myEchart" style="height:325px"></div> -->
             <div>
-              <activity-chart style="height:220px"/>
+              <activity-chart />
 
               <!-- <div ref='myEchart1' style="height:220px"></div> -->
               <!-- <div class="period" style="height:50px;text-align:center;margin-top:15px">
@@ -86,10 +86,8 @@ import topApp from "./topApp";
 import topClient from "./topClient";
 import bendwidthChart from "./bendwidthChart";
 import cpuAndRam from "./cpuAndRam";
-
 import chineseMap from "../../components/map/chineseMap";
 import worldMap from "../../components/map/worldMap";
-
 import mapData from "../../mock/mapData";
 
 export default {
@@ -256,16 +254,28 @@ export default {
       return {
         data: [
           {
-            name: "最高值",
-            data: [80, 50, 70, 90, 65, 69, 90]
+            name: "北京最高值",
+            data: [0, 50, 70, 90, 65, 69, 0]
           },
           {
-            name: "最低值",
-            data: [20, 5, 30, 45, 23, 38, 17]
+            name: "北京平均值",
+            data: [0, 38, 56, 74, 59, 58, 0]
           },
           {
-            name: "平均值",
-            data: [39, 38, 56, 74, 59, 58, 54]
+            name: "广州最高值",
+            data: [0, 10, 20, 40, 30, 48, 0]
+          },
+          {
+            name: "广州平均值",
+            data: [0, 8, 14, 50, 34, 26, 0]
+          },
+          {
+            name: "成都最高值",
+            data: [0, 57, 23, 48, 12, 8, 0]
+          },
+          {
+            name: "成都平均值",
+            data: [0, 25, 18, 30, 48, 24, 0]
           }
         ],
         xAxis: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
@@ -276,13 +286,30 @@ export default {
       return {
         data: [
           {
-            name: "CPU",
+            name: "北京CPU",
             data: [30, 50, 70, 40, 65, 69, 70]
           },
           {
-            name: "内存",
-            data: [20, 5, 30, 45, 23, 38, 17]
-          }
+            name: "北京内存",
+            data: [0, 50, 2, 35, 5, 80, 18]
+          },
+          {
+            name: "广州CPU",
+            data: [1, 5, 2, 30, 80, 2, 10]
+          },
+          {
+            name: "广州内存",
+            data: [5, 5, 40, 20, 60, 0, 15]
+          },
+          {
+            name: "成都CPU",
+            data: [2, 90, 60, 4, 50, 21, 7]
+          },
+          {
+            name: "成都内存",
+            data: [90, 5, 20, 0, 40, 10, 17]
+          },
+
         ],
         xAxis: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
       };

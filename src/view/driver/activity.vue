@@ -31,16 +31,22 @@ let baseConfig = {
   ],
   yAxis: [
     {
-      name: "活跃度",
+      name: "人",
       type: "value",
       min: 0
       // max: 100,
       // interval: 20,
+    },
+    {
+      name: "台",
+      type: "value",
+      min: 0
     }
   ],
   series: [
     {
       // name: '平均值',
+      yAxisIndex:0,
       type: "line",
       smooth: true,
       // showSymbol: false,
@@ -51,6 +57,20 @@ let baseConfig = {
         }
       },
       data: [79, 68, 56, 74, 89, 95, 89]
+    },
+    {
+      // name: '平均值',
+      yAxisIndex:1,
+      type: "line",
+      smooth: true,
+      // showSymbol: false,
+      label: {
+        normal: {
+          show: true,
+          position: "top"
+        }
+      },
+      data: [200, 100, 350, 540, 600, 270, 900]
     }
   ]
 };

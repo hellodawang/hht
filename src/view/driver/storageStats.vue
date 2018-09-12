@@ -4,7 +4,8 @@
         <h3>容量</h3> 
     </div>
     <div class="section-content" style="height:140px">
-        <el-col :span='8' style="text-align:center">
+        <div ref="chart" style="height:140px"></div>
+        <!-- <el-col :span='8' style="text-align:center">
             <el-progress type="circle" :percentage="this.data[0]" :width='70'></el-progress>
             <p>集群1</p>
         </el-col>
@@ -15,7 +16,7 @@
         <el-col :span='8'>
             <el-progress type="circle" :percentage="this.data[2]" :width='70'></el-progress>
             <p>集群3</p>
-        </el-col>              
+        </el-col>               -->
     </div>
 </div>
 </template>
@@ -31,6 +32,50 @@ export default {
   data: function() {
     return {};
   },
+  mounted(){
+
+    var tempOption = {
+            series: [
+                {
+        name: 'Pie1',
+        type: 'pie',
+        clockWise: false,
+        radius: [80, 85],
+        itemStyle: dataStyle,
+        hoverAnimation: false,
+        center: ['25%', '50%'],
+        data: [{
+            value: 25,
+            label: {
+                normal: {
+                    formatter: '{d}%',
+                    position: 'center',
+                    show: true,
+                    textStyle: {
+                        fontSize: '35',
+                        fontWeight: 'normal',
+                        color: '#3dd4de'
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#3dd4de',
+                    shadowColor: '#3dd4de',
+                    shadowBlur: 10
+                }
+            }
+        }, {
+            value: 75,
+            name: 'invisible',
+            // itemStyle: placeHolderStyle,
+        }]
+    }
+            ]
+        }
+    let chart = this.$echarts.init(this.$refs.chart)
+        chart.setOption(tempOption)
+},
   computed: {
       config() {
 

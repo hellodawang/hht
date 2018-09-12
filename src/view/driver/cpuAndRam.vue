@@ -23,7 +23,7 @@ let baseConfig = {
         },
     },
     legend: {
-        data: ['cpu', '内存'],
+        data: [],
     },
     grid: {
         left: '3%',
@@ -56,12 +56,11 @@ let baseConfig = {
             showSymbol: false,
             lineStyle: {
                 normal: {
-                    color: '#c23531',
+                    // color: '#c23531',
                 },
             },
             showSymbol: false,
-            // areaStyle: {normal: {}},
-            data: [40, 50, 30, 90, 65, 69, 90],
+            data: [],
         },
         {
             name: '内存',
@@ -70,12 +69,68 @@ let baseConfig = {
             showSymbol: false,
             lineStyle: {
                 normal: {
-                    color: '#93d6ca',
+                    // color: '#93d6ca',
                 },
             },
             showSymbol: false,
             // areaStyle: {normal: {}},
-            data: [10, 5, 30, 45, 23, 39, 17],
+            data: [],
+        },
+        {
+            name: '内存',
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+                normal: {
+                    // color: '#93d6ca',
+                },
+            },
+            showSymbol: false,
+            // areaStyle: {normal: {}},
+            data: [],
+        },
+        {
+            name: '内存',
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+                normal: {
+                    // color: '#93d6ca',
+                },
+            },
+            showSymbol: false,
+            // areaStyle: {normal: {}},
+            data: [],
+        },
+        {
+            name: '内存',
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+                normal: {
+                    // color: '#93d6ca',
+                },
+            },
+            showSymbol: false,
+            // areaStyle: {normal: {}},
+            data: [],
+        },
+        {
+            name: '内存',
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+                normal: {
+                    // color: '#93d6ca',
+                },
+            },
+            showSymbol: false,
+            // areaStyle: {normal: {}},
+            data: [],
         },
     ],
 }
@@ -92,7 +147,6 @@ export default {
     config() {
       let cfg = Object.assign({}, baseConfig);
       cfg.legend.data = this.data.data.map(v => v.name);
-
       cfg.xAxis[0].data = this.data.xAxis;
       cfg.series.forEach((v, i) => {
         return Object.assign(v, this.data.data[i]);

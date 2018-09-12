@@ -23,7 +23,7 @@ let baseConfig = {
     }
   },
   legend: {
-    data: ["最高值", "最低值", "平均值"]
+    data: []
   },
   grid: {
     left: "3%",
@@ -54,15 +54,6 @@ let baseConfig = {
       smooth: true,
       showSymbol: false,
       areaStyle: { normal: {} },
-      data: [40, 50, 30, 90, 65, 69, 90]
-    },
-    {
-      name: "最低值",
-      type: "line",
-      smooth: true,
-      showSymbol: false,
-      areaStyle: { normal: {} },
-      data: [10, 5, 30, 45, 23, 39, 17]
     },
     {
       name: "平均值",
@@ -76,8 +67,35 @@ let baseConfig = {
         }
       },
       areaStyle: { normal: {} },
-      data: [79, 68, 56, 74, 89, 98, 84]
-    }
+    },
+    {
+      name: "最高值",
+      type: "line",
+      smooth: true,
+      showSymbol: false,
+      areaStyle: { normal: {} },
+    },
+    {
+      name: "最高值",
+      type: "line",
+      smooth: true,
+      showSymbol: false,
+      areaStyle: { normal: {} },
+    },
+    {
+      name: "最高值",
+      type: "line",
+      smooth: true,
+      showSymbol: false,
+      areaStyle: { normal: {} },
+    },
+    {
+      name: "最高值",
+      type: "line",
+      smooth: true,
+      showSymbol: false,
+      areaStyle: { normal: {} },
+    },
   ]
 };
 
