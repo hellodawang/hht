@@ -46,45 +46,17 @@
                 </el-col>
             </el-row> 
         </div>
-		<div class="modal-wrapper" v-if="showChooseVersion">
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-header-title">升级</h3>
-					<i class="el-icon-close" @click="showChooseVersion = false"></i>
-				</div>
-				<div class="modal-body">
-					<span>请选择要升级的版本</span>
-					<div v-for="item in updateVersion" :key="item.id" class="version-item">
-						<el-radio v-model="chooseVersion" :label="item.id" >{{item.name}}</el-radio>	
-					</div>
-					<el-button type='primary' class="btn-confirm" @click="confirmUpdate">确定</el-button>
-				</div>
-			</div>
-		</div>
-		<div class="modal-wrapper" v-if="showUpdating">
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-header-title">升级</h3>
-					<i class="el-icon-close" @click="showUpdating = false"></i>
-				</div>
-				<div class="modal-body">
-					<div style="width:100%">
-						<div class="table">  
-                            <div class="table-tr" v-for="item in tableData1" :key="item.id"> 
-                                <div class="table-td">{{item.id}}</div>  
-                                <div class="table-td">{{item.progress}}</div>  
-                                <div class="table-td"><i class="iconfont icon-stop"></i></div>  
-                            </div> 
-                        </div>
-					</div>
-					<el-button type='primary' class="btn-confirm" @click="confirmUpdate">确定</el-button>
-				</div>
-			</div>
-		</div>
+		<upgrade :data="selected" v-if="showUpgrade"/>
     </div>
 </template>
+
 <script>
+import upgrade from '../../components/upgrade/upgrade'
+
 export default {
+	components: {
+		upgrade,
+	},
 	data() {
 		return {
 			tableData: [
@@ -98,34 +70,22 @@ export default {
 				{ id: 1, name1: 'XC_1234568', name2: 'BN12345666', name3: '大屏', customer: '腾讯', status: '正常' },
 			],
 			search: '',
-			updateVersion: [
-				{ id: 1, name: 'HHNK_l1258_20180806N' },
-				{ id: 2, name: 'HHNK_l1258_20180806N' },
-				{ id: 3, name: 'HHNK_l1258_20180806N' },
-				{ id: 4, name: 'HHNK_l1258_20180806N' },
-			],
-			chooseVersion: '',
-			showChooseVersion: false,
-			showUpdating: false,
-			tableData1: [
-				{ id: 'XC_1234568', progress: '100%' },
-				{ id: 'XC_1234567', progress: '65%' },
-				{ id: 'XC_1234565', progress: '65%' },
-				{ id: 'XC_1234564', progress: '65%' },
-				{ id: 'XC_1234563', progress: '65%' },
-			],
+			// chooseVersion: '',
+			// showChooseVersion: false,
+			showUpgrade: false,
+			selected: [],
 		};
 	},
 	methods: {
 		update() {
-			this.showChooseVersion = true;
-		},
-		confirmUpdate() {
-			this.showChooseVersion = false;
-			this.showUpdating = true;
+			this.showUpgrade = true;
+			console.log('open upgrade dialog')
 		},
 		restart() {},
 		restoreDefault() {},
+		select() {
+			this.selected = this.tableData
+		}
 	},
 };
 </script>

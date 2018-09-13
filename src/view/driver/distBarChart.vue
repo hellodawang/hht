@@ -25,18 +25,18 @@ let baseConfig = {
     xAxis: [
         {
             type: 'category',
-            data: ['教育', '商用', 'i学', '其他'],
+            data: [],
         },
         {
             gridIndex: 1,
             type: 'category',
-            data: ['教育', '商用', 'i学', '其他'],
+            data: [],
         },
     ],
     yAxis: [
         {
             type: 'value',
-            name: '在线人数分布',
+            name: '',
             splitLine: {
                 show: false,
             },
@@ -44,7 +44,7 @@ let baseConfig = {
         {
             type: 'value',
             gridIndex: 1,
-            name: '在线设备分布',
+            name: '',
             splitLine: {
                 show: false,
             },
@@ -54,7 +54,7 @@ let baseConfig = {
         {
             name: '教育',
             type: 'bar',
-            data: [320, 332, 301, 334],  // 示例数据
+            data: [],  // 示例数据
             barGap: '10%',
             barWidth: '30%',
             xAxisIndex: 0,
@@ -84,7 +84,7 @@ let baseConfig = {
         {
             name: '教育',
             type: 'bar',
-            data: [320, 332, 301, 334],  // 示例数据
+            data: [],  // 示例数据
             barGap: '10%',
             barWidth: '30%',
             xAxisIndex: 1,
@@ -104,13 +104,32 @@ export default {
   },
   props: ["data"],
   data: function() {
-    return {};
+    return {
+        xAxis1:[],
+        xAxis2:[],
+        data1:[],
+        data2:[]
+    };
+  },
+  created(){
+      this.data.account.forEach((item) => {
+          this.xAxis1.push(item.accountType),
+          this.data1.push(item.typeOnline)
+      });
+      this.data.device.forEach((item) => {
+          this.xAxis2.push(item.terminalType),
+          this.data2.push(item.typeOnline)
+      });
   },
   computed: {
       config() {
           let cfg = Object.assign({}, baseConfig)
-          cfg.series[0].data = this.data.account
-          cfg.series[1].data = this.data.device
+          cfg.series[0].data = this.data1
+          cfg.series[1].data = this.data2
+          cfg.xAxis[0].data = this.xAxis1
+          cfg.xAxis[1].data = this.xAxis2
+          cfg.yAxis[0].name = this.data.title1
+          cfg.yAxis[1].name = this.data.title2
           return cfg
       },
   },

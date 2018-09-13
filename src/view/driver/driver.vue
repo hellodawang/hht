@@ -1,26 +1,21 @@
 <template>
     <el-row class="driver-wrapper" :gutter="10" ref="driver">
       <el-col :span="6" class="col-one">
-        <online-stats :account="onlineStats.account" :device="onlineStats.device"/>
+        <div class="section online">
+            <div class="section-title"> 
+                <h3>在线统计</h3>
+            </div>
+            <div class="section-content">
+                <online-stats :account="onlineStats.account" :device="onlineStats.device"/>
+            </div>
+        </div>
         <div class="section online-distribution">
           <div class="section-title"> 
             <h3>在线数据分布</h3>
           </div>
           <div class="section-content">
             <distribution-bar-chart :data="barChartData" style="height:325px"/>
-                <!-- <div ref="myEchart" style="height:325px"></div> -->
-            <div>
-              <activity-chart />
-
-              <!-- <div ref='myEchart1' style="height:220px"></div> -->
-              <!-- <div class="period" style="height:50px;text-align:center;margin-top:15px">
-                <el-radio-group v-model="period"   size="small" @change='handleChange'>
-                  <el-radio-button label="week">本周</el-radio-button>
-                  <el-radio-button label="month">本月</el-radio-button>
-                  <el-radio-button label="year">本年</el-radio-button>
-                </el-radio-group>
-              </div>	 -->
-            </div>
+            <activity-chart :op='activityData'/>
           </div>
         </div>
       </el-col>
@@ -34,7 +29,6 @@
             </div>				
           </div>
           <div class="section-content">
-            <!-- <div ref="myEchart3" id='chart-panel' style="height:500px"></div> -->
             <chinese-map :stats="chineseMapData" style="height:500px" v-if="mapType==1"/>
             <world-map :stats="worldMapData" style="height:500px" v-if="mapType==2"/>
             <div class="device-text">
@@ -53,12 +47,12 @@
             <div class="section-title"> 
                 <h3>TOP应用/客户汇总</h3> 
             </div>
-            <div class="section-content" style="height:180px">
+            <div class="section-content" style="height:200px">
                 <el-col :span='12'>
-                    <top-app :data="topAppData" style="height:180px"/>   
+                    <top-app :data="topAppData" style="height:200px"/>   
                 </el-col>
                 <el-col :span='12'>
-                    <top-client :data="topClientData" style="height:180px"/>  
+                    <top-client :data="topClientData" style="height:200px"/>  
                 </el-col>
             </div>
           </div>
@@ -72,10 +66,6 @@
     </el-row>
 </template>
 <script>
-// import mapchart from '../../utils/map.js';
-// import { value, nameMap } from '../../utils/worldmap.js';
-import echarts from "echarts";
-
 import onlineStats from "./onlineStats";
 import barChart from "../../components/chart/barChart";
 import distributionBarChart from "./distBarChart";
@@ -155,8 +145,10 @@ export default {
     },
     barChartData() {
       return {
-        account: [2342, 3213, 1242, 455],
-        device: [22342, 32113, 41242, 8455]
+        title1:'上线人数排序',
+				title2:'上线设备排序',
+				account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
+        device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
       };
       // return distributionData4BarChart; // todo 假数据
     },
@@ -215,14 +207,19 @@ export default {
       // console.log('world data: ', this.world)
       return this.world
     },
-    // activityData() {
-    //   return {
-    //     account: [379, 468, 496, 574, 589, 548, 584],
-    //     device: [22342, 32113, 41242, 8455, 2345, 2356, 4734],
-    //     xAxis: ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00"]
-    //   };
-    //   // return activityData; // todo 假数据
-    // },
+    activityData() {
+      return {
+        dateType:2,
+				distributionList:[
+					{"onlineDateInfo": "07/26","distributionUserInfo": "3500","distributionTerminalInfo": "350" },
+					{"onlineDateInfo": "07/27","distributionUserInfo": "4500","distributionTerminalInfo": "600" },
+					{"onlineDateInfo": "07/28","distributionUserInfo": "1500","distributionTerminalInfo": "500" },
+					{"onlineDateInfo": "07/29","distributionUserInfo": "2300","distributionTerminalInfo": "200" },
+					{"onlineDateInfo": "07/30","distributionUserInfo": "800","distributionTerminalInfo": "180" },
+					{"onlineDateInfo": "07/31","distributionUserInfo": "3000","distributionTerminalInfo": "480" },
+				]
+      };
+    },
     topAppData() {
       return {
         count: [578, 673, 708, 921, 1126],
@@ -244,7 +241,7 @@ export default {
       // return topClientData; // todo 假数据
     },
     storage() {
-      return [32, 53, 43]
+      return [{name:'集群一',all:100,available:90,running:8,},{name:'集群二',all:100,available:10,running:15,},{name:'集群三',all:100,available:10,running:15,},]
     },
     cloudStatus() {
       return 55
@@ -342,6 +339,9 @@ export default {
       font-size: 12px;
       position: relative;
       vertical-align: middle;
+      &:last-child{
+        margin-bottom: 0;
+      }
       .section-title {
         border-bottom: 1px solid #e0e0e0;
         height: 38px;
@@ -355,7 +355,6 @@ export default {
         }
       }
       .section-content {
-        padding: 10px;
         .detail {
           text-decoration: none;
           color: #333;

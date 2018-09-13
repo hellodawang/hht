@@ -33,21 +33,21 @@
 							<el-row class="basic-info">
 								<el-col :span="12">
 									<h5>软件信息：</h5>
-									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">id</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">数据库容量</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">最新版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">当前版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">{{current.category}}</span></div>
+									<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{current.id}}</span></div>
+									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">{{current.model}}</span></div>
+									<div class="info-item"><span class="info-item-label">云识别号</span> <span class="info-item-text">{{current.clientCloudCode}}</span></div>
+									<div class="info-item"><span class="info-item-label">固件版本</span> <span class="info-item-text">{{current.firmware}}</span></div>
+									<div class="info-item"><span class="info-item-label">升级时间</span> <span class="info-item-text">{{current.lastUpgrade}}</span></div>
 								</el-col>
 								<el-col :span="12">
 									<h5>硬件信息：</h5>
-									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">id</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">数据库容量</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">最新版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
-									<div class="info-item"><span class="info-item-label">当前版本</span> <span class="info-item-text">Hh48658555LKh520</span></div>
+									<div class="info-item"><span class="info-item-label">客户名</span> <span class="info-item-text">{{current.customer}}</span></div>
+									<div class="info-item"><span class="info-item-label">销售日期</span> <span class="info-item-text">{{current.saleDate}}</span></div>
+									<div class="info-item"><span class="info-item-label">配置清单</span> <span class="info-item-text">{{current.manifest}}</span></div>
+									<div class="info-item"><span class="info-item-label">所在城市</span> <span class="info-item-text">{{current.location}}</span></div>
+									<div class="info-item"><span class="info-item-label">最近开机</span> <span class="info-item-text">{{current.lastBoot}}</span></div>
+									<div class="info-item"><span class="info-item-label">配置时间</span> <span class="info-item-text">{{current.lastConfig}}</span></div>
 								</el-col>
 							</el-row>
 						</div>
@@ -97,26 +97,54 @@ export default {
 	// created() {
 	// 	this.$store.commit('hide');
 	// },
+	beforeCreate() {
+		this.$axios
+			.get("/term/list", { responseType: "json" })
+			.then(res => {
+				if (res.data.code != 0) {
+				return console.log("get data error: ", res.message);
+				}
+				this.tableData = res.data.data
+				this.current = this.tableData[0]
+				// console.log('device data: ', this.tableData)
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+	},
 	data(){
 		return{
-			tableData:[{id:1,deviceName:'XC_1234568',status:'未开机'},
-				{id:2,deviceName:'XC_1234568',status:'忙碌'},
-				{id:3,deviceName:'XC_1234568',status:'空闲'},
-				{id:4,deviceName:'XC_1234568',status:'空闲'},
-				{id:5,deviceName:'XC_1234568',status:'空闲'},
-				{id:6,deviceName:'XC_1234568',status:'空闲'},
-			],
-			current:null,
-			period1:'week',
-			period2:'week',
-			period3:'week',
+			tableData: [],
+			// tableData:[{id:1,deviceName:'XC_1234568',status:'未开机'},
+			// 	{id:2,deviceName:'XC_1234568',status:'忙碌'},
+			// 	{id:3,deviceName:'XC_1234568',status:'空闲'},
+			// 	{id:4,deviceName:'XC_1234568',status:'空闲'},
+			// 	{id:5,deviceName:'XC_1234568',status:'空闲'},
+			// 	{id:6,deviceName:'XC_1234568',status:'空闲'},
+			// ],
+			current: {},
+			currentId: '',
+			// period1:'week',
+			// period2:'week',
+			// period3:'week',
 			useRatio:null,
 			useRatio2:null,
 		}
 	},
+	computed: {
+
+	},
+	watch: {
+		currentId: function() {
+			let cur = this.tableData.filter(v => v.id == this.currentId)[0]
+			// console.log('current device: ', cur)
+			this.current = cur
+		}
+	},
 	methods:{
 		changeCurrent(id){
-			this.current = id
+			this.currentId = id
+			// console.log('device Id: ', id)
 		},
 		// periodchange1(value){
 		// 	if(value=='week'){
@@ -125,7 +153,7 @@ export default {
 		// },
 		// periodchange2(value){
 		// 	if(value=='week'){
-					
+
 		// 	}
 		// },
 		// periodchange3(value){

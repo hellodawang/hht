@@ -3,78 +3,252 @@
     <div class="section-title"> 
         <h3>容量</h3> 
     </div>
-    <div class="section-content" style="height:140px">
+    <div class="section-content">
         <div ref="chart" style="height:140px"></div>
-        <!-- <el-col :span='8' style="text-align:center">
-            <el-progress type="circle" :percentage="this.data[0]" :width='70'></el-progress>
-            <p>集群1</p>
-        </el-col>
-        <el-col :span='8'>
-            <el-progress type="circle" :percentage="this.data[1]" :width='70'></el-progress>
-            <p>集群2</p>
-        </el-col>
-        <el-col :span='8'>
-            <el-progress type="circle" :percentage="this.data[2]" :width='70'></el-progress>
-            <p>集群3</p>
-        </el-col>               -->
     </div>
 </div>
 </template>
 
 <script>
-import barChart from "../../components/chart/barChart";
-
 export default {
-  components: {
-      barChart,
-  },
   props: ["data"],
   data: function() {
     return {};
   },
   mounted(){
-
     var tempOption = {
-            series: [
-                {
-        name: 'Pie1',
-        type: 'pie',
-        clockWise: false,
-        radius: [80, 85],
-        itemStyle: dataStyle,
-        hoverAnimation: false,
-        center: ['25%', '50%'],
-        data: [{
-            value: 25,
-            label: {
-                normal: {
-                    formatter: '{d}%',
-                    position: 'center',
-                    show: true,
-                    textStyle: {
-                        fontSize: '35',
-                        fontWeight: 'normal',
-                        color: '#3dd4de'
+        legend: {
+            x : 'center',
+            y : 'bottom',
+            data:[ this.data[0].name,this.data[1].name,this.data[2].name,],
+            itemWidth:10,
+            itemHeight:10,
+            borderRadius:10 
+        },
+        series: [
+            {
+                name: 'Pie1',
+                type: 'pie',
+                clockWise: false,
+                radius: ['60%', "65%"],
+                itemStyle:{
+                    normal: {
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        },
                     }
-                }
+                },
+                hoverAnimation: false,
+                center: ['16%', '40%'],
+                data: [{
+                    name:this.data[0].name,
+                    value: this.data[0].available,
+                    label: {
+                        normal: {
+                            formatter:()=>{                          
+                                return [
+                                '{percent|'+parseInt(this.data[0].available/this.data[0].all*100)+'}{unit|%}',
+                                '{subtext|运行中'+this.data[0].running+'个}'
+                                ].join('\n')
+                            },
+                            rich:{
+                                percent:{
+                                    fontSize:24,
+                                    color:'#409eff',
+                                },
+                                unit:{
+                                    fontSize:12,
+                                    verticalAlign:'bottom',
+                                    color:'#409eff',
+                                    padding:2
+                                },
+                                subtext:{
+                                    fontSize:12,
+                                    color:'#666',
+                                    lineHeight:18
+                                }
+                            },
+                            position: 'center',
+                            show: true,
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#3dd4de',
+                        }
+                    }
+                }, {
+                    value: this.data[0].all - this.data[0].available,
+                    name: 'invisible',
+                    itemStyle: {
+                        normal: {
+                            color: '#cfcfcf', 
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        },
+                        emphasis: {
+                            color: '#6f6f6f' 
+                        }
+                    },
+                }]
             },
-            itemStyle: {
-                normal: {
-                    color: '#3dd4de',
-                    shadowColor: '#3dd4de',
-                    shadowBlur: 10
-                }
-            }
-        }, {
-            value: 75,
-            name: 'invisible',
-            // itemStyle: placeHolderStyle,
-        }]
+            {
+                name: 'Pie1',
+                type: 'pie',
+                clockWise: false,
+                radius: ['60%', "65%"],
+                itemStyle:{
+                    normal: {
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                    }
+                },
+                hoverAnimation: false,
+                center: ['49%', '40%'],
+                data: [{
+                    name:this.data[1].name,
+                    value: this.data[1].available,
+                    label: {
+                        normal: {
+                            formatter:()=>{                          
+                                return [
+                                '{percent|'+parseInt(this.data[1].available/this.data[1].all*100)+'}{unit|%}',
+                                '{subtext|运行中'+this.data[1].running+'个}'
+                                ].join('\n')
+                            },
+                            rich:{
+                                percent:{
+                                    fontSize:24,
+                                    color:'#b697cd',
+                                },
+                                unit:{
+                                    fontSize:12,
+                                    verticalAlign:'bottom',
+                                    color:'#b697cd',
+                                    padding:2
+                                },
+                                subtext:{
+                                    fontSize:12,
+                                    color:'#666',
+                                    lineHeight:18
+                                }
+                            },
+                            position: 'center',
+                            show: true,
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#b697cd',
+                        }
+                    }
+                }, {
+                    value: this.data[1].all - this.data[1].available,
+                    name: 'invisible',
+                    itemStyle: {
+                        normal: {
+                            color: '#cfcfcf', 
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        },
+                        emphasis: {
+                            color: '#6f6f6f' 
+                        }
+                    },
+                }]
+            },
+            {
+                name: 'Pie1',
+                type: 'pie',
+                clockWise: false,
+                radius: ['60%', "65%"],
+                itemStyle:{
+                    normal: {
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                    }
+                },
+                hoverAnimation: false,
+                center: ['82%', '40%'],
+                data: [{
+                    name:this.data[2].name,
+                    value: this.data[2].available,
+                    label: {
+                        normal: {
+                            formatter:()=>{                          
+                                return [
+                                '{percent|'+parseInt(this.data[2].available/this.data[2].all*100)+'}{unit|%}',
+                                '{subtext|运行中'+this.data[2].running+'个}'
+                                ].join('\n')
+                            },
+                            rich:{
+                                percent:{
+                                    fontSize:24,
+                                    color:'#a6f08f',
+                                },
+                                unit:{
+                                    fontSize:12,
+                                    verticalAlign:'bottom',
+                                    color:'#a6f08f',
+                                    padding:2
+                                },
+                                subtext:{
+                                    fontSize:12,
+                                    color:'#666',
+                                    lineHeight:18
+                                }
+                            },
+                            position: 'center',
+                            show: true,
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#a6f08f',
+                        }
+                    }
+                }, {
+                    value: this.data[2].all - this.data[2].available,
+                    name: 'invisible',
+                    itemStyle: {
+                        normal: {
+                            color: '#cfcfcf', 
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        },
+                        emphasis: {
+                            color: '#6f6f6f' 
+                        }
+                    },
+                }]
+            },
+        ]
     }
-            ]
-        }
     let chart = this.$echarts.init(this.$refs.chart)
-        chart.setOption(tempOption)
+    chart.setOption(tempOption)
 },
   computed: {
       config() {

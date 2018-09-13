@@ -22,6 +22,7 @@ export default {
         }
     },
     mounted(){
+        console.log(data)
         this.data = data.data.slice(0,50)
         this.listHeight = this.$refs.list.clientHeight;
         this.firstArr = data.firstArr
@@ -36,23 +37,6 @@ export default {
             this.dataCurrent = index1;
             if(index1){this.data = data.data.slice(index1,index1+50)}
         },
-        handleScroll(e){
-            // console.log(e)
-            //   每一条的高度是40px
-            // 滚动到底之后，再加载后面50条数据
-            if(e.target.scrollTop +this.listHeight>= 40*50){       
-                this.dataCurrent+=50
-                this.data = data.data.slice(this.dataCurrent,this.dataCurrent+50)
-                this.$refs.list.scrollTo(0,0)
-            }else if(e.target.scrollTop<=0 && this.dataCurrent!=0){
-                if(this.dataCurrent != 0){
-                    this.dataCurrent -=50;
-                    this.data = data.data.slice(this.dataCurrent,this.dataCurrent+50)
-                }
-            }
-            // console.log(e.target.scrollTop<=0)
-            // 滚动到顶   
-        }
     }
 };
 </script>

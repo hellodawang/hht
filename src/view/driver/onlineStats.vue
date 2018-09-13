@@ -1,12 +1,5 @@
 <template>
-    <div class="section online">
-        <div class="section-title"> 
-            <h3 >在线统计</h3>
-        </div>
-        <div class="section-content">
-          <div ref="onlineStats" style="height:160px"></div>
-        </div>
-    </div>
+  <div ref="onlineStats" style="height:160px"></div>
 </template>
 <script>
 export default {
@@ -24,7 +17,7 @@ export default {
           {
             type: 'gauge',
             radius: '88%',
-            center: ['25%', '50%'],
+            center: ['25%', '55%'],
             splitNumber: 0, //刻度数量
             startAngle: 220,
             endAngle: -40,
@@ -84,7 +77,7 @@ export default {
             name: '刻度',
             type: 'gauge',
             radius: '90%',
-            center: ['25%', '50%'],
+            center: ['25%', '55%'],
             min:0,
             max:this.account.all,
             splitNumber: 1, //刻度数量
@@ -118,7 +111,7 @@ export default {
           {
             type: 'gauge',
             radius: '88%',
-            center: ['75%', '50%'],
+            center: ['75%', '55%'],
             splitNumber: 0, //刻度数量
             startAngle: 220,
             endAngle: -40,
@@ -178,7 +171,7 @@ export default {
             name: '刻度',
             type: 'gauge',
             radius: '90%',
-            center: ['75%', '50%'],
+            center: ['75%', '55%'],
             min:0,
             max:this.device.all,
             splitNumber: 1, //刻度数量
@@ -216,26 +209,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.section {
-  background-color: #fff;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  display: inline-block;
-  width: 100%;
-  font-size: 12px;
-  position: relative;
-  vertical-align: middle;
-  .section-title {
-    border-bottom: 1px solid #e0e0e0;
-    height: 38px;
-    h3 {
-      font-size: 12px;
-      font-weight: 500;
-      text-indent: 1em;
-      line-height: 38px;
-      color: #0b0b0b;
-      float: left;
-    }
-  }
-}
 </style>

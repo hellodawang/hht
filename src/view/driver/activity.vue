@@ -1,5 +1,5 @@
 <template>
-    <switch-chart :data="config" :buttonList="buttonList" :action="handleChange"/>
+    <switch-chart :data="config" :buttonList="buttonList" :action="handleChange" :selected='selected'/>
 </template>
 
 <script>
@@ -52,7 +52,7 @@ let baseConfig = {
       // showSymbol: false,
       label: {
         normal: {
-          show: true,
+          show: false,
           position: "top"
         }
       },
@@ -79,24 +79,34 @@ export default {
   components: {
     switchChart
   },
-  props: ["data"],
+  props: ["op"],
   data: function() {
     return {
       buttonList: [
-        { type: "week", name: "每周" },
-        { type: "month", name: "每月" },
-        { type: "year", name: "每年" }
-      ]
+        { type: 1, name: "每周" },
+        { type: 2, name: "每月" },
+        { type: 3, name: "每年" }
+      ],
+      selected:null,
+      xAxis:[],
+      deviceData:[],
+      accountData:[]
     };
+  },
+  mounted(){
+    this.op.distributionList.forEach(element => {
+      this.xAxis.push(element.onlineDateInfo)
+      this.deviceData.push(element.distributionUserInfo)
+      this.accountData.push(element.distributionTerminalInfo)
+    });
+    this.selected  = this.op.dateType
   },
   computed: {
     config() {
       let cfg = Object.assign({}, baseConfig);
-    //   cfg.xAxis[0].data = this.data.xAxis;
-    //   cfg.series[0].data = this.data.account;
-    //   console.log("series: ", cfg.series[0]);
-
-    //   cfg.series[1].data = this.data.device;
+      cfg.xAxis[0].data = this.xAxis
+      cfg.series[0].data = this.accountData
+      cfg.series[1].data = this.deviceData
       return cfg;
     }
   },

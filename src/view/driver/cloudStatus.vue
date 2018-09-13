@@ -3,7 +3,7 @@
     <div class="section-title"> 
         <h3>云设备整体状态</h3> 
     </div>
-    <div class="section-content" style="height:130px">                 
+    <div class="section-content" style="height:128px">                 
         <el-col :span='16'>
             <bar-chart :data="config" style="height:110px"/>   
         </el-col>

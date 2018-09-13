@@ -1,25 +1,13 @@
 <template>
     <el-row class="driver-wrapper" :gutter="10" ref="driver">
         <el-col :span="6" class="col-one">
+			<!-- 在线数据统计 -->
             <div class="section online">
                 <div class="section-title"> 
                     <h3>在线统计</h3>
                 </div>
                 <div class="section-content">
-                    <div class="online-item clearfix">
-						<h5>上线人数</h5>
-						<div class="online-num">
-							<span class="onlines">8500</span>
-							<span class="all">/12000</span>
-						</div>
-					</div>
-                    <div class="online-item clearfix">
-						<h5>上线设备</h5>
-						<div class="online-num">
-							<span class="onlines">8500</span>
-							<span class="all">/12000</span>
-						</div>
-					</div>
+                    <online-stats :account="onlineStats.account" :device="onlineStats.device"/>
                 </div>
             </div>
 			<div class="section online-distribution">
@@ -27,17 +15,8 @@
                     <h3>在线数据分布</h3>
                 </div>
                 <div class="section-content">
-                    <div ref="myEchart" style="height:325px"></div>
-					<div>
-						<div ref='myEchart1' style="height:220px"></div>
-						<div class="period" style="height:50px;text-align:center;margin-top:15px">
-							<el-button-group>
-								<el-button size="mini" type="primary" @click="showWeek">本周</el-button>
-								<el-button size="mini" @click="showMonth">本月</el-button>
-								<el-button size="mini" @click="showYear">本年</el-button>
-							</el-button-group>
-						</div>	
-					</div>	
+					<distribution-bar-chart :data="barChartData" style="height:325px"/>
+					<activity-chart :op='activityData'/>
                 </div>
             </div>
         </el-col>
@@ -47,7 +26,8 @@
                     <h3 >设备概览</h3>
                 </div>
                 <div class="section-content">
-					<div ref="myEchart3" id='chart-panel' style="height:500px"></div>
+					<chinese-map :stats="chineseMapData" style="height:500px" />
+					<!-- <div ref="myEchart3" id='chart-panel' style="height:500px"></div> -->
 					<div class="device-text">
 						<div class="device-text-item">
 							<span class="device-num">15558</span>
@@ -64,12 +44,8 @@
                 <div class="section-title"> 
                     <h3>重要关键事件提醒</h3> 
                 </div>
-                <div class="section-content" style="height:180px">
-					<el-table :data="tableData" style="width: 100%">
-						<el-table-column prop="eventName" label="关键事件" width="180"> </el-table-column>
-						<el-table-column prop="eventDetail" label="事件详情" ></el-table-column>
-						<el-table-column  prop="deadLine"  label="截止时间" width="180"></el-table-column>
-					</el-table>
+                <div class="section-content" style="height:200px">
+					<key-events :op='eventsData'></key-events>
                 </div>
             </div>
         </el-col>
@@ -79,349 +55,126 @@
                     <h3>云空间容量</h3> 
                 </div>
                 <div class="section-content" >
-                    <div ref="myEchart7" style="height:180px"></div>                
+                    <cloud-space-capacity :op='cloudSpaceCapacityData'/>            
                 </div>
             </div>
             <div class="section">
                 <div class="section-title"> 
                     <h3>网络质量</h3> 
                 </div>
-                <div class="section-content" style="height:180px">					
-                    <half-circle></half-circle>  
+                <div class="section-content" style="height:180px;">					
+                    <half-circle :op='networkQualityData'></half-circle>  
                 </div>
             </div>
 			<div class="section">
                 <div class="section-title"> 
                     <h3>公告</h3> 
                 </div>
-                <div class="section-content"  style="height:350px">
-					<bulletin></bulletin>
+                <div class="section-content"  style="height:370px">
+					<bulletin :op='bulletinData'></bulletin>
                 </div>
             </div>
         </el-col>
     </el-row>
 </template>
 <script>
-import china from 'echarts/map/json/china.json';
-import world from 'echarts/map/json/world.json';
-import mapchart from '../../utils/map.js';
-import { value, nameMap } from '../../utils/worldmap.js';
-import echarts from 'echarts';
-import map1 from '../../utils/map1.js';
-import bulletin from '../../components/bulletin/bulletin'
-import halfCircle from '../../components/chart/halfCircle'
-
+	import bulletin from '../../components/bulletin/bulletin'
+	import halfCircle from '../../components/chart/halfCircle'
+	import cloudSpaceCapacity from './cloudSpaceCapacity.vue'
+	import keyEvents from './keyEvents.vue'
+	import onlineStats from "./onlineStats";
+	import distributionBarChart from "./distBarChart";
+	import activityChart from "./activity";
+	import chineseMap from "../../components/map/chineseMap";
 export default {
 	mounted() {
-		echarts.registerMap('china', china);
-		echarts.registerMap('world', world);
 		this.$nextTick(() => {
-			this.map = this.$echarts.init(this.$refs.myEchart3);
-			map1(this.map);
-			let dom = this.$refs.myEchart;
-			this.chart = this.$echarts.init(dom);
-			let dom1 = this.$refs.myEchart1;
-			this.chart1 = this.$echarts.init(dom1);
-			var option = {
-				grid: [
-					{
-						x: '5%',
-						y: '10%',
-						width: '90%',
-						height: '35%',
-						containLabel: true,
-					},
-					{
-						x: '5%',
-						y: '60%',
-						width: '90%',
-						height: '35%',
-						containLabel: true,
-					},
-				],
-				xAxis: [
-					{
-						type: 'category',
-						data: ['教育', '商用', 'i学', '其他'],
-					},
-					{
-						gridIndex: 1,
-						type: 'category',
-						data: ['教育', '商用', 'i学', '其他'],
-					},
-				],
-				yAxis: [
-					{
-						type: 'value',
-						name: '在线人数分布',
-						splitLine: {
-							show: false,
-						},
-					},
-					{
-						type: 'value',
-						gridIndex: 1,
-						name: '在线设备分布',
-						splitLine: {
-							show: false,
-						},
-					},
-				],
-				series: [
-					{
-						name: '教育',
-						type: 'bar',
-						data: [320, 332, 301, 334],
-						barGap: '10%',
-						barWidth: '30%',
-						xAxisIndex: 0,
-						yAxisIndex: 0,
-						itemStyle: {
-							normal: {
-								color: new this.$echarts.graphic.LinearGradient(
-									0,
-									0,
-									0,
-									1,
-									[
-										{
-											offset: 0,
-											color: '#00b0ff',
-										},
-										{
-											offset: 0.8,
-											color: '#7052f4',
-										},
-									],
-									false
-								),
-							},
-						},
-					},
-					{
-						name: '教育',
-						type: 'bar',
-						data: [320, 332, 301, 334],
-						barGap: '10%',
-						barWidth: '30%',
-						xAxisIndex: 1,
-						yAxisIndex: 1,
-						itemStyle: {
-							normal: {
-								color: '#f5aba3',
-							},
-						},
-					},
-				],
-			};
-			var option1 = {
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				grid: {
-					left: '2%',
-					right: '5%',
-					bottom: '3%',
-					top: '20%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-					},
-				],
-				yAxis: [
-					{
-						name: '活跃度',
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						// name: '平均值',
-						type: 'line',
-						smooth: true,
-						// showSymbol: false,
-						label: {
-							normal: {
-								show: true,
-								position: 'top',
-							},
-						},
-						data: [79, 68, 56, 74, 89, 98, 84],
-					},
-				],
-			};
-			this.chart.setOption(option);
-			this.chart1.setOption(option1);
-			this.chart7 = this.$echarts.init(this.$refs.myEchart7);
-			var option7 = {
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
-					},
-				},
-				legend: {
-					data: ['最高值', '最低值', '平均值'],
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					top: '15%',
-					containLabel: true,
-				},
-				xAxis: [
-					{
-						type: 'category',
-						boundaryGap: false,
-						data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-					},
-				],
-				yAxis: [
-					{
-						type: 'value',
-						min: 0,
-						max: 100,
-						interval: 20,
-					},
-				],
-				series: [
-					{
-						name: '最高值',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						areaStyle: { normal: {} },
-						data: [40, 50, 30, 90, 65, 69, 90],
-					},
-					{
-						name: '最低值',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						areaStyle: { normal: {} },
-						data: [10, 5, 30, 45, 23, 39, 17],
-					},
-					{
-						name: '平均值',
-						type: 'line',
-						smooth: true,
-						showSymbol: false,
-						label: {
-							normal: {
-								show: true,
-								position: 'top',
-							},
-						},
-						areaStyle: { normal: {} },
-						data: [79, 68, 56, 74, 89, 98, 84],
-					},
-				],
-			};
-			this.chart7.setOption(option7);
-			// this.chart8 = this.$echarts.init(this.$refs.myEchart8);
-			// var option8 = {
-			// 	tooltip: {
-			// 		trigger: 'axis',
-			// 		axisPointer: {
-			// 			type: 'cross',
-			// 			label: {
-			// 				backgroundColor: '#6a7985',
-			// 			},
-			// 		},
-			// 	},
-			// 	legend: {
-			// 		data: ['cpu', '内存'],
-			// 	},
-			// 	grid: {
-			// 		left: '3%',
-			// 		right: '4%',
-			// 		bottom: '3%',
-			// 		top: '10%',
-			// 		containLabel: true,
-			// 	},
-			// 	xAxis: [
-			// 		{
-			// 			type: 'category',
-			// 			boundaryGap: false,
-			// 			data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
-			// 		},
-			// 	],
-			// 	yAxis: [
-			// 		{
-			// 			type: 'value',
-			// 			min: 0,
-			// 			max: 100,
-			// 			interval: 20,
-			// 		},
-			// 	],
-			// 	series: [
-			// 		{
-			// 			name: 'cpu',
-			// 			type: 'line',
-			// 			stack: '总量',
-			// 			smooth: true,
-			// 			showSymbol: false,
-			// 			lineStyle: {
-			// 				normal: {
-			// 					color: '#c23531',
-			// 				},
-			// 			},
-			// 			showSymbol: false,
-			// 			// areaStyle: {normal: {}},
-			// 			data: [40, 50, 30, 90, 65, 69, 90],
-			// 		},
-			// 		{
-			// 			name: '内存',
-			// 			type: 'line',
-			// 			smooth: true,
-			// 			showSymbol: false,
-			// 			lineStyle: {
-			// 				normal: {
-			// 					color: '#93d6ca',
-			// 				},
-			// 			},
-			// 			showSymbol: false,
-			// 			// areaStyle: {normal: {}},
-			// 			data: [10, 5, 30, 45, 23, 39, 17],
-			// 		},
-			// 	],
-			// };
-			// this.chart8.setOption(option8);
 		});
 	},
 	data() {
 		return {
-			map: {},
+			china: {},
 			chart1: {},
-			tableData:[
+			eventsData:[
 				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
 				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
 				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
 				{eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
-				// {eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
-			]
+			],
+			bulletinData:[
+                {id:1,time:'2018-09-11',content:'公司放假通知：放假3天 庆祝中秋'},
+                {id:2,time:'2018-08-01',content:'公司放假通知：放假3天 庆祝中秋'},
+                {id:3,time:'2018-06-31',content:'公司放假通知：放假3天 庆祝中秋'},
+                {id:4,time:'2018-06-12',content:'公司放假通知：放假3天 庆祝中秋'},
+            ],
+			cloudSpaceCapacityData:{name:'云空间容量',all:800,available:100},
+			networkQualityData:[{ "name": "广东，广西，福建，湖南，贵州", level:'优秀', "value": 900}, 
+				{"name": "西藏，青海，四川",level:'良好',"value": 500},
+				{"name": "浙江，江苏，安徽",level:'好',"value": 300},
+				{ "name": "河南，陕西，山东", level:'一般', "value": 900},
+        		{"name": "黑龙江，沈阳",level:'差',"value": 500}],
+			onlineStats:{
+				account: { online: 34551, all: 82342 },
+        		device: { online: 321243, all: 912341 }
+			},
+			barChartData:{
+				title1:'上线人数排序',
+				title2:'上线设备排序',
+				account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
+        		device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
+			},
+			activityData:{
+				dateType:2,
+				distributionList:[
+					{"onlineDateInfo": "07/26","distributionUserInfo": "3500","distributionTerminalInfo": "350" },
+					{"onlineDateInfo": "07/27","distributionUserInfo": "4500","distributionTerminalInfo": "600" },
+					{"onlineDateInfo": "07/28","distributionUserInfo": "1500","distributionTerminalInfo": "500" },
+					{"onlineDateInfo": "07/29","distributionUserInfo": "2300","distributionTerminalInfo": "200" },
+					{"onlineDateInfo": "07/30","distributionUserInfo": "800","distributionTerminalInfo": "180" },
+					{"onlineDateInfo": "07/31","distributionUserInfo": "3000","distributionTerminalInfo": "480" },
+				]
+			}
 		};
 	},
 	computed: {
 		getShowSidebar() {
 			return this.$store.state.showSideBar;
+		},
+		 chineseMapData() {
+			let stats = this.china.detail
+			if (!stats) return [];
+			let china = Object.keys(stats).map((v) => {
+				let province = stats[v]
+				let data = {name: v, value: 0, online: 0}
+				Object.keys(province).forEach((u) => {
+				let area = province[u]
+				
+				let value = 0
+				let online = 0
+				Object.keys(area).forEach((t) => {
+					value += area[t].total
+					online += area[t].online
+					if (!data[t]) data[t] = {online: 0, total: 0}
+					data[t].online += area[t].online
+					data[t].total += area[t].total
+				})
+				area.value = value
+				area.online = online
+				data.value += value
+				data.online += online
+				})
+
+				return data // 省数据
+			})
+
+			Object.keys(stats).forEach((v) => {
+				let province = stats[v]
+				stats[v] = Object.keys(province).map((u) => {
+				return Object.assign({name: u}, province[u])
+				})
+			})
+			stats.china = china
+			return stats
 		},
 	},
 	watch: {
@@ -490,7 +243,27 @@ export default {
 	},
 	components:{
 		bulletin,
-		halfCircle
+		halfCircle,
+		cloudSpaceCapacity,
+		keyEvents,
+		onlineStats,
+		distributionBarChart,
+		activityChart,
+		chineseMap,
+	},
+	beforeCreate(){
+		this.$axios
+			.get("/report/term/stats/district", { responseType: "json" })
+			.then(res => {
+				if (res.data.code != 0) {
+				return console.log("get data error: ", res.message);
+				}
+				this.china = res.data.data;
+				// console.log('stats data: ', res.data)
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
 	}
 };
 </script>
@@ -509,6 +282,9 @@ export default {
 			font-size: 12px;
 			position: relative;
 			vertical-align: middle;
+			&:last-child{
+				margin-bottom: 0;
+			}
 			.section-title {
 				border-bottom: 1px solid #e0e0e0;
 				height: 38px;
