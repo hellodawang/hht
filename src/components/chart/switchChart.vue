@@ -40,6 +40,11 @@ export default {
     handleChange() {
       this.$emit('periodChange',this.period)
     }
+  },
+  watch:{
+    selected:function(){
+      this.period = this.selected
+    }
   }
 };
 </script>

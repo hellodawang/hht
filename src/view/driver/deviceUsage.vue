@@ -1,5 +1,5 @@
 <template>
-    <switch-chart :data="config" :buttonList="buttonList" :action="handleChange" :selected='selected'/>
+    <switch-chart :data="config" :buttonList="buttonList" @periodChange='handleChange'  :selected='selected'/>
 </template>
 
 <script>

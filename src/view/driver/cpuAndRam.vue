@@ -59,7 +59,6 @@ let baseConfig = {
                     // color: '#c23531',
                 },
             },
-            showSymbol: false,
             data: [],
         },
         {
@@ -72,8 +71,6 @@ let baseConfig = {
                     // color: '#93d6ca',
                 },
             },
-            showSymbol: false,
-            // areaStyle: {normal: {}},
             data: [],
         },
         {
@@ -86,8 +83,7 @@ let baseConfig = {
                     // color: '#93d6ca',
                 },
             },
-            showSymbol: false,
-            // areaStyle: {normal: {}},
+
             data: [],
         },
         {
@@ -100,8 +96,6 @@ let baseConfig = {
                     // color: '#93d6ca',
                 },
             },
-            showSymbol: false,
-            // areaStyle: {normal: {}},
             data: [],
         },
         {

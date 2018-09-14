@@ -6,7 +6,7 @@
                 <h3>在线统计</h3>
             </div>
             <div class="section-content">
-                <online-stats :account="onlineStats.account" :device="onlineStats.device"/>
+                <online-stats :account="accountStats" :device="deviceStats"/>
             </div>
         </div>
         <div class="section online-distribution">
@@ -15,7 +15,7 @@
           </div>
           <div class="section-content">
             <distribution-bar-chart :data="barChartData" style="height:325px"/>
-            <activity-chart :op='activityData'/>
+            <activity-chart/>
           </div>
         </div>
       </el-col>
@@ -97,6 +97,30 @@ export default {
   },
   beforeCreate() {
     this.$axios
+      .post("/user/findOnline", {}, { responseType: "json" })
+      .then(res => {
+        if (res.data.code != '0000') {
+          return console.log("get data error: ", res.message);
+        }
+        this.account = res.data.data;
+        console.log('online account: ', this.account)
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.$axios
+      .post("/term/findOnlineStatistical", {}, { responseType: "json" })
+      .then(res => {
+        if (res.data.code != '0000') {
+          return console.log("get data error: ", res.message);
+        }
+        this.device = res.data.data;
+        console.log('online device: ', this.device)
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.$axios
       .get("/report/term/stats/district", { responseType: "json" })
       .then(res => {
         if (res.data.code != 0) {
@@ -108,7 +132,7 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-    this.$axios
+    this.$axios   // todo 合并到上一个请求中
       .get("/report/term/stats/district?district=1", { responseType: "json" })
       .then(res => {
         if (res.data.code != 0) {
@@ -127,6 +151,8 @@ export default {
       chart1: {},
       mapType: "1",
       period: {num:1},
+      device: { online: 0, all: 1, terminalTypeList: []},
+      account: { online: 0, all: 1, accountTypeList: []},
       stats: {},
       china: {},
       world: {},
@@ -140,19 +166,30 @@ export default {
     getShowSidebar() {
       return this.$store.state.showSideBar;
     },
-    onlineStats() {
+    accountStats() {
       return {
-        // todo 假数据
-        account: { online: 34551, all: 82342 },
-        device: { online: 321243, all: 912341 }
+           online: this.account && this.account.onlineTotal || 0, 
+           all: this.account && this.account.accountTotal || 1
       };
+    },
+    deviceStats() {
+      return {
+          online: this.device && this.device.onlineTotal || 0, 
+          all: this.device && this.device.terminalTotal || 1
+      }
     },
     barChartData() {
       return {
         title1:'上线人数排序',
-				title2:'上线设备排序',
-				account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
-        device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
+        title2:'上线设备排序',
+        account: this.account.accountTypeList.map((v) => {
+          return {accountType: v.accountType, typeOnline: v.typeOnline}
+        }),
+        device: this.device.terminalTypeList.map((v) => {
+          return {terminalType: v.terminalType, typeOnline: v.typeOnline}
+        }),
+				// account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
+        // device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
       };
       // return distributionData4BarChart; // todo 假数据
     },
@@ -211,19 +248,7 @@ export default {
       // console.log('world data: ', this.world)
       return this.world
     },
-    activityData() {
-      return {
-        dateType:2,
-				distributionList:[
-					{"onlineDateInfo": "07/26","distributionUserInfo": "3500","distributionTerminalInfo": "350" },
-					{"onlineDateInfo": "07/27","distributionUserInfo": "4500","distributionTerminalInfo": "600" },
-					{"onlineDateInfo": "07/28","distributionUserInfo": "1500","distributionTerminalInfo": "500" },
-					{"onlineDateInfo": "07/29","distributionUserInfo": "2300","distributionTerminalInfo": "200" },
-					{"onlineDateInfo": "07/30","distributionUserInfo": "800","distributionTerminalInfo": "180" },
-					{"onlineDateInfo": "07/31","distributionUserInfo": "3000","distributionTerminalInfo": "480" },
-				]
-      };
-    },
+
     topAppData() {
       return {
         count: [578, 673, 708, 921, 1126],

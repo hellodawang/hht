@@ -104,30 +104,15 @@ export default {
   },
   props: ["data"],
   data: function() {
-    return {
-        xAxis1:[],
-        xAxis2:[],
-        data1:[],
-        data2:[]
-    };
-  },
-  created(){
-      this.data.account.forEach((item) => {
-          this.xAxis1.push(item.accountType),
-          this.data1.push(item.typeOnline)
-      });
-      this.data.device.forEach((item) => {
-          this.xAxis2.push(item.terminalType),
-          this.data2.push(item.typeOnline)
-      });
+      return {}
   },
   computed: {
       config() {
           let cfg = Object.assign({}, baseConfig)
-          cfg.series[0].data = this.data1
-          cfg.series[1].data = this.data2
-          cfg.xAxis[0].data = this.xAxis1
-          cfg.xAxis[1].data = this.xAxis2
+          cfg.series[0].data = this.data.account.map(v => v.typeOnline)
+          cfg.series[1].data = this.data.device.map(v => v.typeOnline)
+          cfg.xAxis[0].data = this.data.account.map(v => v.accountType)
+          cfg.xAxis[1].data = this.data.device.map(v => v.terminalType)
           cfg.yAxis[0].name = this.data.title1
           cfg.yAxis[1].name = this.data.title2
           return cfg
