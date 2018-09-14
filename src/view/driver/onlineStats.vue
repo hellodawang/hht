@@ -4,11 +4,10 @@
 <script>
 export default {
   props: ["account", "device"],
-  data: function() {
-    return {
-      // greeting: "Hello"
-    };
-  },
+  // data: function() {
+  //   return {
+  //   };
+  // },
   mounted(){
     let chart = this.$echarts.init(this.$refs.onlineStats)
     chart.setOption({
@@ -204,7 +203,12 @@ export default {
           },        
         ]
     })
-  }
+  },
+  // watch:{
+  //   account:function(){
+      
+  //   }
+  // }  
 };
 </script>
 

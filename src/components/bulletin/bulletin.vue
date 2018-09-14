@@ -14,20 +14,15 @@
 <script>
 import Date from '../../utils/date.js'
 export default {
+    props:['op'],
     data(){
-        return{
-            bulletins:[
-                {id:1,time:'2018-09-11',content:'公司放假通知：放假3天 庆祝中秋'},
-                {id:2,time:'2018-08-01',content:'公司放假通知：放假3天 庆祝中秋'},
-                {id:3,time:'2018-06-31',content:'公司放假通知：放假3天 庆祝中秋'},
-                {id:4,time:'2018-06-12',content:'公司放假通知：放假3天 庆祝中秋'},
-            ]    
+        return{  
         }    
     },
     computed:{
         bulletinList(){
             var obj={};
-            return this.bulletins.map((item,index)=>{
+            return this.op.map((item,index)=>{
                 // 每条数据对应的月份
                 let month = item.time.substring(5,7)
                 //   当前时间
@@ -90,7 +85,5 @@ export default {
                 height: 50px;      
             }
         }
-        
-
     }
 </style>

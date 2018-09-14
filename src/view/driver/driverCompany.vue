@@ -118,8 +118,8 @@ export default {
         		device: { online: 321243, all: 912341 }
 			},
 			barChartData:{
-				title1:'上线人数排序',
-				title2:'上线设备排序',
+				title1:'使用时长',
+				title2:'使用率',
 				account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
         		device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
 			},

@@ -1,5 +1,5 @@
 <template>
-    <switch-chart :data="config" :buttonList="buttonList" :action="handleChange"/>
+    <switch-chart :data="config" :buttonList="buttonList" :action="handleChange" :selected='selected'/>
 </template>
 
 <script>
@@ -25,32 +25,21 @@ let baseConfig = {
   xAxis: [
     {
       type: "category",
-      boundaryGap: false,
-      data: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
     }
   ],
   yAxis: [
     {
-      name: "活跃度",
+      name: "小时",
       type: "value",
       min: 0
-      // max: 100,
-      // interval: 20,
     }
   ],
   series: [
     {
-      // name: '平均值',
-      type: "line",
-      smooth: true,
-      // showSymbol: false,
-      label: {
-        normal: {
-          show: true,
-          position: "top"
-        }
-      },
-      data: [79, 68, 56, 74, 89, 95, 89]
+      barGap: '10%',
+      barWidth: '30%',
+      type: "bar",
+      data: []
     }
   ]
 };
@@ -59,32 +48,43 @@ export default {
   components: {
     switchChart
   },
-  props: ["data"],
+  props: ["op"],
   data: function() {
     return {
       buttonList: [
-        { type: "week", name: "每周" },
-        { type: "month", name: "每月" },
-        { type: "year", name: "每年" }
-      ]
+        { type: 1, name: "每周" },
+        { type: 2, name: "每月" },
+        { type: 3, name: "每年" }
+      ],
     };
   },
   computed: {
     config() {
       let cfg = Object.assign({}, baseConfig);
-    //   cfg.xAxis[0].data = this.data.xAxis;
-    //   cfg.series[0].data = this.data.account;
-    //   console.log("series: ", cfg.series[0]);
-
-    //   cfg.series[1].data = this.data.device;
+      cfg.xAxis[0].data = this.runningTimeData.xAxisArr;
+      cfg.series[0].data = this.runningTimeData.data
       return cfg;
-    }
+    },
+    // 选中的是周，月，年
+    selected(){
+      return this.op.onlineDateType
+    },
+    // x轴数据
+    runningTimeData(){
+      let xAxisArr = []
+      let data = []
+      this.op.dateList.forEach(element => {
+        xAxisArr.push(element.dayDate)
+        data.push(element.hour)
+      });
+      return {xAxisArr:xAxisArr,data:data}
+    },
   },
   methods: {
     handleChange(type) {
         console.log(type)
     }
-  }
+  },
 };
 </script>
 

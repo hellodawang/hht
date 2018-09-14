@@ -11,11 +11,11 @@
 		<div class="content clearfix">
 			<!-- 侧边列表 -->
 			<div class="device-list-wrapper">
-				<el-table :data="tableData" style="width: 100%">
+				<el-table :data="tableData" style="width: 100%" >
 					<el-table-column type="selection" width="35" label="全选"></el-table-column>
 					<el-table-column  label=''>
 						<template slot-scope="scope">
-							<div class="device" :class="{busy:scope.row.status=='忙碌',close:scope.row.status=='未开机',available:scope.row.status=='空闲',current: current==scope.row.id}" @click="changeCurrent(scope.row.id)">
+							<div class="device" :class="{busy:scope.row.status=='忙碌',close:scope.row.status=='离线',available:scope.row.status=='空闲',current: currentId==scope.row.id}" @click="changeCurrent(scope.row.id)">
 								<div class="device-name">设备名称: {{scope.row.deviceName}}</div>
 								<div class="device-status">{{scope.row.status}}</div>
 								<i class="iconfont icon-conference" ></i>
@@ -32,48 +32,38 @@
 							<h5>基础信息</h5>
 							<el-row class="basic-info">
 								<el-col :span="12">
-									<h5>软件信息：</h5>
-									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">{{current.category}}</span></div>
-									<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{current.id}}</span></div>
-									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">{{current.model}}</span></div>
-									<div class="info-item"><span class="info-item-label">云识别号</span> <span class="info-item-text">{{current.clientCloudCode}}</span></div>
-									<div class="info-item"><span class="info-item-label">固件版本</span> <span class="info-item-text">{{current.firmware}}</span></div>
-									<div class="info-item"><span class="info-item-label">升级时间</span> <span class="info-item-text">{{current.lastUpgrade}}</span></div>
+									<!-- <h5>软件信息：</h5> -->
+									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">{{current ? current.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{current ? current.id : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">{{current ? current.model : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">云识别号</span> <span class="info-item-text">{{current ? current.clientCloudCode : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">固件版本</span> <span class="info-item-text">{{current ? current.firmware : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">升级时间</span> <span class="info-item-text">{{current ? current.lastUpgrade : ''}}</span></div>
 								</el-col>
 								<el-col :span="12">
-									<h5>硬件信息：</h5>
-									<div class="info-item"><span class="info-item-label">客户名</span> <span class="info-item-text">{{current.customer}}</span></div>
-									<div class="info-item"><span class="info-item-label">销售日期</span> <span class="info-item-text">{{current.saleDate}}</span></div>
-									<div class="info-item"><span class="info-item-label">配置清单</span> <span class="info-item-text">{{current.manifest}}</span></div>
-									<div class="info-item"><span class="info-item-label">所在城市</span> <span class="info-item-text">{{current.location}}</span></div>
-									<div class="info-item"><span class="info-item-label">最近开机</span> <span class="info-item-text">{{current.lastBoot}}</span></div>
-									<div class="info-item"><span class="info-item-label">配置时间</span> <span class="info-item-text">{{current.lastConfig}}</span></div>
+									<!-- <h5>硬件信息：</h5> -->
+									<div class="info-item"><span class="info-item-label">客户名</span> <span class="info-item-text">{{current ? current.customer : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">销售日期</span> <span class="info-item-text">{{current ?current.saleDate : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">配置清单</span> <span class="info-item-text">{{current ?current.manifest : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">所在城市</span> <span class="info-item-text">{{current ?current.location : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">最近开机</span> <span class="info-item-text">{{current ?current.lastBoot : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">配置时间</span> <span class="info-item-text">{{current ?current.lastConfig : ''}}</span></div>
 								</el-col>
 							</el-row>
-						</div>
-						
+						</div>				
 						<div class="section">
-							<h5>使用时长</h5>
-							<running-time  style="height:250px"/>
-							<!-- <chart :period='period1' v-on:periodchange='periodchange1'>
-								<div ref="useRatio" style="height:250px"></div>
-							</chart> -->
+							<h5>使用率</h5>
+							<device-usage style="heigth:250px" :op='deviceUsageData' />
 						</div>
 					</el-col>
 					<el-col :span='12' class="col">
 						<div class="section">
-							<h5>使用率</h5>
-							<device-usage style="heigth:250px" />
-							<!-- <chart :period='period2' v-on:periodchange='periodchange2'>
-								<div ref="useRatio1" style="height:250px"></div>
-							</chart> -->
+							<h5>使用时长</h5>
+							<running-time  style="height:250px" :op='runningTimeData'/>
 						</div>
 						<div class="section">
 							<h5>异常统计</h5>
-							<exception-stats  style="height:250px"/>
-							<!-- <chart :period='period3' v-on:periodchange='periodchange3'>
-								<div ref="useRatio2" style="height:250px"></div>
-							</chart> -->
+							<exception-stats  style="height:250px" :op='exceptionData'/>
 						</div>
 					</el-col>
 				</el-row>
@@ -104,9 +94,10 @@ export default {
 				if (res.data.code != 0) {
 				return console.log("get data error: ", res.message);
 				}
-				this.tableData = res.data.data
-				this.current = this.tableData[0]
-				// console.log('device data: ', this.tableData)
+				this.$nextTick(()=>{
+					this.tableData = res.data.data
+					this.currentId = this.tableData[0].id
+				})
 			})
 			.catch(function(error) {
 				console.log(error);
@@ -114,53 +105,61 @@ export default {
 	},
 	data(){
 		return{
+			runningTimeData:{
+				onlineDateType:2,
+				dateList:[ 
+					{"dayDate":"2018-9-6", "hour":"5",},
+					{"dayDate":"2018-9-7","hour":"1",},
+					{"dayDate":"2018-9-8","hour":"4",},
+					{"dayDate":"2018-9-9","hour":"6",},
+					{"dayDate":"2018-9-10","hour":"3",},
+				]
+			},
+			deviceUsageData:{
+				onlineDateType:3,
+				dateList:[ 
+					{"dayDate":"2018-9-6", "employRate":"5", "busyRate":"6"},
+					{"dayDate":"2018-9-7","employRate":"1","busyRate":"2"},
+					{"dayDate":"2018-9-8","employRate":"4","busyRate":"2"},
+					{"dayDate":"2018-9-9","employRate":"6","busyRate":"2"},
+					{"dayDate":"2018-9-10","employRate":"3","busyRate":"2"},
+				]
+			},
+			exceptionData:{
+				onlineDateType:1,
+				exceptionList:[
+					{exceptionNum:4,exceptionDecs:'升级异常' },
+					{exceptionNum:5,exceptionDecs:'日志上传异常' },
+					{exceptionNum:4,exceptionDecs:'配置导出异常' },
+					{exceptionNum:10,exceptionDecs:'关机异常' },
+				]
+			},
 			tableData: [],
-			// tableData:[{id:1,deviceName:'XC_1234568',status:'未开机'},
-			// 	{id:2,deviceName:'XC_1234568',status:'忙碌'},
-			// 	{id:3,deviceName:'XC_1234568',status:'空闲'},
-			// 	{id:4,deviceName:'XC_1234568',status:'空闲'},
-			// 	{id:5,deviceName:'XC_1234568',status:'空闲'},
-			// 	{id:6,deviceName:'XC_1234568',status:'空闲'},
-			// ],
-			current: {},
 			currentId: '',
-			// period1:'week',
-			// period2:'week',
-			// period3:'week',
 			useRatio:null,
 			useRatio2:null,
 		}
 	},
 	computed: {
-
-	},
-	watch: {
-		currentId: function() {
-			let cur = this.tableData.filter(v => v.id == this.currentId)[0]
-			// console.log('current device: ', cur)
-			this.current = cur
+		current(){
+			return this.tableData.filter(v => v.id == this.currentId)[0] || {}
 		}
 	},
 	methods:{
 		changeCurrent(id){
 			this.currentId = id
-			// console.log('device Id: ', id)
+			// 右边数据更新 ajax请求
+			this.deviceUsageData = {
+				onlineDateType:1,
+				dateList:[ 
+					{"dayDate":"2018-9-6", "employRate":"8", "busyRate":"6"},
+					{"dayDate":"2018-9-7","employRate":"2","busyRate":"2"},
+					{"dayDate":"2018-9-8","employRate":"3","busyRate":"2"},
+					{"dayDate":"2018-9-9","employRate":"5","busyRate":"2"},
+					{"dayDate":"2018-9-10","employRate":"1","busyRate":"2"},
+				]
+			}
 		},
-		// periodchange1(value){
-		// 	if(value=='week'){
-
-		// 	}
-		// },
-		// periodchange2(value){
-		// 	if(value=='week'){
-
-		// 	}
-		// },
-		// periodchange3(value){
-		// 	if(value=='week'){
-
-		// 	}
-		// }
 	}
 };
 </script>
@@ -199,7 +198,7 @@ export default {
 						height: 100%;
 						.section{
 							height: 50%;
-							padding: 0 30px;
+							// padding: 0 30px;
 							h5{
 								text-align: center;
 								color: #333;

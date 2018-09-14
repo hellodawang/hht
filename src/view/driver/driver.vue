@@ -126,10 +126,14 @@ export default {
       map: {},
       chart1: {},
       mapType: "1",
-      period: "",
+      period: {num:1},
       stats: {},
       china: {},
       world: {},
+      // onlineStats:{
+      //   account: { online: 34551, all: 82342 },
+      //   device: { online: 321243, all: 912341 }
+      // }
     };
   },
   computed: {
@@ -316,8 +320,15 @@ export default {
   watch: {
     // 如果 `getShowSidebar` 发生改变，这个函数就会运行
     getShowSidebar: function(newQuestion, oldQuestion) {
-      this.map.resize();
-    }
+      
+    },
+    // 深度监听
+    // onlineStats: {
+    //   handler:function(){
+    //     alert(1)
+    //   },
+    //   deep:true
+    // },
   },
   methods: {
 

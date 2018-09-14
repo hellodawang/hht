@@ -6,8 +6,7 @@
 import echarts from "echarts";
 import china from "echarts/map/json/china.json";
 // import world from "echarts/map/json/world.json";
-
-// init and display map
+import mapchart from '../../utils/map.js';
 function display() {
         this.$echarts.dispose(this.$refs.echart);
         this.map = echarts.extendsMap(this.$refs.echart, {

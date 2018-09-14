@@ -1,6 +1,6 @@
 <template>
     <div class="nav1">
-        <div class="list" @scroll ="handleScroll" ref="list">
+        <div class="list" ref="list">
             <div v-for="(item,index) in data" :key='index' class="list-item"><div :data-en="item.name.slice(0, 1)" v-if="item.first"></div>{{item.name}}{{index}}</div>
         </div>
         <ul class="list-shortcut">
