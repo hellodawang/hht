@@ -18,7 +18,7 @@
 						</el-input>
 					</div>
 					<el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange" tooltip-effect="dark"
-                  :highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
+                  		:highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
 						<el-table-column type="selection" width="55"> </el-table-column> 
 						<el-table-column prop="clientCloudCode" label="云识别号"> </el-table-column> 
 						<el-table-column prop="model" label="型号"> </el-table-column> 
@@ -27,6 +27,9 @@
 						<el-table-column prop="category" label="产品类别" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="status" label="在线状态" show-overflow-tooltip></el-table-column>
 					</el-table>
+					 <ul class="list-shortcut">
+						<li v-for="(item,index) in ss" :key="index"  ref="item" :class="{current:current==index}" @click="gotoChar(item,index)">{{item}}</li>
+					</ul>
 				</div>
                 <div class="deviceInfo-more" style="margin-left:990px;height:100%;background-color:#fff">
 					<h5>设备信息</h5>
@@ -61,7 +64,9 @@ export default {
 			showChooseVersion: false,
 			showUpdating: false,
 			showAlert: false,
-			selected:{}
+			selected:{},
+			ss:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
+			current:0
 		};
 	},
 	methods: {
@@ -96,6 +101,9 @@ export default {
 		selectedRow(row, event, column){
 			this.selected = row
 		},
+		gotoChar(char,index){
+            this.current = index;
+        },
 	},
 	mounted() {
 		this.$axios
@@ -155,6 +163,26 @@ export default {
 				line-height: 30px;
 				text-indent: 2em;
 			}	
+			.list-shortcut{
+				position: absolute;
+				top: 100px;
+				right: 10px;
+				width: 20px;
+				text-align: center;
+				line-height: 1.8em;
+				font-size: 14px;
+				color: #999;
+				li{
+					width: 25px;
+					height: 25px;
+					cursor: pointer;
+					&.current{
+						border-radius: 50%;
+						background-color: #ccc;
+						color: #fff;
+					}
+				}
+			}
 		}
 		.deviceInfo-more{
 			padding: 20px;

@@ -146,11 +146,11 @@ export default {
 		width: 197px;
 		background-color: #292d30;
 		.hht_logo {
-			height: 75px;
-			padding: 24px 0;
+			// height: 75px;
+			padding: 4px 0;
 			img {
-				width: 139px;
-				height: 27px;
+				// width: 139px;
+				height: 44px;
 				display: block;
 				margin: 0 auto;
 			}

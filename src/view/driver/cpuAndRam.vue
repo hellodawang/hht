@@ -145,7 +145,7 @@ export default {
       cfg.series.forEach((v, i) => {
         return Object.assign(v, this.data.data[i]);
       });
-       console.log('bendwidth series: ', cfg.series)
+    //    console.log('bendwidth series: ', cfg.series)
       return cfg;
     }
   }

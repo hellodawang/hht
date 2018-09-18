@@ -40,6 +40,10 @@
                 <span class="device-num">15558</span>
                 <span class="device-num-text">当前设备运行总数</span>
               </div>
+              <div class="device-text-item alarm">
+                <span class="device-num">12</span>
+                <span class="device-num-text">设备告警总数</span>
+              </div>
             </div>
           </div>
         </div>
@@ -103,7 +107,7 @@ export default {
           return console.log("get data error: ", res.message);
         }
         this.account = res.data.data;
-        console.log('online account: ', this.account)
+        // console.log('online account: ', this.account)
       })
       .catch(function(error) {
         console.log(error);
@@ -115,7 +119,7 @@ export default {
           return console.log("get data error: ", res.message);
         }
         this.device = res.data.data;
-        console.log('online device: ', this.device)
+        // console.log('online device: ', this.device)
       })
       .catch(function(error) {
         console.log(error);
@@ -405,7 +409,7 @@ export default {
         }
         .device-text {
           height: 80px;
-          padding: 0 60px;
+          padding: 0 30px;
           .device-text-item {
             display: inline-block;
             margin-right: 20px;

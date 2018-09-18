@@ -59,7 +59,7 @@ export default {
     return {
       buttonList: [
         { type: 1, name: "每周" },
-        { type:2, name: "每月" },
+        { type: 2, name: "每月" },
         { type: 3, name: "每年" }
       ]
     };

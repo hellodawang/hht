@@ -4,14 +4,14 @@
 			<el-button size="mini">日志导出</el-button>
 			<el-button size="mini">配置导入</el-button>
 			<el-button size="mini">配置导出</el-button>
-			<el-button size="mini">升级</el-button>
+			<el-button size="mini" @click="update" >升级</el-button>
 			<el-button size="mini">重启</el-button>
 			<el-button size="mini">关机</el-button>
 		</div>
 		<div class="content clearfix">
 			<!-- 侧边列表 -->
 			<div class="device-list-wrapper">
-				<el-table :data="tableData" style="width: 100%" >
+				<el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column type="selection" width="35" label="全选"></el-table-column>
 					<el-table-column  label=''>
 						<template slot-scope="scope">
@@ -69,6 +69,7 @@
 				</el-row>
 			</div>	
 		</div>
+		<upgrade :data="selectedDevice" @cancelUpdate="showUpdating = false" @hideUpdate="hideUpdate" v-if="showUpdating" />
 	</div>
 </template>
 <script>
@@ -76,17 +77,16 @@ import chart from '../../components/chart/chart1';
 import runningTime from './runningTime'
 import deviceUsage from './deviceUsage'
 import exceptionStats from './exceptionStats'
+import upgrade from '../../components/upgrade/upgrade'
 
 export default {
 	components: {
 		chart,
 		runningTime,
 		deviceUsage,
-		exceptionStats
+		exceptionStats,
+		upgrade
 	},
-	// created() {
-	// 	this.$store.commit('hide');
-	// },
 	beforeCreate() {
 		this.$axios
 			.get("/term/list", { responseType: "json" })
@@ -138,6 +138,8 @@ export default {
 			currentId: '',
 			useRatio:null,
 			useRatio2:null,
+			selectedDevice:[],
+			showUpdating: false,
 		}
 	},
 	computed: {
@@ -159,6 +161,32 @@ export default {
 					{"dayDate":"2018-9-10","employRate":"1","busyRate":"2"},
 				]
 			}
+		},
+		handleSelectionChange(val){
+			this.selectedDevice = val
+		},
+		update() {
+			// this.showChooseVersion = true;
+			if (this.selectedDevice.length == 0) {
+				// this.openMessage('请至少选中一台设备！')
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+			let offline = this.selectedDevice.filter(v => v.status == '离线')
+			if (offline[0]) {
+				this.$alert('不能选择升级离线设备', {confirmButtonText: '确定'})
+				return
+			}
+			this.showUpdating = true
+		},
+		hideUpdate() {
+			this.$confirm('关闭后将无法查看升级进度和结果, 是否继续?', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.showUpdating = false
+				}).catch((e) => console.log(e))
 		},
 	}
 };

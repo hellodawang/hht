@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     handleChange(type) {
-        console.log(type)
+        // console.log(type)
         this.$axios
           .post("/user/findActiveDistribution", {dateType: type}, { responseType: "json" })
           .then((res) => {
@@ -132,8 +132,8 @@ export default {
             }
             this.distributionList = res.data.data.distributionList;
             this.dateType = parseInt(res.data.data.onlineDateType)
-            console.log('date type: ', this.dateType)
-            console.log('online distribution: ', this.distributionList)
+            // console.log('date type: ', this.dateType)
+            // console.log('online distribution: ', this.distributionList)
           })
           .catch(function(error) {
             console.log(error);
