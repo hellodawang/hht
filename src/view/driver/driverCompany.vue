@@ -37,6 +37,10 @@
 							<span class="device-num">15558</span>
 							<span class="device-num-text">今日设备运行总数</span>
 						</div>
+						<div class="device-text-item alarm">
+							<span class="device-num">{{stats[mapType].warningTotal}}</span>
+							<span class="device-num-text">设备告警总数</span>
+						</div>
 					</div>
                 </div>
             </div>
@@ -107,7 +111,7 @@ export default {
                 {id:3,time:'2018-06-31',content:'公司放假通知：放假3天 庆祝中秋'},
                 {id:4,time:'2018-06-12',content:'公司放假通知：放假3天 庆祝中秋'},
             ],
-			cloudSpaceCapacityData:{name:'云空间容量',all:800,available:100},
+			cloudSpaceCapacityData:{},
 			networkQualityData:[{ "name": "广东，广西，福建，湖南，贵州", level:'优秀', "value": 900}, 
 				{"name": "西藏，青海，四川",level:'良好',"value": 500},
 				{"name": "浙江，江苏，安徽",level:'好',"value": 300},
@@ -133,7 +137,11 @@ export default {
 					{"onlineDateInfo": "07/30","distributionUserInfo": "800","distributionTerminalInfo": "180" },
 					{"onlineDateInfo": "07/31","distributionUserInfo": "3000","distributionTerminalInfo": "480" },
 				]
-			}
+			},
+			stats: {
+				'1': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
+			},
+			mapType: "1",
 		};
 	},
 	computed: {
@@ -259,7 +267,7 @@ export default {
 				return console.log("get data error: ", res.message);
 				}
 				this.china = res.data.data;
-				// console.log('stats data: ', res.data)
+				this.cloudSpaceCapacityData = {name:'云空间容量',all:800,available:100}
 			})
 			.catch(function(error) {
 				console.log(error);
@@ -312,19 +320,29 @@ export default {
 				}
 				.device-text {
 					height: 80px;
-					padding: 0 60px;
+					padding: 0 30px;
 					.device-text-item {
-						display: inline-block;
+						// display: inline-block;
+						float: left;
 						margin-right: 20px;
 						text-align: center;
 						> span {
-							display: block;
+						display: block;
+						}
+						&.alarm{
+						float: right;
+						.device-num{
+							font-size: 18px;
+							color: #FF6C00;
+							line-height: 24px;
+							margin: 20px 0 10px 0;
+						}
 						}
 						.device-num {
-							font-size: 28px;
-							color: #1a8034;
-							line-height: 54px;
-							font-weight: 500;
+						font-size: 28px;
+						color: #1a8034;
+						line-height: 54px;
+						font-weight: 500;
 						}
 					}
 				}

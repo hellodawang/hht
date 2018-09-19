@@ -103,6 +103,7 @@ export default {
 		},
 		gotoChar(char,index){
             this.current = index;
+			// 查询以当前选中字母开头的数据
         },
 	},
 	mounted() {

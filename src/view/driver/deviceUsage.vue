@@ -54,9 +54,11 @@ export default {
   components: {
     switchChart
   },
-  props: ["op"],
+  props: ["cloudCode"],
   data: function() {
     return {
+      chartData: [],
+      selected: '',
       buttonList: [
         { type: 1, name: "每周" },
         { type: 2, name: "每月" },
@@ -64,31 +66,54 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.handleChange('')
+  },
   computed: {
     config() {
       let cfg = Object.assign({}, baseConfig);
-      cfg.xAxis[0].data = this.runningTimeData.xAxisArr;
-      cfg.series[0].data = this.runningTimeData.data
+      cfg.xAxis[0].data = this.chartData.map(v => v.dayDate) // this.runningTimeData.xAxisArr;
+      cfg.series[0].data = this.chartData.map(v => v.employRate) // this.runningTimeData.data
+      // console.log('in config function: ', this.chartData)
       return cfg;
     },
     // 选中的是周，月，年
-    selected(){
-      return this.op.onlineDateType
-    },
+    // selected(){
+      // return this.op.onlineDateType
+    // },
     // x轴数据
-    runningTimeData(){
-      let xAxisArr = []
-      let data = []
-      this.op.dateList.forEach(element => {
-        xAxisArr.push(element.dayDate)
-        data.push(element.employRate)
-      });
-      return {xAxisArr:xAxisArr,data:data}
-    },
+    // runningTimeData(){
+    //   let xAxisArr = []
+    //   let data = []
+    //   this.chartData.forEach(element => {
+    //     xAxisArr.push(element.dayDate)
+    //     data.push(element.employRate)
+    //   });
+    //   return {xAxisArr:xAxisArr,data:data}
+    // },
+  },
+  watch: {
+    cloudCode: function() {
+      this.handleChange('')
+    }
   },
   methods: {
     handleChange(type) {
-        console.log(type)
+      console.log(type)
+      if (!this.cloudCode) return
+      this.$axios
+        .post("/term/usageRate", {dateType: type, clientCloudCode: this.cloudCode}, { responseType: "json" })
+        .then(res => {
+          if (res.data.code != '0000') {
+            return console.log("get data error: ", res.message);
+          }
+          this.chartData = res.data.data.dateList
+          // console.log('chart data: ', this.chartData)
+          this.selected = res.data.data.onlineDateType
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

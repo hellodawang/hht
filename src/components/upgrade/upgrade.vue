@@ -24,7 +24,7 @@
 					<h3 class="modal-header-title">升 级</h3>
 					<i class="el-icon-close" @click="hideUpdate"></i>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body ">
 					<div class="table">  
 						<div class="table-tr" v-for="item in updateStatus" :key="item.id"> 
 							<div class="table-td" style="width:50%">{{item.clientCloudCode}}</div>
@@ -34,6 +34,38 @@
 						</div> 
 					</div>
 					<el-button type='primary' class="btn-confirm" @click="hideUpdate" size="mini"> 取消</el-button>
+				</div>
+			</div>
+		</div>
+		<div class="modal-wrapper" v-if="showResult" >
+			<div class="modal" style="height:400px">
+				<div class="modal-header">
+					<h3 class="modal-header-title">升级</h3>
+					<i class="el-icon-close" @click="showResult= false"></i>
+				</div>
+				<div class="modal-body update-result" style="max-height:300px">
+					<div class="result">
+						<div class="result-item success"><i class="iconfont icon-smile"></i><span class="result-num">5台</span><div class="result-text">升级成功</div></div>
+						<div class="result-item failed"><i class="iconfont icon-cry"></i><span class="result-num">5台</span><div class="result-text">升级失败</div></div>
+						<div class="result-item stop"><i class="iconfont icon-face"></i><span class="result-num">5台</span><div class="result-text">升级终止</div></div>
+					</div>
+					<div style="width:80%;margin:20px auto 0">
+						<h5 style="font-weight:500;line-height:1.8em">失败列表</h5>
+						<div class="table">  
+							<div class="table-tr"> 
+								<div class="table-td" style="width:30%">序号</div>
+								<div class="table-td" style="width:70%">失败原因</div>  
+							</div>
+							<div class="table-tr" v-for="item in failedList" :key="item.num"> 
+								<div class="table-td" style="width:30%">{{item.num}}</div>
+								<div class="table-td" style="width:70%">{{item.reason}}</div>  
+							</div> 
+						</div>
+					</div>					
+				</div>
+				<div class="btn-group">
+					<el-button type='primary'  size="mini"> 导出</el-button>
+					<el-button type='primary'  size="mini" @click="showResult= false"> 确定</el-button>	
 				</div>
 			</div>
 		</div>
@@ -48,10 +80,11 @@ export default {
             updateVersion: [],
 			updateStatus: [],
             showChooseVersion: true,
-            showUpdating: false,
+			showUpdating: false,
+			showResult:false,
 			chooseVersion: -1,
 			updateProgressHandle: null,
-			// flag:false
+			failedList:[{num:'122335',reason:'失败原因我不知道'},{num:'122335',reason:'失败原因我不知道'},{num:'122335',reason:'失败原因我不知道'},]
         };
     },
     methods: {
@@ -99,12 +132,8 @@ export default {
 					// console.log('update status: ', this.updateStatus)
 					let remains = res.data.data.filter(v => v.progress < 100)
 					if (!remains[0]) {
-						this.$alert('升级成功', '', {
-							confirmButtonText: '确定',
-							callback: action => {
-								this.showUpdating = false
-							}
-						})
+						this.showUpdating = false
+						this.showResult = true
 						return
 					}
 					this.updateProgressHandle = setTimeout(this.updateProgress.bind(this), 1000)
@@ -199,10 +228,64 @@ export default {
 				margin-left: -35px;
 				z-index: 1001;
 			}
+			.result{
+				text-align: center;
+				.result-item{
+					display: inline-block;
+					margin: 10px 20px;
+					.iconfont{
+						font-size: 40px;
+						margin-right: 10px;
+					}
+					.result-num{
+						font-size: 20px;
+					}
+					.result-text{
+						font-size: 14px;
+						margin-top: 10px;
+					}
+					&.success{
+						color: #67C23A
+					}
+					&.failed{
+						color: #F56C6C
+					}
+					&.stop{
+						color: #909399
+					}
+				}
+			}
+			
+		}
+		.btn-group{
+			text-align: center;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 50px;
+			line-height: 50px;
 		}
 	}
 }
-
+.update-result{
+	.table{
+		.table-tr{
+			border-top:1px solid #ccc;
+			border-left: 1px solid #ccc;
+			&:first-child{
+				.table-td{
+					line-height: 1.8em;
+				}
+			}
+			.table-td{
+				border-bottom:1px solid #ccc;
+				border-right: 1px solid #ccc;
+				text-align: center
+			}
+		}
+	}
+}
 .table {
 	display: table;
 	width: 100%;

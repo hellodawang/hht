@@ -53,17 +53,17 @@
 						</div>				
 						<div class="section">
 							<h5>使用率</h5>
-							<device-usage style="heigth:250px" :op='deviceUsageData' />
+							<device-usage style="heigth:250px" :cloudCode='current.clientCloudCode' />
 						</div>
 					</el-col>
 					<el-col :span='12' class="col">
 						<div class="section">
 							<h5>使用时长</h5>
-							<running-time  style="height:250px" :op='runningTimeData'/>
+							<running-time  style="height:250px" :cloudCode='current.clientCloudCode' />
 						</div>
 						<div class="section">
 							<h5>异常统计</h5>
-							<exception-stats  style="height:250px" :op='exceptionData'/>
+							<exception-stats  style="height:250px" :cloudCode='current.clientCloudCode' />
 						</div>
 					</el-col>
 				</el-row>
@@ -105,35 +105,35 @@ export default {
 	},
 	data(){
 		return{
-			runningTimeData:{
-				onlineDateType:2,
-				dateList:[ 
-					{"dayDate":"2018-9-6", "hour":"5",},
-					{"dayDate":"2018-9-7","hour":"1",},
-					{"dayDate":"2018-9-8","hour":"4",},
-					{"dayDate":"2018-9-9","hour":"6",},
-					{"dayDate":"2018-9-10","hour":"3",},
-				]
-			},
-			deviceUsageData:{
-				onlineDateType:3,
-				dateList:[ 
-					{"dayDate":"2018-9-6", "employRate":"5", "busyRate":"6"},
-					{"dayDate":"2018-9-7","employRate":"1","busyRate":"2"},
-					{"dayDate":"2018-9-8","employRate":"4","busyRate":"2"},
-					{"dayDate":"2018-9-9","employRate":"6","busyRate":"2"},
-					{"dayDate":"2018-9-10","employRate":"3","busyRate":"2"},
-				]
-			},
-			exceptionData:{
-				onlineDateType:1,
-				exceptionList:[
-					{exceptionNum:4,exceptionDecs:'升级异常' },
-					{exceptionNum:5,exceptionDecs:'日志上传异常' },
-					{exceptionNum:4,exceptionDecs:'配置导出异常' },
-					{exceptionNum:10,exceptionDecs:'关机异常' },
-				]
-			},
+			// runningTimeData:{
+			// 	onlineDateType:2,
+			// 	dateList:[ 
+			// 		{"dayDate":"2018-9-6", "hour":"5",},
+			// 		{"dayDate":"2018-9-7","hour":"1",},
+			// 		{"dayDate":"2018-9-8","hour":"4",},
+			// 		{"dayDate":"2018-9-9","hour":"6",},
+			// 		{"dayDate":"2018-9-10","hour":"3",},
+			// 	]
+			// },
+			// deviceUsageData:{
+			// 	onlineDateType:3,
+			// 	dateList:[ 
+			// 		{"dayDate":"2018-9-6", "employRate":"5", "busyRate":"6"},
+			// 		{"dayDate":"2018-9-7","employRate":"1","busyRate":"2"},
+			// 		{"dayDate":"2018-9-8","employRate":"4","busyRate":"2"},
+			// 		{"dayDate":"2018-9-9","employRate":"6","busyRate":"2"},
+			// 		{"dayDate":"2018-9-10","employRate":"3","busyRate":"2"},
+			// 	]
+			// },
+			// exceptionData:{
+			// 	onlineDateType:1,
+			// 	exceptionList:[
+			// 		{exceptionNum:4,exceptionDecs:'升级异常' },
+			// 		{exceptionNum:5,exceptionDecs:'日志上传异常' },
+			// 		{exceptionNum:4,exceptionDecs:'配置导出异常' },
+			// 		{exceptionNum:10,exceptionDecs:'关机异常' },
+			// 	]
+			// },
 			tableData: [],
 			currentId: '',
 			useRatio:null,
@@ -144,7 +144,7 @@ export default {
 	},
 	computed: {
 		current(){
-			return this.tableData.filter(v => v.id == this.currentId)[0] || {}
+			return this.tableData.filter(v => v.id == this.currentId)[0] || this.tableData[0] || {}
 		}
 	},
 	methods:{

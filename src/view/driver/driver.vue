@@ -33,33 +33,33 @@
             <world-map :stats="worldMapData" style="height:500px" v-if="mapType==2"/>
             <div class="device-text">
               <div class="device-text-item">
-                <span class="device-num">15558</span>
+                <span class="device-num">{{stats[mapType].terminalTotal}}</span>
                 <span class="device-num-text">今日设备运行总数</span>
               </div>
               <div class="device-text-item">
-                <span class="device-num">15558</span>
+                <span class="device-num">{{stats[mapType].onlineTerminalTotal}}</span>
                 <span class="device-num-text">当前设备运行总数</span>
               </div>
               <div class="device-text-item alarm">
-                <span class="device-num">12</span>
+                <span class="device-num">{{stats[mapType].warningTotal}}</span>
                 <span class="device-num-text">设备告警总数</span>
               </div>
             </div>
           </div>
         </div>
-          <div class="section">
-            <div class="section-title"> 
-                <h3>TOP应用/客户汇总</h3> 
-            </div>
-            <div class="section-content" style="height:200px">
-                <el-col :span='12'>
-                    <top-app :data="topAppData" style="height:200px"/>   
-                </el-col>
-                <el-col :span='12'>
-                    <top-client :data="topClientData" style="height:200px"/>  
-                </el-col>
-            </div>
+        <div class="section">
+          <div class="section-title"> 
+              <h3>TOP应用/客户汇总</h3> 
           </div>
+          <div class="section-content" style="height:200px">
+              <el-col :span='12'>
+                  <top-app :data="topAppData" style="height:200px"/>   
+              </el-col>
+              <el-col :span='12'>
+                  <top-client :data="topClientData" style="height:200px"/>  
+              </el-col>
+          </div>
+        </div>
       </el-col>
       <el-col :span="6">
           <cloud-status :data="cloudStatus"/>
@@ -100,7 +100,7 @@ export default {
     cpuAndRam,
   },
   beforeCreate() {
-    this.$axios
+    this.$axios   // 在线用户统计
       .post("/user/findOnline", {}, { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
@@ -112,7 +112,7 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-    this.$axios
+    this.$axios   // 在线终端统计
       .post("/term/findOnlineStatistical", {}, { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
@@ -124,26 +124,69 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-    this.$axios
+    this.$axios   // 国内地图数据
       .get("/report/term/stats/district", { responseType: "json" })
       .then(res => {
         if (res.data.code != 0) {
           return console.log("get data error: ", res.message);
         }
         this.china = res.data.data;
-        // console.log('stats data: ', res.data)
+        console.log('stats data: ', res.data.data)
+        this.stats['2'] = {
+          terminalTotal: res.data.data.terminalTotal, 
+          onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+          warningTotal: res.data.data.warningTotal,
+        }
       })
       .catch(function(error) {
         console.log(error);
       });
-    this.$axios   // todo 合并到上一个请求中
+    this.$axios   // todo 合并到上一个请求中，国外地图数据
       .get("/report/term/stats/district?district=1", { responseType: "json" })
       .then(res => {
         if (res.data.code != 0) {
           return console.log("get data error: ", res.message);
         }
         this.world = res.data.data;
-        // console.log('world data: ', this.world)
+        console.log('world data: ', this.world)
+        this.stats['1'] = {
+          terminalTotal: res.data.data.terminalTotal, 
+          onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+          warningTotal: res.data.data.warningTotal,
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.$axios   // top 应用排行
+      .post('/web/appbehavior', { responseType: "json" })
+      .then(res => {
+        if (res.data.code != '0000') {
+          return console.log("get data error: ", res.message);
+        }
+        this.topData.app = res.data.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.$axios   // 终端用户规模排行
+      .post('/terminal/findTerminalTop', { responseType: "json" })
+      .then(res => {
+        if (res.data.code != '0000') {
+          return console.log("get data error: ", res.message);
+        }
+        this.topData.client = res.data.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    this.$axios   // 云端设备监控信息
+      .post('/web/cloudDeviceMonitor', { responseType: "json" })
+      .then(res => {
+        if (res.data.code != '0000') {
+          return console.log("get data error: ", res.message);
+        }
+        this.cloudStats= res.data.data;
       })
       .catch(function(error) {
         console.log(error);
@@ -157,13 +200,14 @@ export default {
       period: {num:1},
       device: { online: 0, all: 1, terminalTypeList: []},
       account: { online: 0, all: 1, accountTypeList: []},
-      stats: {},
+      stats: {
+        '1': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
+        '2': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
+      },
+      cloudStats: {},
       china: {},
       world: {},
-      // onlineStats:{
-      //   account: { online: 34551, all: 82342 },
-      //   device: { online: 321243, all: 912341 }
-      // }
+      topData: {app: [], client: []},
     };
   },
   computed: {
@@ -192,24 +236,16 @@ export default {
         device: this.device.terminalTypeList.map((v) => {
           return {terminalType: v.terminalType, typeOnline: v.typeOnline}
         }),
-				// account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
-        // device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
       };
-      // return distributionData4BarChart; // todo 假数据
     },
     chineseMapData() {
-      //   return mapData.chineseData; // todo 假数据
-      // let china = this.stats.sumByArea;
       let stats = this.china.detail
       if (!stats) return [];
-      // console.log('all data: ', this.stats)
-
       let china = Object.keys(stats).map((v) => {
         let province = stats[v]
         let data = {name: v, value: 0, online: 0}
         Object.keys(province).forEach((u) => {
           let area = province[u]
-        
           let value = 0
           let online = 0
           Object.keys(area).forEach((t) => {
@@ -234,33 +270,33 @@ export default {
           return Object.assign({name: u}, province[u])
         })
       })
-
       stats.china = china
-      // console.log('china detail: ', stats)
       return stats
-      ///////////////////////////
-
-      // let data = Object.keys(stats).map(v => ({
-      //   name: v,
-      //   value: stats[v].total,
-      //   online: stats[v].online
-      // }));
-      // console.log("data: ", data);
-      // return data;
     },
     worldMapData() {
       // console.log('world data: ', this.world)
-      return this.world
+      return this.world.areaTerminalList
     },
 
     topAppData() {
+      let count = []
+      let yAxis = []
+      this.topData.app.forEach((v) => {
+        count.push(v.useTime)
+        yAxis.push(v.appName)
+      })
       return {
-        count: [578, 673, 708, 921, 1126],
-        yAxis: ["OA办公", "UC业务", "魔兽世界", "i学", "电子书包"]
-      };
-      // return topAppData; // todo 假数据
+        count: count,
+        yAxis: yAxis,
+      }
     },
     topClientData() {
+      let client = this.topData.client
+      return {
+        count: client.map(v => v.topStockValue),
+        yAxis: client.map(v => v.topStockName)
+      }
+
       return {
         count: [320, 332, 301, 334, 390],
         yAxis: [
@@ -274,76 +310,132 @@ export default {
       // return topClientData; // todo 假数据
     },
     storage() {
-      return [{name:'集群一',all:100,available:90,running:8,},{name:'集群二',all:100,available:10,running:15,},{name:'集群三',all:100,available:10,running:15,},]
+      let data = this.cloudStats.cloudInfoList 
+      if (!data) {
+        return [
+          {name:'集群一',all:100,available:0,running:0,},
+          {name:'集群二',all:100,available:0,running:0,},
+          {name:'集群三',all:100,available:0,running:0,},
+        ]
+      }
+
+      return data.map((v) => {
+        let len = v.messList && v.messList.length || 0
+        let available = 0
+        if (v.messList && v.messList.length) {
+          available = v.messList[v.messList.length - 1].hardDiskCapacity
+        }
+        return {
+          name: v.cloudLocation,
+          all: 100, 
+          available: available,// v.messList[len - 1].hardDiskCapacity, 
+          running: v.runningNodeNum
+        }
+      })
     },
     cloudStatus() {
-      return 55
-      // return deviceStatus; // todo 假数据
+      return this.cloudStats.cloudIntegrality
+      // return 55
     },
     bendwidth() {
-      return {
-        data: [
-          {
-            name: "北京最高值",
-            data: [0, 50, 70, 90, 65, 69, 0]
-          },
-          {
-            name: "北京平均值",
-            data: [0, 38, 56, 74, 59, 58, 0]
-          },
-          {
-            name: "广州最高值",
-            data: [0, 10, 20, 40, 30, 48, 0]
-          },
-          {
-            name: "广州平均值",
-            data: [0, 8, 14, 50, 34, 26, 0]
-          },
-          {
-            name: "成都最高值",
-            data: [0, 57, 23, 48, 12, 8, 0]
-          },
-          {
-            name: "成都平均值",
-            data: [0, 25, 18, 30, 48, 24, 0]
-          }
-        ],
-        xAxis: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
-      };
+      let data = this.cloudStats.cloudInfoList
+      if (!data) {
+        return {
+          data: [
+            {
+              name: "北京最高值",
+              data: [], // [0, 50, 70, 90, 65, 69, 0]
+            },
+            {
+              name: "北京平均值",
+              data: [], // [0, 38, 56, 74, 59, 58, 0]
+            },
+            {
+              name: "广州最高值",
+              data: [], // [0, 10, 20, 40, 30, 48, 0]
+            },
+            {
+              name: "广州平均值",
+              data: [], // [0, 8, 14, 50, 34, 26, 0]
+            },
+            {
+              name: "成都最高值",
+              data: [], // [0, 57, 23, 48, 12, 8, 0]
+            },
+            {
+              name: "成都平均值",
+              data: [], // [0, 25, 18, 30, 48, 24, 0]
+            }
+          ],
+          xAxis: [], // ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
+        };
+      }
+      let d = []
+      data.forEach((v) => {
+        d.push({
+          name: v.cloudLocation + '最高值',
+          data: v.messList.map(u => u.bandwidthMax)
+        })
+        d.push({
+          name: v.cloudLocation + '平均值',
+          data: v.messList.map(v => v.bandwidthAvr)
+        })
+      })
+      // console.log('bandwidth: ', d)
+      let xAxis = this.date2Axis(data[0].messList.map(v => v.gathertime))
+      // console.log('bandwidth xAxis: ', xAxis)
+      return {data: d, xAxis: xAxis}
       // return bendwidth; // todo 假数据
     },
     cpuAndRamStatus() {
-      return {
-        data: [
-          {
-            name: "北京CPU",
-            data: [30, 50, 70, 40, 65, 69, 70]
-          },
-          {
-            name: "北京内存",
-            data: [0, 50, 2, 35, 5, 80, 18]
-          },
-          {
-            name: "广州CPU",
-            data: [1, 5, 2, 30, 80, 2, 10]
-          },
-          {
-            name: "广州内存",
-            data: [5, 5, 40, 20, 60, 0, 15]
-          },
-          {
-            name: "成都CPU",
-            data: [2, 90, 60, 4, 50, 21, 7]
-          },
-          {
-            name: "成都内存",
-            data: [90, 5, 20, 0, 40, 10, 17]
-          },
+      let data = this.cloudStats.cloudInfoList
+      if (!data) {
+        return {
+          data: [
+            {
+              name: "北京CPU",
+              data: [], //[30, 50, 70, 40, 65, 69, 70]
+            },
+            {
+              name: "北京内存",
+              data: [], // [0, 50, 2, 35, 5, 80, 18]
+            },
+            {
+              name: "广州CPU",
+              data: [], // [1, 5, 2, 30, 80, 2, 10]
+            },
+            {
+              name: "广州内存",
+              data: [], // [5, 5, 40, 20, 60, 0, 15]
+            },
+            {
+              name: "成都CPU",
+              data: [], // [2, 90, 60, 4, 50, 21, 7]
+            },
+            {
+              name: "成都内存",
+              data: [], // [90, 5, 20, 0, 40, 10, 17]
+            },
 
-        ],
-        xAxis: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
-      };
-      // return cpuAndRamStatus; // todo 假数据
+          ],
+          xAxis: [], // ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
+        }
+      }
+      let d = []
+      data.forEach((v) => {
+        d.push({
+          name: v.cloudLocation + 'CPU',
+          data: v.messList.map(u => u.cpuRate)
+        })
+        d.push({
+          name: v.cloudLocation + '内存',
+          data: v.messList.map(v => v.memoryRate)
+        })
+      })
+      // console.log('bandwidth: ', d)
+      let xAxis = this.date2Axis(data[0].messList.map(v => v.gathertime))
+      // console.log('bandwidth xAxis: ', xAxis)
+      return {data: d, xAxis: xAxis}
     }
   },
   watch: {
@@ -352,15 +444,25 @@ export default {
       
     },
     // 深度监听
-    // onlineStats: {
-    //   handler:function(){
-    //     alert(1)
-    //   },
-    //   deep:true
-    // },
+    onlineStats: {
+      handler:function(){
+        alert(1)
+      },
+      deep:true
+    },
   },
   methods: {
-
+    date2Axis(date) {
+      if (!date) return []
+      return date.map((v) => {
+        let d = new Date(v)
+        let m = d.getMinutes()
+        m = m < 10 ? '0' + m : m
+        let h = d.getHours()
+        h = h < 10 ? '0' + h : h
+        return h + ':' + m
+      })
+    }
   }
 };
 </script>
@@ -411,11 +513,21 @@ export default {
           height: 80px;
           padding: 0 30px;
           .device-text-item {
-            display: inline-block;
+            // display: inline-block;
+            float: left;
             margin-right: 20px;
             text-align: center;
             > span {
               display: block;
+            }
+            &.alarm{
+              float: right;
+              .device-num{
+                font-size: 18px;
+                color: #FF6C00;
+                line-height: 24px;
+                margin: 20px 0 10px 0;
+              }
             }
             .device-num {
               font-size: 28px;
