@@ -10,12 +10,15 @@
 					<span>请选择要升级的版本</span>
 					<div v-for="(item, index) in updateVersion" :key="item.id" class="version-item">
 						<el-radio v-model="chooseVersion" :label="index" >{{item.versionName}}</el-radio>	
-					</div>
-					<el-button type='primary' class="btn-confirm" @click="confirmUpdate">确 定</el-button>
+					</div>					
 				</div>
 				<div class="modal-body" v-else>
 					<span>没有合适的可供升级的版本</span>
 				</div>
+				<div class="btn-group">
+					<el-button type='primary' class="btn-confirm" @click="confirmUpdate" size="mini">确 定</el-button>	
+				</div>
+				
 			</div>
 		</div>
 		<div class="modal-wrapper" v-if="showUpdating">
@@ -41,7 +44,7 @@
 			<div class="modal" style="height:400px">
 				<div class="modal-header">
 					<h3 class="modal-header-title">升级</h3>
-					<i class="el-icon-close" @click="showResult= false"></i>
+					<i class="el-icon-close" @click="confirmResult"></i>
 				</div>
 				<div class="modal-body update-result" style="max-height:300px">
 					<div class="result">
@@ -65,7 +68,7 @@
 				</div>
 				<div class="btn-group">
 					<el-button type='primary'  size="mini"> 导出</el-button>
-					<el-button type='primary'  size="mini" @click="showResult= false"> 确定</el-button>	
+					<el-button type='primary'  size="mini" @click="confirmResult"> 确定</el-button>	
 				</div>
 			</div>
 		</div>
@@ -141,6 +144,10 @@ export default {
 				.catch(function(error) {
 					console.log(error);
 				});
+		},
+		confirmResult(){
+			this.$emit('completed')
+			this.showChooseVersion = false;
 		}
 	},
 	created() {

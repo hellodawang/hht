@@ -1,7 +1,7 @@
 
 <template>
     <div class="bulletin-wrapper">
-        <div class="bulletin-item clearfix" v-for="item in bulletinList" :key="item.id">  
+        <div class="bulletin-item clearfix" v-for="(item, index) in bulletinList" :key="index">  
             <div class="bulletin-tag">{{item.tag}}</div>
             <div class="bulletin-head"></div>
             <div class="bulletin-main">

@@ -59,8 +59,7 @@ export default {
                         value: this.data[0].available,
                         label: {
                             normal: {
-                                formatter:()=>{ 
-                                    // console.log(this.data[0])                         
+                                formatter:()=>{                        
                                     return [
                                     '{percent|'+parseInt(this.data[0].available/this.data[0].all*100)+'}{unit|%}',
                                     '{subtext|运行中'+this.data[0].running+'个}'
@@ -69,12 +68,12 @@ export default {
                                 rich:{
                                     percent:{
                                         fontSize:24,
-                                        color:'#409eff',
+                                        color:'#FF4245',
                                     },
                                     unit:{
                                         fontSize:12,
                                         verticalAlign:'bottom',
-                                        color:'#409eff',
+                                        color:'#FF4245',
                                         padding:2
                                     },
                                     subtext:{
@@ -89,7 +88,7 @@ export default {
                         },
                         itemStyle: {
                             normal: {
-                                color: '#3dd4de',
+                                color: '#FF4245',
                             }
                         }
                     }, {
@@ -142,12 +141,12 @@ export default {
                                 rich:{
                                     percent:{
                                         fontSize:24,
-                                        color:'#b697cd',
+                                        color:'#50C43B',
                                     },
                                     unit:{
                                         fontSize:12,
                                         verticalAlign:'bottom',
-                                        color:'#b697cd',
+                                        color:'#50C43B',
                                         padding:2
                                     },
                                     subtext:{
@@ -162,7 +161,7 @@ export default {
                         },
                         itemStyle: {
                             normal: {
-                                color: '#b697cd',
+                                color: '#50C43B',
                             }
                         }
                     }, {
@@ -215,12 +214,12 @@ export default {
                                 rich:{
                                     percent:{
                                         fontSize:24,
-                                        color:'#a6f08f',
+                                        color:'#A471ED',
                                     },
                                     unit:{
                                         fontSize:12,
                                         verticalAlign:'bottom',
-                                        color:'#a6f08f',
+                                        color:'#A471ED',
                                         padding:2
                                     },
                                     subtext:{
@@ -235,7 +234,7 @@ export default {
                         },
                         itemStyle: {
                             normal: {
-                                color: '#a6f08f',
+                                color: '#A471ED',
                             }
                         }
                     }, {

@@ -72,7 +72,7 @@ let baseConfig = {
             },
             itemStyle: {
                 normal: {
-                    color: '#f5aba3',
+                    color: '#50C43B',
                 },
             },
         },

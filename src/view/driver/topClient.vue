@@ -76,7 +76,7 @@ let baseConfig = {
             },
             itemStyle: {
                 normal: {
-                    color: '#f5aba3',
+                    color: '#409eff',
                 },
             },
         },

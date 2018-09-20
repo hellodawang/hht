@@ -14,11 +14,11 @@
 							<div class="personal-settings" @click="setting = !setting">个人设置</div>
 							<div class="login-out">退出登录</div>
 						</div>
-						<img slot="reference" :src="$store.state.userData.avatar" alt="" class="avator" >
+						<img slot="reference" :src="userData.avatar" alt="" class="avator" >
 					</el-popover>	
 					<div class="hht_user_text">
-						<div class="hht_user_name">{{$store.state.userData.alias}}</div>
-						<div class="hht_user_role">{{$store.state.userData.role}}</div>
+						<div class="hht_user_name">{{userData.alias}}</div>
+						<div class="hht_user_role">{{userData.role}}</div>
 					</div>
 				</div>
 				<hht-tree :list='data1'></hht-tree>
@@ -102,13 +102,7 @@ export default {
 	},
 	data() {
 		return {
-			data1: [
-				// { id: 1, label: '管理驾驶舱', icon: 'driver' },
-				// { id: 9, label: '系统设置', icon: 'setting', children: [{ id: 11, label: '用户管理', icon: 'user' }] },
-				// { id: 5, label: '应用商城', icon: 'mall' },
-				// { id: 3, label: '诊断维护', icon: 'maintenance' },
-				// { id: 2, label: '统计报表', icon: 'statistics' },
-			],
+			data1: [],
 			user: {
 				id: '',
 				nickName: '',
@@ -119,6 +113,7 @@ export default {
 				reNewPassword: '',
 				avator: '',
 			},
+			userData:{},
 			setting: false,
 			visible2: false,
 		};
@@ -130,7 +125,9 @@ export default {
 		confirm() {},
 	},
 	created() {
-		this.data1 = this.$store.state.userData.menu;
+		this.userData = JSON.parse(sessionStorage.getItem('userData'))
+		this.data1 = this.userData.menu
+		// this.data1 = this.$store.state.userData.menu;
 		this.$router.push(this.data1[0].url);
 	},
 };

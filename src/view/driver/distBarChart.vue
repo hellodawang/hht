@@ -26,6 +26,7 @@ let baseConfig = {
         {
             type: 'category',
             data: [],
+            
         },
         {
             gridIndex: 1,
@@ -37,17 +38,25 @@ let baseConfig = {
         {
             type: 'value',
             name: '',
+            axisTick:{
+                show:false
+            },
             splitLine: {
                 show: false,
             },
+            boundaryGap: ['20%', '20%']
         },
         {
             type: 'value',
             gridIndex: 1,
             name: '',
+            axisTick:{
+                show:false
+            },
             splitLine: {
                 show: false,
             },
+            boundaryGap: ['20%', '20%']
         },
     ],
     series: [
@@ -61,23 +70,15 @@ let baseConfig = {
             yAxisIndex: 0,
             itemStyle: {
                 normal: {
-                    color: new echarts.graphic.LinearGradient(
-                        0,
-                        0,
-                        0,
-                        1,
-                        [
-                            {
-                                offset: 0,
-                                color: '#00b0ff',
-                            },
-                            {
-                                offset: 0.8,
-                                color: '#7052f4',
-                            },
-                        ],
-                        false
-                    ),
+                    color: function(params) {
+                         var colorList = [
+                            '#AD9CD6',
+                            '#6BADEF',
+                            '#29C5C5',
+                            '#FFBD84',
+                        ]
+                        return colorList[params.dataIndex]
+                    },
                 },
             },
         },
@@ -91,7 +92,15 @@ let baseConfig = {
             yAxisIndex: 1,
             itemStyle: {
                 normal: {
-                    color: '#f5aba3',
+                    color: function(params) {
+                         var colorList = [
+                            '#AD9CD6',
+                            '#6BADEF',
+                            '#29C5C5',
+                            '#FFBD84',
+                        ]
+                        return colorList[params.dataIndex]
+                    },
                 },
             },
         },

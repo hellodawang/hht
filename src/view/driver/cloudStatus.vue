@@ -26,7 +26,7 @@ let baseConfig = {
             name: '健康度',
             type: 'gauge',
             center: ['50%', '90%'], // 默认全局居中
-            radius: '150%',
+            radius: '160%',
             min: 0,
             max: 100,
             startAngle: 180,
@@ -37,21 +37,30 @@ let baseConfig = {
                 lineStyle: {
                     // 属性lineStyle控制线条样式
                     width: 8,
+                    // color:'#f66'
                     color: [
                         [
                             1,
                             new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                                 {
                                     offset: 0,
-                                    color: '#ae3df6',
+                                    color: '#409EFF',
+                                },
+                                {   
+                                    offset:0.45,
+                                    color:'#409EFF'
+                                },
+                                {
+                                    offset: 0.75,
+                                    color: '#409EFF',
                                 },
                                 {
                                     offset: 1,
-                                    color: '#53bef9',
+                                    color: '#409EFF',
                                 },
                             ]),
                         ],
-                        [1, '#222e7d'],
+                        // [1, '#f00'],
                     ],
                 },
             },
@@ -65,10 +74,10 @@ let baseConfig = {
             },
             splitLine: {
                 // 分隔线
-                length: 20, // 属性length控制线长
+                length: 10, // 属性length控制线长
                 lineStyle: {
                     // 属性lineStyle（详见lineStyle）控制线条样式
-                    color: 'auto',
+                    color: '#eee',
                 },
             },
             pointer: {

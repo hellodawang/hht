@@ -283,7 +283,7 @@ export default {
       let yAxis = []
       this.topData.app.forEach((v) => {
         count.push(v.useTime)
-        yAxis.push(v.appName)
+        yAxis.push(v.applicationName)
       })
       return {
         count: count,

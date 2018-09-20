@@ -5,9 +5,9 @@
             <div class="deviceInfo-section">
 				<div class="deviceInfo-list">
 					<div class="toolbar">
-						<el-button size="mini">日志导出</el-button>
-						<el-button size="mini">配置导入</el-button>
-						<el-button size="mini">配置导出</el-button>
+						<el-button size="mini" @click="logExport">日志导出</el-button>
+						<el-button size="mini" @click="importSetting">配置导入</el-button>
+						<el-button size="mini" @click="settingExport">配置导出</el-button>
 						<el-button size="mini" @click="update">升级</el-button>
 						<el-button size="mini" @click="restart">重启</el-button>
 						<el-button size="mini" @click="restoreDefault">恢复初始定义</el-button>
@@ -20,10 +20,11 @@
 					<el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange" tooltip-effect="dark"
                   		:highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
 						<el-table-column type="selection" width="55"> </el-table-column> 
+						<el-table-column prop="deviceName" label=" 设备名称"> </el-table-column> 
 						<el-table-column prop="clientCloudCode" label="云识别号"> </el-table-column> 
 						<el-table-column prop="model" label="型号"> </el-table-column> 
 						<el-table-column prop="customer" label="客户名" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="firmware" label="固件版本" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="firmware" label="固件版本" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="category" label="产品类别" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="status" label="在线状态" show-overflow-tooltip></el-table-column>
 					</el-table>
@@ -44,7 +45,17 @@
 				</div>
             </div>  
         </div> 
-		<upgrade :data="selectedDevice" @cancelUpdate="showUpdating = false" @hideUpdate="hideUpdate" v-if="showUpdating" />
+		<upgrade :data="selectedDevice" @cancelUpdate="showUpdating = false" @hideUpdate="hideUpdate" v-if="showUpdating" @completed='completed' />
+		<el-dialog title="配置导入" :visible.sync="dialogTableVisible">
+			<el-upload
+				class="upload-demo"
+				action="https://jsonplaceholder.typicode.com/posts/"
+				:file-list="fileList" :auto-upload="false" :on-change='fileChange'>
+				<el-button size="small" type="primary"  slot="trigger">选择文件</el-button>
+				<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+				<div slot="tip" class="el-upload__tip">只能上传excel文件，且不超过500kb</div>
+			</el-upload>
+		</el-dialog>
     </div>
 </template>
 <script>
@@ -66,7 +77,9 @@ export default {
 			showAlert: false,
 			selected:{},
 			ss:['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'],
-			current:0
+			current:0,
+			dialogTableVisible:false,
+			fileList:[]
 		};
 	},
 	methods: {
@@ -82,6 +95,7 @@ export default {
 				this.$alert('不能选择升级离线设备', {confirmButtonText: '确定'})
 				return
 			}
+			// this.showChooseVersion = true
 			this.showUpdating = true
 		},
 		restart() {},
@@ -98,13 +112,61 @@ export default {
 					this.showUpdating = false
 				}).catch((e) => console.log(e))
 		},
+		completed(){
+			this.showUpdating = false
+		},
 		selectedRow(row, event, column){
 			this.selected = row
 		},
 		gotoChar(char,index){
             this.current = index;
 			// 查询以当前选中字母开头的数据
-        },
+		},
+		importSetting(){
+			if (this.selectedDevice.length == 0) {
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+			this.dialogTableVisible = true
+		},
+		fileChange(file, fileList){
+			this.fileList.push(file)
+		},
+		submitUpload(){
+			if(this.fileList.length == 0){
+				this.$alert('请先添加文件',{confirmButtonText: '确定'})
+				return
+			}
+			this.$confirm('是否确定上传?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+				}).then(() => {
+					// 点击确定后回调
+					this.$message({
+						type: 'info',
+						message: '上传成功'
+					});
+					this.dialogTableVisible = false
+				}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '已取消上传'
+				});          
+			});
+		},
+		logExport(){
+			if (this.selectedDevice.length == 0) {
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+		},
+		settingExport(){
+			if (this.selectedDevice.length == 0) {
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+		}
 	},
 	mounted() {
 		this.$axios

@@ -110,10 +110,8 @@ export default {
             return console.log("get data error: ", res.message);
           }
           this.chartData = res.data.data.dateList
-          console.log('chart data: ', this.chartData)
-          console.log('onlineDateType: ', res.data.data.onlineDateType)
+          // console.log('chart data: ', this.chartData)
           this.selected = res.data.data.onlineDateType
-          console.log('selected: ', this.selected)
         })
         .catch(function(error) {
           console.log(error);

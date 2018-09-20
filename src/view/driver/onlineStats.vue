@@ -125,7 +125,7 @@ export default {
                 show: true,
                 lineStyle: {
                   width: 10,
-                  color: [ [this.device.online/this.device.all, '#409eff'], [1, '#e0e0e0']]
+                  color: [ [this.device.online/this.device.all, '#50C43B'], [1, '#e0e0e0']]
                 }
               },
               //分隔线样式。

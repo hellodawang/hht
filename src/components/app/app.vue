@@ -1,5 +1,5 @@
 <template>
-    <div class="app-wrapper">
+    <div class="app-wrapper" @mouseover="flag=true" @mouseout="flag = false">
 		<div class="app-title clearfix">
 			<span class="app-name">{{item.name}}</span>
 			<span class="app-size">{{item.size}}</span>
@@ -8,10 +8,10 @@
 			<el-rate v-model="item.rate" disabled  text-color="#ff9900" ></el-rate>
 		</div>
 		<div class="app-text">{{item.subscribe}}</div>
-		<div class="app-img"><img src="../../assets/logo.png" alt=""></div>
+		<div class="app-img"><img :src="item.imgUrl" alt=""></div>
 		<div class="app-other">
 			<span class="download-num">下载{{item.downloadTimes}}次</span>
-			<div class="app-operate">
+			<div class="app-operate" v-show="flag" >
 				<i class="app-star el-icon-star-off"  ></i>
 				<i class="el-icon-download"></i>	
 			</div>			
@@ -21,6 +21,11 @@
 <script>
 export default {
 	props: ['item'],
+	data(){
+		return {
+			flag:false
+		}
+	}
 };
 </script>
 <style lang='scss' >
@@ -30,7 +35,7 @@ export default {
 	box-shadow: 0 0 4px #ccc;
 	margin: 10px;
 	font-size: 12px;
-	padding: 10px 0;
+	padding: 10px 0 4px;
 	&:hover {
 		box-shadow: 0 0 5px #409eff;
 	}
@@ -72,12 +77,15 @@ export default {
 	.app-img {
 		margin: 0 10px;
 		height: 80px;
+		text-align: center;
 		> img {
-			width: 100%;
+			display: inline-block;
+			height: 100%;
 		}
 	}
 	.app-other {
-		margin: 0 10px;
+		margin: 5px 10px 0;
+		line-height: 2em;
 		.download-num {
 			// float: left;
 			display: inline-block;

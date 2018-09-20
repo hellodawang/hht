@@ -1,9 +1,9 @@
 <template>
     <div class="wrapper">
 		<div class="toolbar">
-			<el-button size="mini">日志导出</el-button>
-			<el-button size="mini">配置导入</el-button>
-			<el-button size="mini">配置导出</el-button>
+			<el-button size="mini" @click="logExport">日志导出</el-button>
+			<el-button size="mini" @click="importSetting">配置导入</el-button>
+			<el-button size="mini" @click="settingExport">配置导出</el-button>
 			<el-button size="mini" @click="update" >升级</el-button>
 			<el-button size="mini">重启</el-button>
 			<el-button size="mini">关机</el-button>
@@ -69,7 +69,17 @@
 				</el-row>
 			</div>	
 		</div>
-		<upgrade :data="selectedDevice" @cancelUpdate="showUpdating = false" @hideUpdate="hideUpdate" v-if="showUpdating" />
+		<upgrade :data="selectedDevice" @cancelUpdate="showUpdating = false" @hideUpdate="hideUpdate" v-if="showUpdating" @completed='completed' />
+		<el-dialog title="配置导入" :visible.sync="dialogTableVisible">
+			<el-upload
+				class="upload-demo"
+				action="https://jsonplaceholder.typicode.com/posts/"
+				:file-list="fileList" :auto-upload="false" :on-change='fileChange'>
+				<el-button size="small" type="primary"  slot="trigger">选择文件</el-button>
+				<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+				<div slot="tip" class="el-upload__tip">只能上传excel文件，且不超过500kb</div>
+			</el-upload>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -105,41 +115,14 @@ export default {
 	},
 	data(){
 		return{
-			// runningTimeData:{
-			// 	onlineDateType:2,
-			// 	dateList:[ 
-			// 		{"dayDate":"2018-9-6", "hour":"5",},
-			// 		{"dayDate":"2018-9-7","hour":"1",},
-			// 		{"dayDate":"2018-9-8","hour":"4",},
-			// 		{"dayDate":"2018-9-9","hour":"6",},
-			// 		{"dayDate":"2018-9-10","hour":"3",},
-			// 	]
-			// },
-			// deviceUsageData:{
-			// 	onlineDateType:3,
-			// 	dateList:[ 
-			// 		{"dayDate":"2018-9-6", "employRate":"5", "busyRate":"6"},
-			// 		{"dayDate":"2018-9-7","employRate":"1","busyRate":"2"},
-			// 		{"dayDate":"2018-9-8","employRate":"4","busyRate":"2"},
-			// 		{"dayDate":"2018-9-9","employRate":"6","busyRate":"2"},
-			// 		{"dayDate":"2018-9-10","employRate":"3","busyRate":"2"},
-			// 	]
-			// },
-			// exceptionData:{
-			// 	onlineDateType:1,
-			// 	exceptionList:[
-			// 		{exceptionNum:4,exceptionDecs:'升级异常' },
-			// 		{exceptionNum:5,exceptionDecs:'日志上传异常' },
-			// 		{exceptionNum:4,exceptionDecs:'配置导出异常' },
-			// 		{exceptionNum:10,exceptionDecs:'关机异常' },
-			// 	]
-			// },
 			tableData: [],
 			currentId: '',
 			useRatio:null,
 			useRatio2:null,
 			selectedDevice:[],
 			showUpdating: false,
+			dialogTableVisible:false,
+			fileList:[]
 		}
 	},
 	computed: {
@@ -188,6 +171,54 @@ export default {
 					this.showUpdating = false
 				}).catch((e) => console.log(e))
 		},
+		completed(){
+			this.showUpdating = false
+		},
+		importSetting(){
+			if (this.selectedDevice.length == 0) {
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+			this.dialogTableVisible = true
+		},
+		fileChange(file, fileList){
+			this.fileList.push(file)
+		},
+		submitUpload(){
+			if(this.fileList.length == 0){
+				this.$alert('请先添加文件',{confirmButtonText: '确定'})
+				return
+			}
+			this.$confirm('是否确定上传?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+				}).then(() => {
+					// 点击确定后回调
+					this.$message({
+						type: 'info',
+						message: '上传成功'
+					});
+					this.dialogTableVisible = false
+				}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '已取消上传'
+				});          
+			});
+		},
+		logExport(){
+			if (this.selectedDevice.length == 0) {
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+		},
+		settingExport(){
+			if (this.selectedDevice.length == 0) {
+				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+		}
 	}
 };
 </script>

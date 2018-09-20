@@ -42,9 +42,8 @@ let baseConfig = {
     yAxis: [
         {
             type: 'value',
-            min: 0,
-            max: 100,
             interval: 20,
+            boundaryGap: ['20%', '20%']
         },
     ],
     series: [

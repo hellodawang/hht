@@ -134,7 +134,7 @@ export default {
 					if (response.data.code == 0) {
 						this.$axios.get('/user/info').then(response => {
 							sessionStorage.username = this.ruleForm.username;
-							this.$store.commit('setUserDate', response.data);
+							sessionStorage.setItem('userData',JSON.stringify(response.data))
 							this.$router.push('/gui/index');
 						});
 					}

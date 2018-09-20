@@ -6,6 +6,10 @@
 import echarts from "echarts";
 import switchChart from "../../components/chart/switchChart";
 let baseConfig = {
+  legend:{
+    data:['人','设备'],
+    top:10
+  },
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -33,19 +37,17 @@ let baseConfig = {
     {
       name: "人",
       type: "value",
-      min: 0
-      // max: 100,
-      // interval: 20,
+      boundaryGap: ['20%', '20%']
     },
     {
       name: "台",
       type: "value",
-      min: 0
+      boundaryGap: ['20%', '20%']
     }
   ],
   series: [
     {
-      // name: '平均值',
+      name: '人',
       yAxisIndex:0,
       type: "line",
       smooth: true,
@@ -56,10 +58,13 @@ let baseConfig = {
           // position: "top"
         }
       },
+      itemStyle:{
+        color:'#33C8C8'
+      },
       data: [79, 68, 56, 74, 89, 95, 89]
     },
     {
-      // name: '平均值',
+      name: '设备',
       yAxisIndex:1,
       type: "line",
       smooth: true,
@@ -69,6 +74,9 @@ let baseConfig = {
           // show: true,
           // position: "top"
         }
+      },
+      itemStyle:{
+        color:'#F4D177'
       },
       data: [200, 100, 350, 540, 600, 270, 900]
     }
