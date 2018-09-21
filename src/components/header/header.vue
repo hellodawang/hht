@@ -14,7 +14,7 @@
                 </el-dropdown>
             </div>
             <div class="avator">
-                <img src="../../assets/图层 36@3x.png" alt="">
+                <!-- <img   alt=""> -->
             </div>
             <div class="loginOut">退出</div>
         </div>
@@ -23,6 +23,8 @@
 <script>
 export default {
 	props: ['showSideBar'],
+	mounted(){
+	}
 };
 </script>
 <style lang='scss' scoped>
@@ -30,13 +32,11 @@ export default {
 	height: 52px;
 	background-color: #eff3f4;
 	.icon-menu {
-		float: left;
 		margin-left: 23px;
 		width: 15px;
 		height: 15px;
 		margin-top: 18px;
-		background: url() no-repeat center center;
-		background-size: cover;
+		cursor: pointer;
 	}
 	.menubar {
 		float: right;
@@ -74,6 +74,8 @@ export default {
 			height: 32px;
 			border-radius: 50%;
 			margin: 0 20px;
+			background: url('../../assets/avator.png') no-repeat center center;
+			background-size: contain;
 			img {
 				width: 100%;
 			}

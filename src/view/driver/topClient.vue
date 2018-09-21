@@ -7,7 +7,7 @@ import echarts from "echarts";
 import barChart from '../../components/chart/barChart'
 let baseConfig = {
     title: {
-        text: 'top5客户设备数',
+        text: 'Top客户排行',
         // subtext: '35560',
         x: 'center',
     },

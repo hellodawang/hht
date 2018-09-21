@@ -1,7 +1,7 @@
 <template>
 <div class="section">
     <div class="section-title"> 
-        <h3>容量</h3> 
+        <h3>存储容量</h3> 
     </div>
     <div class="section-content">
         <bar-chart :data="config" style="height:140px"/>

@@ -14,7 +14,7 @@
 							<div class="personal-settings" @click="setting = !setting">个人设置</div>
 							<div class="login-out">退出登录</div>
 						</div>
-						<img slot="reference" :src="userData.avatar" alt="" class="avator" >
+						<div slot="reference" class="avator"><img  :src="userData.avatar" alt=""  ></div>						
 					</el-popover>	
 					<div class="hht_user_text">
 						<div class="hht_user_name">{{userData.alias}}</div>
@@ -26,24 +26,29 @@
 		<!-- </transition> -->
         <div class="hht_content">
             <div class="hht_content_header">
-				<i class="iconfont icon-menu" @click="toggle"></i>
-				<div class="menubar">
-					<i class="iconfont icon-message"><span class="message-text">3</span></i>
-					<div class="language">
-						<el-dropdown>
-							<span class="el-dropdown-link">
-								中文<i class="el-icon-arrow-down el-icon--right"></i>
-							</span>
-							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item>英文</el-dropdown-item>                             
-							</el-dropdown-menu>
-						</el-dropdown>
-					</div>
-					<div class="avator">
-						<img :src="$store.state.userData.avatar" alt="">
-					</div>
-					<div class="loginOut">退出</div>
-				</div>
+				<el-row>
+					<el-col :span="8"><i class="iconfont icon-menu" @click="toggle"></i></el-col>
+					<el-col :span="8"><h3 class="hht-title">鸿合云平台管理系统</h3></el-col>
+					<el-col :span="8">
+						<div class="menubar">
+							<i class="iconfont icon-message"><span class="message-text">3</span></i>
+							<div class="language">
+								<el-dropdown>
+									<span class="el-dropdown-link">
+										中文<i class="el-icon-arrow-down el-icon--right"></i>
+									</span>
+									<el-dropdown-menu slot="dropdown">
+										<el-dropdown-item>英文</el-dropdown-item>                             
+									</el-dropdown-menu>
+								</el-dropdown>
+							</div>
+							<div class="avator">
+								<img :src="$store.state.userData.avatar" alt="">
+							</div>
+							<div class="loginOut">退出</div>
+						</div>		
+					</el-col>
+				</el-row>
 			</div>
             <div class="hht-content_content">
                 <router-view to='' ></router-view>
@@ -126,8 +131,8 @@ export default {
 	},
 	created() {
 		this.userData = JSON.parse(sessionStorage.getItem('userData'))
-		this.data1 = this.userData.menu
-		// this.data1 = this.$store.state.userData.menu;
+		this.data1 = this.userData.menu;
+		this.$store.commit('hide');
 		this.$router.push(this.data1[0].url);
 	},
 };
@@ -163,6 +168,12 @@ export default {
 				border-radius: 50%;
 				display: inline-block;
 				vertical-align: top;
+				background: url('../../assets/avator.png') no-repeat center center;
+				background-size: contain;
+				>img{
+					width: 100%;
+					border-radius: 50%;  
+				}
 			}
 			.hht_user_text {
 				display: inline-block;
@@ -259,8 +270,10 @@ export default {
 			background-size: cover;
 		}
 		.menubar {
-			float: right;
-			margin: 10px 50px;
+			// float: right;
+			width: 100%;
+			text-align: right;
+			padding: 10px 50px;
 			font-size: 12px;
 			> div {
 				display: inline-block;
@@ -299,6 +312,11 @@ export default {
 					width: 100%;
 				}
 			}
+		}
+		.hht-title{
+			font-weight: normal;
+			text-align: center;
+			line-height: 52px
 		}
 	}
 }

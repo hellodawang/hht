@@ -7,7 +7,7 @@ import echarts from "echarts";
 import barChart from '../../components/chart/barChart'
 let baseConfig = {
     title: {
-        text: 'top应用排行',
+        text: 'Top应用排行',
         // subtext: '35560',
         x: 'center',
     },
@@ -25,6 +25,7 @@ let baseConfig = {
             axisLine: {
                 //y轴
                 show: false,
+                name:'次数'
             },
             axisTick: {
                 //y轴刻度线

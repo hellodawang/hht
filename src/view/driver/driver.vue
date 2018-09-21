@@ -9,10 +9,10 @@
                 <online-stats :account="accountStats" :device="deviceStats"/>
             </div>
         </div>
-        <div class="section online-distribution">
-          <div class="section-title"> 
+        <div class="section online-distribution" style="padding:20px 0">
+          <!-- <div class="section-title"> 
             <h3>在线数据分布</h3>
-          </div>
+          </div> -->
           <div class="section-content">
             <distribution-bar-chart :data="barChartData" style="height:325px"/>
             <activity-chart/>
@@ -47,16 +47,16 @@
             </div>
           </div>
         </div>
-        <div class="section">
-          <div class="section-title"> 
+        <div class="section" style="padding:20px 0 0">
+          <!-- <div class="section-title"> 
               <h3>TOP应用/客户汇总</h3> 
-          </div>
-          <div class="section-content" style="height:200px">
+          </div> -->
+          <div class="section-content" style="height:220px;">
               <el-col :span='12'>
-                  <top-app :data="topAppData" style="height:200px"/>   
+                  <top-app :data="topAppData" style="height:220px"/>   
               </el-col>
               <el-col :span='12'>
-                  <top-client :data="topClientData" style="height:200px"/>  
+                  <top-client :data="topClientData" style="height:220px"/>  
               </el-col>
           </div>
         </div>

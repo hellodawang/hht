@@ -50,7 +50,7 @@ const router = new Router({
                     name: 'maintenance',
                     component: maintenance
                 }, {
-                    path: '/gui/user1',
+                    path: '/gui/user',
                     name: 'user1',
                     component: user1
                 }, {

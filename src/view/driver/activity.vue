@@ -35,12 +35,11 @@ let baseConfig = {
   ],
   yAxis: [
     {
-      name: "人",
+      name: "活跃度",
       type: "value",
       boundaryGap: ['20%', '20%']
     },
     {
-      name: "台",
       type: "value",
       boundaryGap: ['20%', '20%']
     }
@@ -94,30 +93,12 @@ export default {
         { type: 2, name: "每月" },
         { type: 3, name: "每年" }
       ],
-      // selected:null,
-      // xAxis:[],
-      // deviceData:[],
-      // accountData:[],
-    
       dateType:2,
 			distributionList:[
-					// {"onlineDateInfo": "07/26","distributionUserInfo": "3500","distributionTerminalInfo": "350" },
-					// {"onlineDateInfo": "07/27","distributionUserInfo": "4500","distributionTerminalInfo": "600" },
-					// {"onlineDateInfo": "07/28","distributionUserInfo": "4300","distributionTerminalInfo": "500" },
-					// {"onlineDateInfo": "07/29","distributionUserInfo": "5300","distributionTerminalInfo": "200" },
-					// {"onlineDateInfo": "07/30","distributionUserInfo": "4900","distributionTerminalInfo": "180" },
-					// {"onlineDateInfo": "07/31","distributionUserInfo": "5100","distributionTerminalInfo": "480" },
-			]
-    
+		  ]  
     }
   },
   mounted(){
-    // this.op.distributionList.forEach(element => {
-    //   this.xAxis.push(element.onlineDateInfo)
-    //   this.deviceData.push(element.distributionUserInfo)
-    //   this.accountData.push(element.distributionTerminalInfo)
-    // });
-    // this.selected  = this.op.dateType
     this.handleChange('')
   },
   computed: {
@@ -140,8 +121,6 @@ export default {
             }
             this.distributionList = res.data.data.distributionList;
             this.dateType = parseInt(res.data.data.onlineDateType)
-            // console.log('date type: ', this.dateType)
-            // console.log('online distribution: ', this.distributionList)
           })
           .catch(function(error) {
             console.log(error);

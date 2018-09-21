@@ -75,12 +75,6 @@ echarts.extendsMap = function(dom, opt, mapData) {
         '香港': xianggang,
         '澳门': aomen
     };
-    var levelColorMap = {
-        '1': 'rgba(241, 109, 115, .8)',
-        '2': 'rgba(255, 235, 59, .7)',
-        '3': 'rgba(147, 235, 248, 1)'
-    };
-
     var defaultOpt = {
         mapName: 'china', // 地图展示
         goDown: false, // 是否下钻
@@ -111,7 +105,7 @@ echarts.extendsMap = function(dom, opt, mapData) {
     var style = {
         font: '16px "Microsoft YaHei", sans-serif',
         textColor: '#eee',
-        lineColor: 'rgba(147, 235, 248, .8)'
+        lineColor: 'rgba(255, 255, 255, .8)'
     };
 
     var handleEvents = {
@@ -403,43 +397,30 @@ echarts.extendsMap = function(dom, opt, mapData) {
             zoom: 1,
             label: {
                 normal: {
-                    show: false,
+                    show: true,
                     textStyle: {
-                        color: '#fff'
+                        color: '#f0f0f0'
                     }
                 },
                 emphasis: {
                     textStyle: {
-                        color: '#fff'
+                        color: '#f0f0f0'
                     }
                 }
             },
             itemStyle: {
                 normal: {
-                    borderColor: 'rgba(147, 235, 248, 1)',
+                    borderColor: 'rgba(200, 200, 200, 1)',
                     borderWidth: 1,
-                    areaColor: {
-                        type: 'radial',
-                        x: 0.5,
-                        y: 0.5,
-                        r: 0.8,
-                        colorStops: [{
-                            offset: 0,
-                            color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
-                        }, {
-                            offset: 1,
-                            color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    },
-                    shadowColor: 'rgba(128, 217, 248, 1)',
+                    areaColor: '#a9dbfb',
+                    // shadowColor: 'rgba(128, 217, 248, 1)',
                     // shadowColor: 'rgba(255, 255, 255, 1)',
-                    shadowOffsetX: -2,
-                    shadowOffsetY: 2,
-                    shadowBlur: 10
+                    // shadowOffsetX: -2,
+                    // shadowOffsetY: 2,
+                    // shadowBlur: 10
                 },
                 emphasis: {
-                    areaColor: '#389BB7',
+                    areaColor: '#a9dbfb',
                     borderWidth: 0
                 }
             },
@@ -449,7 +430,7 @@ echarts.extendsMap = function(dom, opt, mapData) {
                         name: item.name,
                         itemStyle: {
                             normal: {
-                                areaColor: item.areaColor || '#389BB7'
+                                areaColor: item.areaColor || '#a9dbfb'
                             }
                         },
                         label: {
@@ -467,7 +448,7 @@ echarts.extendsMap = function(dom, opt, mapData) {
                         itemStyle: {
                             normal: {
                                 borderColor: '#91e6ff',
-                                areaColor: '#389BB7'
+                                areaColor: '#0a62bc'
                             }
                         }
                     }
@@ -482,9 +463,12 @@ echarts.extendsMap = function(dom, opt, mapData) {
             text: ['High', 'Low'],
             seriesIndex: [0],
             inRange: {
-                color: ['#e0ffff', '#006edd']
+                color: ["#e0ffff", "#006edd"]
             },
-            calculable: true
+            calculable: true,
+            textStyle:{
+                color:'#fff'
+            }
         },
         series: [{
             name: '设备',

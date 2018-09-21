@@ -21,19 +21,19 @@
                   		:highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
 						<el-table-column type="selection" width="55"> </el-table-column> 
 						<el-table-column prop="deviceName" label=" 设备名称"> </el-table-column> 
-						<el-table-column prop="clientCloudCode" label="云识别号"> </el-table-column> 
+						<!-- <el-table-column prop="clientCloudCode" label="云识别号"> </el-table-column>  -->
 						<el-table-column prop="model" label="型号"> </el-table-column> 
 						<el-table-column prop="customer" label="客户名" show-overflow-tooltip></el-table-column>
 						<!-- <el-table-column prop="firmware" label="固件版本" show-overflow-tooltip></el-table-column> -->
-						<el-table-column prop="category" label="产品类别" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="status" label="在线状态" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="category" label="产品类别" show-overflow-tooltip></el-table-column> -->
+						<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
 					</el-table>
 					 <ul class="list-shortcut">
 						<li v-for="(item,index) in ss" :key="index"  ref="item" :class="{current:current==index}" @click="gotoChar(item,index)">{{item}}</li>
 					</ul>
 				</div>
                 <div class="deviceInfo-more" style="margin-left:990px;height:100%;background-color:#fff">
-					<h5>设备信息</h5>
+					<h5>设备详细信息</h5>
 					<div class="deviceInfo-more-content">
 						<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">{{selected.category}}</span></div>
 						<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{selected.clientCloudCode}}</span></div>

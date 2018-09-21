@@ -10,10 +10,6 @@ export default {
     barChart,
   },
   props: ["account", "device"],
-  // data: function() {
-  //   return {
-  //   };
-  // },
   computed: {
      config(){
       // let chart = this.$echarts.init(this.$refs.onlineStats)
@@ -53,7 +49,7 @@ export default {
                 color: '#666',
                 formatter:()=>{
                   return [
-                    '{title|'+this.account.online+'}{unit|/人}',
+                    '{title|'+this.account.online+'}{unit|人}',
                     '{subtext|'+parseInt(this.account.online/this.account.all*100)+'%}'
                   ].join('\n')
                 },
@@ -147,7 +143,7 @@ export default {
                 color: '#666',
                 formatter:()=>{
                   return [
-                    '{title|'+this.device.online+'}{unit|/台}',
+                    '{title|'+this.device.online+'}{unit|台}',
                     '{subtext|'+parseInt(this.device.online/this.device.all*100)+'%}'
                   ].join('\n')
                 },

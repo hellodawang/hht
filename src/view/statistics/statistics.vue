@@ -4,7 +4,6 @@
     </div>
 </template>
 <script>
-// import data from "../../mock/s";
 export default {
 
 };

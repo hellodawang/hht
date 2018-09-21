@@ -12,9 +12,8 @@ import countryList from "../../utils/countryList.js";
 function display() {
   this.$echarts.dispose(this.$refs.echart);
   this.map = this.$echarts.init(this.$refs.echart);
-  // console.log('world map data: ', this.stats)
   this.map.setOption({
-    backgroundColor: "#154e90",
+    backgroundColor: "#404a59",
     visualMap: {
       min: 0,
       max: 10000,
@@ -50,7 +49,19 @@ function display() {
         type: "map",
         map: "world",
         data: this.stats,
-        nameMap: countryList
+        nameMap: countryList,
+        itemStyle:{
+          emphasis: {
+              areaColor:'rgb(5,52,88)',
+              borderWidth: 0,
+              label:{
+                color:'#fff'
+              }
+          }
+        },
+        emphasis:{
+          color:'#e0ffff'
+        }
       }
     ]
   });
@@ -66,43 +77,22 @@ export default {
   computed: {
     worldMapData: function() {
       return worldMapData;
+    },
+    showSideBar(){
+      return this.$store.state.showSideBar
     }
   },
   mounted() {
     // echarts.registerMap("china", china);
     echarts.registerMap("world", world);
     display.bind(this)()
-    // this.$nextTick(() => {
-    // this.$echarts.dispose(this.$refs.echart);
-    // this.map = this.$echarts.init(this.$refs.echart);
-    // this.map.setOption({
-    //   backgroundColor: "#154e90",
-    //   visualMap: {
-    //     min: 0,
-    //     max: 10000,
-    //     left: "right",
-    //     top: "bottom",
-    //     text: ["High", "Low"],
-    //     seriesIndex: [0],
-    //     inRange: {
-    //       color: ["#e0ffff", "#006edd"]
-    //     },
-    //     calculable: true
-    //   },
-    //   series: [
-    //     {
-    //       type: "map",
-    //       map: "world",
-    //       data: this.stats,
-    //       nameMap: countryList
-    //     }
-    //   ]
-    // });
-    // });
   },
   watch: {
     stats: function(newQuestion, oldQuestion) {
       display.bind(this)();
+    },
+    showSideBar:function(){
+        display.bind(this)()
     }
   },
   beforeDestroy() {

@@ -9,7 +9,13 @@ export default {
   data: function() {
     return {
       // greeting: "Hello"
+      chart:null
     };
+  },
+  computed:{
+    showSideBar(){
+      return this.$store.state.showSideBar
+    }
   },
   mounted() {
     let dom = this.$refs.echarts;
@@ -22,6 +28,13 @@ export default {
       this.$echarts.dispose(dom);
       this.chart = this.$echarts.init(dom);
       this.chart.setOption(this.data);
+    },
+    showSideBar:function(){
+        let dom = this.$refs.echarts;
+        this.$echarts.dispose(dom);
+        this.chart = this.$echarts.init(dom);
+        this.chart.setOption(this.data);
+        this.chart.setOption(this.data)      
     }
   },
   beforeDestroy() {

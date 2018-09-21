@@ -39,28 +39,10 @@ let baseConfig = {
                     width: 8,
                     // color:'#f66'
                     color: [
-                        [
-                            1,
-                            new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                                {
-                                    offset: 0,
-                                    color: '#409EFF',
-                                },
-                                {   
-                                    offset:0.45,
-                                    color:'#409EFF'
-                                },
-                                {
-                                    offset: 0.75,
-                                    color: '#409EFF',
-                                },
-                                {
-                                    offset: 1,
-                                    color: '#409EFF',
-                                },
-                            ]),
-                        ],
-                        // [1, '#f00'],
+                        [0.6, '#F56C6C'],
+                        [0.8, '#FFBD84'],
+                        [0.9, '#409EFF'],
+                        [1, '#67C23A']
                     ],
                 },
             },
