@@ -7,7 +7,7 @@ import zone from '../components/space/space'
 import appStore from '../view/appStore/appStore'
 import userManager from '../view/userManager/userManager'
 import maintenance from '../view/maintenance/maintenance'
-import user1 from '../view/driver/user1'
+import endUser from '../view/driver/endUser'
 import managerSimple from '../view/driver/managerSimple'
 import deviceInfo from '../view/deviceInfo/deviceInfo'
 import statistics from '../view/statistics/statistics'
@@ -50,10 +50,9 @@ const router = new Router({
                     name: 'maintenance',
                     component: maintenance
                 }, {
-                    path: '/gui/user',
-                    name: 'user1',
-                    component: user1
-                }, {
+                    path: '/gui/endUser',
+                    name: 'endUser',
+                    component: endUser                }, {
                     path: '/gui/managerSimple',
                     name: 'managerSimple',
                     component: managerSimple

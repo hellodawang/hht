@@ -11,10 +11,10 @@
                     <!-- <online-stats :account="onlineStats.account" :device="onlineStats.device"/> -->
                 </div>
             </div>
-			<div class="section online-distribution">
-                <div class="section-title"> 
+			<div class="section online-distribution" style="padding:20px 0 ">
+                <!-- <div class="section-title"> 
                     <h3>在线数据分布</h3>
-                </div>
+                </div> -->
                 <div class="section-content">
 					<distribution-bar-chart :data="barChartData" style="height:325px"/>
 					<activity-chart />
@@ -47,7 +47,7 @@
             </div>
             <div class="section keyEvent">
                 <div class="section-title"> 
-                    <h3>重要关键事件提醒</h3> 
+                    <h3>关键事件提醒</h3> 
                 </div>
                 <div class="section-content" style="height:200px">
 					<key-events :op='eventsData'></key-events>
@@ -105,46 +105,10 @@ export default {
 			account: { online: 0, all: 1, accountTypeList: []},
 			terminalNetwork: [],
 			eventsData:[
-				// {eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
-				// {eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
-				// {eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
-				// {eventName:'设备升级',eventDetail:'今天升级总部设备10台',deadLine:'2018-08-06'},
 			],
 			rawBulletinData:[
-                // {id:1,time:'2018-09-11',content:'公司放假通知：放假3天 庆祝中秋'},
-                // {id:2,time:'2018-08-01',content:'公司放假通知：放假3天 庆祝中秋'},
-                // {id:3,time:'2018-06-31',content:'公司放假通知：放假3天 庆祝中秋'},
-                // {id:4,time:'2018-06-12',content:'公司放假通知：放假3天 庆祝中秋'},
             ],
 			cloudSpaceCapacityData:{name:'云空间容量',all:100,available:100},
-			// networkQualityData:[
-			// 	{"name": "广东，广西，福建，湖南，贵州", level:'优秀', "value": 900}, 
-			// 	{"name": "西藏，青海，四川",level:'良好',"value": 500},
-			// 	{"name": "浙江，江苏，安徽",level:'好',"value": 300},
-			// 	{ "name": "河南，陕西，山东", level:'一般', "value": 900},
-			// 	{"name": "黑龙江，沈阳",level:'差',"value": 500}
-			// ],
-			// onlineStats:{
-				// account: { online: 34551, all: 82342 },
-        		// device: { online: 321243, all: 912341 }
-			// },
-			// barChartData:{
-			// 	title1:'使用时长',
-			// 	title2:'使用率',
-			// 	account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
-        	// 	device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
-			// },
-			// activityData:{
-			// 	dateType:2,
-			// 	distributionList:[
-			// 		{"onlineDateInfo": "07/26","distributionUserInfo": "3500","distributionTerminalInfo": "350" },
-			// 		{"onlineDateInfo": "07/27","distributionUserInfo": "4500","distributionTerminalInfo": "600" },
-			// 		{"onlineDateInfo": "07/28","distributionUserInfo": "1500","distributionTerminalInfo": "500" },
-			// 		{"onlineDateInfo": "07/29","distributionUserInfo": "2300","distributionTerminalInfo": "200" },
-			// 		{"onlineDateInfo": "07/30","distributionUserInfo": "800","distributionTerminalInfo": "180" },
-			// 		{"onlineDateInfo": "07/31","distributionUserInfo": "3000","distributionTerminalInfo": "480" },
-			// 	]
-			// },
 			stats: {
 				'2': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
 			},

@@ -87,7 +87,7 @@ export default{
                         },
                         itemStyle: {
                             normal: {
-                                color: '#3dd4de',
+                                color: '#67C23A',
                             }
                         }
                     }, {
@@ -95,7 +95,7 @@ export default{
                         name: 'invisible',
                         itemStyle: {
                             normal: {
-                                color: '#cfcfcf', 
+                                color: '#3dd4de', 
                                 label: {
                                     show: false
                                 },

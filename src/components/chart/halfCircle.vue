@@ -18,7 +18,9 @@ export default {
         config() {
 
             let colors = ["#67c23a",'#409eff',"#e6a23c","#f66","#f00"]
+            colors = colors.reverse()
             let endData=[]
+            this.op = this.op.reverse()
             this.op.map((item,index)=>{
                 endData.push({value: item.value,name:item.name})
             })
@@ -71,7 +73,7 @@ export default {
                         radius: ['0', '95%'],
                         center: ['50%', '70%'],
                         hoverAnimation: false,
-                        startAngle: 180,
+                        startAngle: -180,
                         label: {
                                 show: true,
                                 textStyle: {

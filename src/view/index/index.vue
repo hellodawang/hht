@@ -12,7 +12,7 @@
 						v-model="visible2">
 						<div class="user-operate">
 							<div class="personal-settings" @click="setting = !setting">个人设置</div>
-							<div class="login-out">退出登录</div>
+							<div class="login-out"><el-button @click="logout" type="text">退出登录</el-button></div>
 						</div>
 						<div slot="reference" class="avator"><img  :src="userData.avatar" alt=""  ></div>						
 					</el-popover>	
@@ -45,7 +45,7 @@
 							<div class="avator">
 								<img :src="$store.state.userData.avatar" alt="">
 							</div>
-							<div class="loginOut">退出</div>
+							<div class="loginOut" @click="logout">退出</div>
 						</div>		
 					</el-col>
 				</el-row>
@@ -128,6 +128,13 @@ export default {
 			this.$store.commit('toggle');
 		},
 		confirm() {},
+		logout() {
+			console.log('logout!')
+			this.$axios
+				.post('/login/loginOut', {})
+				.then(() => this.$router.push('/'))
+				.catch(e => console.log('logout error: ', e))
+		}
 	},
 	created() {
 		this.userData = JSON.parse(sessionStorage.getItem('userData'))
@@ -308,6 +315,8 @@ export default {
 				border-radius: 50%;
 				margin: 0 20px;
 				overflow: hidden;
+				background: url('../../assets/avator.png') no-repeat center center;
+				background-size: contain;
 				img {
 					width: 100%;
 				}
@@ -317,6 +326,9 @@ export default {
 			font-weight: normal;
 			text-align: center;
 			line-height: 52px
+		}
+		.loginOut{
+			cursor: pointer;
 		}
 	}
 }

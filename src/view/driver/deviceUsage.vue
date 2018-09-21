@@ -47,6 +47,15 @@ let baseConfig = {
       },
       data: []
     }
+  ],
+  dataZoom: [
+      {
+          id: 'dataZoomX',
+          type: 'slider',
+          xAxisIndex: [0],
+          filterMode: 'filter',
+          bottom:0
+      },
   ]
 };
 
