@@ -86,13 +86,6 @@ export default {
     config() {
       let cfg = Object.assign({}, baseConfig);
       cfg.series[0].data = [{value: this.data, name: ''}]
-    //   cfg.legend.data = this.data.data.map(v => v.name);
-
-    //   cfg.xAxis[0].data = this.data.xAxis;
-    //   cfg.series.forEach((v, i) => {
-    //     return Object.assign(v, this.data.data[i]);
-    //   });
-    //   console.log("bendwidth series: ", cfg.series);
       return cfg;
     },
     comment() {
@@ -108,13 +101,13 @@ export default {
     },
     color() {
         if (this.data >= 90) {
-            return 'border-color: green; color: green;'
+            return 'border-color: #67C23A; color: #67C23A;'
         } else if (this.data >= 80) {
-            return 'border-color: palegreen; color: palegreen;'
+            return 'border-color: #409EFF; color: #409EFF;'
         } else if (this.data >= 60) {
-            return 'border-color: greenyellow; color: greenyellow;'
+            return 'border-color: #FFBD84; color: #FFBD84;'
         } else {
-            return 'border-color: red; color: red;'
+            return 'border-color: #F56C6C; color: #F56C6C;'
         }
     }
   }

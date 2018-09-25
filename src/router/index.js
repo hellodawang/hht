@@ -32,49 +32,82 @@ const router = new Router({
                 children: [{
                     path: '/gui/driver',
                     name: 'driver',
-                    component: driver
+                    component: driver,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/zone',
                     name: 'zone',
-                    component: zone
+                    component: zone,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/appStore',
                     name: 'appStore',
-                    component: appStore
+                    component: appStore,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/userManager',
                     name: 'userManager',
-                    component: userManager
+                    component: userManager,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/maintenance',
                     name: 'maintenance',
-                    component: maintenance
+                    component: maintenance,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/endUser',
                     name: 'endUser',
-                    component: endUser                }, {
+                    component: endUser,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }                
+                }, {
                     path: '/gui/managerSimple',
                     name: 'managerSimple',
-                    component: managerSimple
+                    component: managerSimple,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/deviceInfo',
                     name: 'deviceInfo',
-                    component: deviceInfo
+                    component: deviceInfo,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/statistics',
                     name: 'statistics',
-                    component: statistics
+                    component: statistics,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, {
                     path: '/gui/driverCompany',
                     name: 'driverCompany',
-                    component: driverCompany
+                    component: driverCompany,
+                    meta: {
+                        requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
+                    }
                 }, ]
             },
 
         ]
     })
     router.beforeEach((to, from, next) => {
+        alert(1)
         if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+            alert(1)
             if (sessionStorage.username) { // 通过vuex state获取当前的token是否存在
                 next();
             } else {

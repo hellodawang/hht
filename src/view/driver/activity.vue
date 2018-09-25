@@ -37,11 +37,11 @@ let baseConfig = {
     {
       name: "活跃度",
       type: "value",
-      boundaryGap: ['20%', '20%']
+      boundaryGap: ['0%', '20%']
     },
     {
       type: "value",
-      boundaryGap: ['20%', '20%']
+      boundaryGap: ['0%', '20%']
     }
   ],
   series: [

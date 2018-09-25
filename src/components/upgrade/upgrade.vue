@@ -120,8 +120,8 @@ export default {
 			this.$emit('cancelUpdate')
 		},
 		hideUpdate() {
-			this.$emit('hideUpdate')
-			clearTimeout(this.updateProgressHandle)
+			this.$emit('hideUpdate', this.updateProgressHandle)
+			// clearTimeout(this.updateProgressHandle)
 		},
 		updateProgress() {
 			let cloudCode = this.data.map(v => v.clientCloudCode)

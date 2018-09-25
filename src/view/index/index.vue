@@ -208,7 +208,6 @@ export default {
 		height: 100%;
 		background-color: #dbdce0;
 		position: relative;
-
 		.hht-content_content {
 			position: absolute;
 			left: 10px;
@@ -273,8 +272,9 @@ export default {
 			width: 15px;
 			height: 15px;
 			margin-top: 18px;
-			background: url() no-repeat center center;
-			background-size: cover;
+			// background: url() no-repeat center center;
+			// background-size: cover;
+			cursor: pointer;
 		}
 		.menubar {
 			// float: right;

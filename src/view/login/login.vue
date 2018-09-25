@@ -4,7 +4,7 @@
             <img src="../../assets/logo.png" alt="">
             <span>鸿合云管理平台</span>
         </div>
-		<div style="width:1200px; margin:0 auto;position: relative">
+		<div style="width:1200px; margin:0 auto;position: relative" class="main">
 			<div class="login-box">
 				<el-form  class="login-wrapper" :model="ruleForm" :rules="rules" ref="ruleForm" >
 					<el-form-item>
@@ -28,8 +28,17 @@
 					<a href="" class="foget-password">忘记密码</a>
 					</el-form-item>                         
 				</el-form>
-			</div>	
+			</div>
+			<!-- <p class="ing">建设中......敬请期待</p>	 -->
 		</div>
+		<!-- <div class="footer">
+			<el-row class="footer-center">
+				<el-col :span="6" class="footer-item"><i class="iconfont icon-wulianwang"></i></el-col>
+				<el-col :span="6" class="footer-item"><i class="iconfont icon-dashuju"></i></el-col>
+				<el-col :span="6" class="footer-item"><i class="iconfont icon-tiexinfuwux"></i></el-col>
+				<el-col :span="6" class="footer-item"><i class="iconfont icon-zhihuijiaoyu"></i></el-col>
+			</el-row>
+		</div> -->
         <div class="mask" v-if='showModel'>
             <div class="model">
                 <div class="model-header">
@@ -158,65 +167,73 @@ export default {
 	background: url('../../assets/login-bg.png') no-repeat center center;
 	background-size: cover;
 	.title {
-		position: absolute;
-		left: 110px;
-		top: 66px;
-		width: 500px;
-		z-index: 99;
+		height: 82px;
+		padding: 20px 0;
+		border-bottom: 2px dashed #606060;
 		> img {
-			width: 103px;
+			width: 84px;
 			height: 42px;
-			margin-right: 4px;
+			margin-left: 80px;
+			margin-right: 28px;
 			display: inline-block;
 			vertical-align: middle;
 		}
 		> span {
 			color: #fff;
-			font-size: 30px;
+			font-size: 24px;
 			vertical-align: middle;
 		}
 	}
-	.login-box {
-		position: absolute;
-		top: 236px;
-		right: 0;
-		width: 398px;
-		background-color: #fff;
-		padding: 10px 50px;
-		border-radius: 5px;
-		h3 {
-			font-size: 20px;
-			font-weight: normal;
-			text-align: center;
-		}
-		.verification {
-			.el-input {
-				width: 220px;
+	.main{
+		.login-box {
+			margin-top: 150px;
+			margin-left: 800px;
+			width: 398px;
+			background-color: #fff;
+			padding: 10px 50px;
+			border-radius: 5px;
+			h3 {
+				font-size: 20px;
+				font-weight: normal;
+				text-align: center;
 			}
-			.verification-box {
-				width: 70px;
-				height: 38px;
+			.verification {
+				.el-input {
+					width: 220px;
+				}
+				.verification-box {
+					width: 70px;
+					height: 38px;
+					display: inline-block;
+					background-color: #fff;
+					vertical-align: top;
+					border: 1px solid #cfcfcf;
+					border-radius: 4px;
+				}
+			}
+			.foget-password {
+				text-decoration: none;
 				display: inline-block;
-				background-color: #fff;
-				vertical-align: top;
-				border: 1px solid #cfcfcf;
-				border-radius: 4px;
+				color: #5d8bc5;
+				text-align: right;
+				margin-left: 150px;
+			}
+			.submit-btn {
+				margin-top: 30px;
+				text-align: center;
+				.el-button {
+					width: 100%;
+				}
 			}
 		}
-		.foget-password {
-			text-decoration: none;
-			display: inline-block;
-			color: #5d8bc5;
-			text-align: right;
-			margin-left: 150px;
-		}
-		.submit-btn {
+		.ing{
+			margin-top: 100px;
 			text-align: center;
-			.el-button {
-				width: 100%;
-			}
-		}
+			color: #c0c0c0;
+			font-size: 26px;
+		}	
 	}
+	
 	.mask {
 		position: fixed;
 		left: 0;
@@ -272,6 +289,30 @@ export default {
 					.el-form-item__content {
 						line-height: 28px;
 					}
+				}
+			}
+		}
+	}
+	.footer{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 112px;
+		background-color: #33383B;
+		padding: 20px 0;
+		.footer-center{
+			width: 80%;
+			margin: 0 auto;
+			height: 72px;
+			border-left: 2px solid #4D4D4D;
+			.footer-item{
+				border-right: 2px solid #4D4D4D;
+				height: 100%;
+				color: #ccc;
+				padding: 10px 20px;
+				.iconfont{
+					font-size: 30px;
 				}
 			}
 		}

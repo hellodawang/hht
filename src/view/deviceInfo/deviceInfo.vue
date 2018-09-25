@@ -103,13 +103,15 @@ export default {
 		handleSelectionChange(val) {
 			this.selectedDevice = val
 		},
-		hideUpdate() {
+		hideUpdate(timer) {
 			this.$confirm('关闭后将无法查看升级进度和结果, 是否继续?', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
 					this.showUpdating = false
+					// console.log('timer: ', typeof timer)
+					clearTimeout(timer)
 				}).catch((e) => console.log(e))
 		},
 		completed(){

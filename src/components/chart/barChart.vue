@@ -34,7 +34,7 @@ export default {
         this.$echarts.dispose(dom);
         this.chart = this.$echarts.init(dom);
         this.chart.setOption(this.data);
-        this.chart.setOption(this.data)      
+        // this.chart.setOption(this.data)      
     }
   },
   beforeDestroy() {

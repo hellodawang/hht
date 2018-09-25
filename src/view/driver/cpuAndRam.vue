@@ -43,7 +43,7 @@ let baseConfig = {
         {
             type: 'value',
             interval: 20,
-            boundaryGap: ['20%', '20%']
+            boundaryGap: ['0', '20%']
         },
     ],
     series: [
