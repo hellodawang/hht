@@ -1,7 +1,7 @@
 <template>
     <div class="hht_wrapper">
 		<!-- <transition name="fade" > -->
-			<div class="hht_aside" v-if='$store.state.showSideBar'>
+			<div class="hht_aside" v-if='showSideBar'>
 				<div class="hht_logo">
 					<img src='../../assets/logo.png' alt="">
 				</div>
@@ -123,24 +123,39 @@ export default {
 			visible2: false,
 		};
 	},
+	computed:{
+		showSideBar(){
+			// 字符串转换为布尔值
+			 
+			if(sessionStorage.showSideBar){
+				let flag = JSON.parse(sessionStorage.showSideBar)
+				if(this.$store.state.showSideBar !== flag && flag){
+					this.$store.commit('updateshowSideBar',flag)
+				}	
+			}
+			
+			return this.$store.state.showSideBar
+		}
+	},
 	methods: {
 		toggle() {
-			this.$store.commit('toggle');
+			this.$store.commit('updateshowSideBar',!this.showSideBar);
 		},
 		confirm() {},
 		logout() {
 			console.log('logout!')
 			this.$axios
 				.post('/login/loginOut', {})
-				.then(() => this.$router.push('/'))
+				.then(() => this.$router.push('/gui/login'))
 				.catch(e => console.log('logout error: ', e))
 		}
 	},
 	created() {
 		this.userData = JSON.parse(sessionStorage.getItem('userData'))
 		this.data1 = this.userData.menu;
-		this.$store.commit('hide');
-		this.$router.push(this.data1[0].url);
+		if(this.$route.path == '/gui/index'){
+			this.$router.replace(this.data1[0].url);	
+		}	
 	},
 };
 </script>

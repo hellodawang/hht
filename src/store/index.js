@@ -5,16 +5,13 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     // 定义状态
     state: {
-        showSideBar: true,
+        showSideBar: sessionStorage.showSideBar || false,
         userData: {}
     },
     mutations: {
-        toggle(state) {
-            state.showSideBar = !state.showSideBar
-                // 所有的echart全部resize
-        },
-        hide(state) {
-            state.showSideBar = false
+        updateshowSideBar(state,n) {
+            state.showSideBar = n;
+            sessionStorage.showSideBar = state.showSideBar
         },
         setUserDate(state, n) {
             state.userData = n

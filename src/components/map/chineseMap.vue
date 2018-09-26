@@ -16,7 +16,7 @@ function display() {
         goDown: true, // 是否下钻
         // 下钻回调
         callback: function(name, option, instance) {
-
+          
         }
       },  this.stats);
 }
@@ -40,7 +40,6 @@ export default {
   },
   watch: {
     stats: function(newQuestion, oldQuestion) {
-        // this.$echarts.dispose(this.$refs.echart);
         display.bind(this)()
     },
     showSideBar:function(){

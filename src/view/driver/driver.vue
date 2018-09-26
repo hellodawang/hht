@@ -107,7 +107,6 @@ export default {
           return console.log("get data error: ", res.message);
         }
         this.account = res.data.data;
-        // console.log('online account: ', this.account)
       })
       .catch(function(error) {
         console.log(error);
@@ -119,7 +118,6 @@ export default {
           return console.log("get data error: ", res.message);
         }
         this.device = res.data.data;
-        // console.log('online device: ', this.device)
       })
       .catch(function(error) {
         console.log(error);
@@ -131,7 +129,6 @@ export default {
           return console.log("get data error: ", res.message);
         }
         this.china = res.data.data;
-        console.log('stats data: ', res.data.data)
         this.stats['2'] = {
           terminalTotal: res.data.data.terminalTotal, 
           onlineTerminalTotal: res.data.data.onlineTerminalTotal,
