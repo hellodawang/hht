@@ -124,9 +124,7 @@ export default {
 		};
 	},
 	computed:{
-		showSideBar(){
-			// 字符串转换为布尔值
-			 
+		showSideBar(){		 
 			if(sessionStorage.showSideBar){
 				let flag = JSON.parse(sessionStorage.showSideBar)
 				if(this.$store.state.showSideBar !== flag && flag){
@@ -143,10 +141,12 @@ export default {
 		},
 		confirm() {},
 		logout() {
-			console.log('logout!')
 			this.$axios
 				.post('/login/loginOut', {})
-				.then(() => this.$router.push('/gui/login'))
+				.then(() => {
+					this.$router.push('/gui/login');
+					sessionStorage.clear()
+				})
 				.catch(e => console.log('logout error: ', e))
 		}
 	},

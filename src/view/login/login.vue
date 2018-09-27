@@ -18,7 +18,7 @@
 					</el-form-item>
 					<el-form-item  class="verification"  prop="captcha">
 						<el-input placeholder="验证码"  v-model="ruleForm.captcha" clearable  required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-verification"></i></el-input>  
-						<div class="verification-box"  ><span v-html="captchaUrl" style="display: inline-block; transform-origin: 0 0; transform: scale(0.5)"></span></div>
+						<div class="verification-box"  ><img src="/login/login/validateCode" alt=""></div>
 					</el-form-item> 
 					<el-form-item class="submit-btn" >
 					<el-button type="primary"  @click="submit" >登录</el-button> 
