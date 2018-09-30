@@ -29,10 +29,10 @@
                 <el-table-column  prop="email" label="邮箱"> </el-table-column> 
                 <el-table-column  prop="registerTime" label="注册时间"> </el-table-column> 
                 <el-table-column  prop="tel" label="手机"> </el-table-column>
-                <el-table-column label="操作" width="100">
+                <el-table-column label="操作" width="120">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                        <el-button type="text" size="small">编辑</el-button>
+						<i class="iconfont icon-search"></i>               
+						<i class="iconfont icon-bianji"></i>
                     </template>
                 </el-table-column> 
             </el-table>
@@ -45,40 +45,139 @@ export default {
 		return {
 			tableData: [
 				{
-					name: '用户1',
-					account: 'shjshklhaoswo',
-					email: 'ahpwerkaslfhoi@qq.com',
-					registerTime: '2018-09-01',
-					tel: '188888888',
+					name: 'HHTAdmin',
+					account: 'HHTAdmin',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
 				},
 				{
-					name: '用户1',
-					account: 'shjshklhaoswo',
-					email: 'ahpwerkaslfhoi@qq.com',
-					registerTime: '2018-09-01',
-					tel: '188888888',
+					name: 'EAdmin1',
+					account: 'EAdmin1',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
 				},
 				{
-					name: '用户1',
-					account: 'shjshklhaoswo',
-					email: 'ahpwerkaslfhoi@qq.com',
-					registerTime: '2018-09-01',
-					tel: '188888888',
+					name: 'Staff1',
+					account: 'Staff1',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
 				},
 				{
-					name: '用户1',
-					account: 'shjshklhaoswo',
-					email: 'ahpwerkaslfhoi@qq.com',
-					registerTime: '2018-09-01',
-					tel: '188888888',
+					name: 'EAdmin2',
+					account: 'EAdmin2',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
 				},
 				{
-					name: '用户1',
-					account: 'shjshklhaoswo',
-					email: 'ahpwerkaslfhoi@qq.com',
-					registerTime: '2018-09-01',
-					tel: '188888888',
+					name: 'EAdmin3',
+					account: 'EAdmin3',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
 				},
+				{
+					name: 'EAdmin4',
+					account: 'EAdmin4',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'EAdmin5',
+					account: 'EAdmin5',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'EAdmin6',
+					account: 'EAdmin6',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'EAdmin7',
+					account: 'EAdmin7',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff2',
+					account: 'Staff2',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff12',
+					account: 'Staff12',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff13',
+					account: 'Staff13',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff14',
+					account: 'Staff14',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff15',
+					account: 'Staff15',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff16',
+					account: 'Staff17',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff17',
+					account: 'Staff17',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff18',
+					account: 'Staff18',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff19',
+					account: 'Staff19',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+				{
+					name: 'Staff20',
+					account: 'Staff20',
+					email: '',
+					registerTime: '2018/6/28 14:55',
+					tel: '',
+				},
+
 			],
 			options: [{ value: 1, label: '部门1' }, { value: 2, label: '部门2' }, { value: 3, label: '部门3' }],
 			options1: [{ value: 1, label: '地域1' }, { value: 2, label: '地域2' }, { value: 3, label: '地域3' }],
@@ -93,6 +192,8 @@ export default {
 .user-management {
 	background-color: #fff;
 	height: 100%;
+	overflow: hidden;
+	padding-bottom: 10px;
 	.user-management-title {
 		line-height: 40px;
 		font-size: 12px;
@@ -106,6 +207,17 @@ export default {
 	}
 	.user-content {
 		padding-left: 40px;
+		height: 100%;
+		overflow-y: scroll;
+		.iconfont{
+			font-size: 20px;
+			color: #409EFF;
+			display: inline-block;
+			width: 30px;
+			text-align: center;
+			cursor: pointer;
+
+		}
 	}
 }
 </style>

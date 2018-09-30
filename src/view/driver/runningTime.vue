@@ -16,7 +16,7 @@ let baseConfig = {
     }
   },
   grid: {
-    left: "2%",
+    left: "5%",
     right: "5%",
     bottom: "3%",
     top: "20%",
@@ -25,6 +25,9 @@ let baseConfig = {
   xAxis: [
     {
       type: "category",
+      axisLabel:{
+        fontSize:10
+      }
     }
   ],
   yAxis: [
@@ -61,7 +64,7 @@ export default {
   data: function() {
     return {
       chartData: [],
-      selected: '',
+      selected: 1,
       buttonList: [
         { type: 1, name: "每周" },
         { type: 2, name: "每月" },
@@ -70,7 +73,7 @@ export default {
     };
   },
   mounted() {
-    this.handleChange('')
+    this.handleChange(this.selected)
   },
   computed: {
     config() {
@@ -79,38 +82,23 @@ export default {
       cfg.series[0].data = this.chartData.map(v => v.hour) // this.runningTimeData.data
       return cfg;
     },
-    // 选中的是周，月，年
-    // selected(){
-      // return this.op.onlineDateType
-    // },
-    // x轴数据
-    // runningTimeData(){
-    //   let xAxisArr = []
-    //   let data = []
-    //   this.op.dateList.forEach(element => {
-    //     xAxisArr.push(element.dayDate)
-    //     data.push(element.hour)
-    //   });
-    //   return {xAxisArr:xAxisArr,data:data}
-    // },
   },
-  watch: {
+   watch: {
     cloudCode: function() {
-      this.handleChange('')
-    },
+      this.handleChange(this.selected)
+    }
   },
   methods: {
     handleChange(type) {
-      console.log(type)
+      this.selected = type
       if (!this.cloudCode) return
       this.$axios
-        .post("/term/terminalDuration", {dateType: type, clientCloudCode: this.cloudCode}, { responseType: "json" })
+        .post("/terminalweb/terminalReport/terminalDuration", {dateType: this.selected, clientCloudCode: this.cloudCode}, { responseType: "json" })
         .then(res => {
           if (res.data.code != '0000') {
             return console.log("get data error: ", res.message);
           }
-          this.chartData = res.data.data.dateList
-          // console.log('chart data: ', this.chartData)
+          this.chartData = res.data.data.dateList.map(v => ({dayDate:v.dayDate.substring(5).replace('-', '/'),hour:v.hour}))
           this.selected = res.data.data.onlineDateType
         })
         .catch(function(error) {

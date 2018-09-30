@@ -4,12 +4,13 @@ import router from '../router'
 
 // axios 配置
 axios.defaults.timeout = 5000
+axios.defaults.baseURL = '/api/'
 
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-    if (sessionStorage.username) {
-      // config.headers.Authorization = `token ${store.state.token}`
+    if (sessionStorage.token) { 
+      config.headers.Authorization = sessionStorage.token
     }
     return config
   },

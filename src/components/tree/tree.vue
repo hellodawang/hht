@@ -1,19 +1,29 @@
 <template>
-    <el-tree :data="list"  node-key="id" :expand-on-click-node="true" class="hht_list">
-        <span class="custom-tree-node" slot-scope="{ node, data }" >
-			<router-link :to="data.url" class="tree-link">
-				<i class='iconfont' :class="'icon-'+data.icon"></i>
-					<span class='icon-text '>
-						{{node.label}}
-					</span>	
-					<span class="iconfont down" v-if='node.childNodes.length>0' :class="{'icon-left':!node.expanded, 'icon-down':node.expanded}"></span>
-			</router-link>   
+    <el-tree :data="list"  node-key="menuId" :expand-on-click-node="true" class="hht_list">
+        <span class="custom-tree-node" slot-scope="{ node, data }"  @click="go(data.url)">
+			<div class="tree-link">
+				<i class='iconfont' :class="'icon-'+data.iconPath"></i>
+				<span class='icon-text '>
+					{{data.menuName}}
+				</span>	
+				<span class="iconfont down" v-if='node.childNodes.length>0' :class="{'icon-left':!node.expanded, 'icon-down':node.expanded}"></span>
+				<span class="iconfont icon-lock" v-if="data.url=='/gui/maintenance'||data.url=='/gui/statistics'" ></span>
+			</div>
         </span>
     </el-tree>
 </template>
 <script>
 export default {
 	props: ['list'],
+	methods:{
+		go(url){
+			if(url == '/gui/maintenance' || url == '/gui/statistics'){
+				this.$alert('该界面未开放',{confirmButtonText: '确定'})
+			}else{
+				this.$router.push(url)
+			}
+		}
+	}
 };
 </script>
 <style lang='scss'>
@@ -24,8 +34,15 @@ export default {
 	.is-current {
 		background-color: #014099;
 	}
+	.custom-tree-node{
+		width: 100%;
+		.tree-link{
+			width: 100%;
+		}
+	}
 	.el-tree-node {
 		color: #dbdce0;
+		// width: 100%;
 		&:focus > .el-tree-node__content {
 			background-color: transparent;
 		}
@@ -45,6 +62,11 @@ export default {
 			.down {
 				position: absolute;
 				right: 20px;
+			}
+			.icon-lock{
+				position: absolute;
+				right: 20px;
+				color: #E6A23C
 			}
 			.iconfont {
 				display: inline-block;

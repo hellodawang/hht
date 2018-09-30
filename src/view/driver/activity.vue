@@ -5,6 +5,7 @@
 <script>
 import echarts from "echarts";
 import switchChart from "../../components/chart/switchChart";
+import lodash from 'lodash'
 let baseConfig = {
   legend:{
     data:['人','设备'],
@@ -30,18 +31,27 @@ let baseConfig = {
     {
       type: "category",
       boundaryGap: false,
-      data: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
+      data: [],
+      axisLabel:{
+        fontSize:10
+      }
     },
   ],
   yAxis: [
     {
       name: "活跃度",
       type: "value",
-      boundaryGap: ['0%', '20%']
+      boundaryGap: ['0%', '20%'],
+      axisLabel:{
+        fontSize:10
+      }
     },
     {
       type: "value",
-      boundaryGap: ['0%', '20%']
+      boundaryGap: ['0%', '20%'],
+      axisLabel:{
+        fontSize:10
+      }
     }
   ],
   series: [
@@ -93,18 +103,21 @@ export default {
         { type: 2, name: "每月" },
         { type: 3, name: "每年" }
       ],
-      dateType:2,
+      dateType:1,
 			distributionList:[
 		  ]  
     }
   },
   mounted(){
-    this.handleChange('')
+    this.handleChange(this.dateType)
   },
   computed: {
     config() {
       let cfg = Object.assign({}, baseConfig);
-      cfg.xAxis[0].data = this.distributionList.map(v => v.onlineDateInfo) // this.xAxis
+      cfg.xAxis[0].data = this.distributionList.map((v) => {
+        let time = v.onlineDateInfo.slice(4)
+        return time.slice(0, 2) + '/' + time.slice(2)
+      }) // this.xAxis
       cfg.series[0].data = this.distributionList.map(v => v.distributionUserInfo) // this.accountData
       cfg.series[1].data = this.distributionList.map(v => v.distributionTerminalInfo) // this.deviceData
       return cfg;
@@ -112,14 +125,13 @@ export default {
   },
   methods: {
     handleChange(type) {
-        // console.log(type)
         this.$axios
-          .post("/user/findActiveDistribution", {dateType: type}, { responseType: "json" })
+          .post("/userapi/userReport/findActiveDistribution", {dateType: type}, { responseType: "json" })
           .then((res) => {
             if (res.data.code != '0000') {
               return console.log("get data error: ", res.message);
             }
-            this.distributionList = res.data.data.distributionList;
+            this.distributionList = res.data.data.distributionList.reverse();
             this.dateType = parseInt(res.data.data.onlineDateType)
           })
           .catch(function(error) {

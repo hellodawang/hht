@@ -1,11 +1,10 @@
 <template>
 <div class="section">
     <div class="section-title"> 
-        <h3>存储容量</h3> 
+        <h3>集群状态</h3> 
     </div>
     <div class="section-content">
-        <bar-chart :data="config" style="height:140px"/>
-        <!-- <div ref="chart" style="height:140px"></div> -->
+        <bar-chart :data="config" />
     </div>
 </div>
 </template>
@@ -22,8 +21,6 @@ export default {
     return {};
   },
   mounted(){
-    // let chart = this.$echarts.init(this.$refs.chart)
-    // chart.setOption(tempOption)
 },
   computed: {
       config() {
@@ -41,7 +38,7 @@ export default {
                     name: 'Pie1',
                     type: 'pie',
                     clockWise: false,
-                    radius: ['60%', "65%"],
+                    radius: ['55%', "60%"],
                     itemStyle:{
                         normal: {
                             label: {
@@ -61,14 +58,14 @@ export default {
                             normal: {
                                 formatter:()=>{                        
                                     return [
-                                    '{percent|'+parseInt(this.data[0].available/this.data[0].all*100)+'}{unit|%}',
-                                    '{subtext|运行中'+this.data[0].running+'个}'
+                                    '{percent|'+this.data[0].available+'}',
+                                    '{subtext|'+this.data[0].level+'}'
                                     ].join('\n')
                                 },
                                 rich:{
                                     percent:{
                                         fontSize:24,
-                                        color:'#FF4245',
+                                        color:'#409EFF',
                                     },
                                     unit:{
                                         fontSize:12,
@@ -88,7 +85,7 @@ export default {
                         },
                         itemStyle: {
                             normal: {
-                                color: '#FF4245',
+                                color: '#409EFF',
                             }
                         }
                     }, {
@@ -114,7 +111,7 @@ export default {
                     name: 'Pie1',
                     type: 'pie',
                     clockWise: false,
-                    radius: ['60%', "65%"],
+                    radius: ['55%', "60%"],
                     itemStyle:{
                         normal: {
                             label: {
@@ -134,8 +131,8 @@ export default {
                             normal: {
                                 formatter:()=>{                          
                                     return [
-                                    '{percent|'+parseInt(this.data[1].available/this.data[1].all*100)+'}{unit|%}',
-                                    '{subtext|运行中'+this.data[1].running+'个}'
+                                    '{percent|'+this.data[1].available+'}',
+                                    '{subtext|'+this.data[1].level+'}'
                                     ].join('\n')
                                 },
                                 rich:{
@@ -187,7 +184,7 @@ export default {
                     name: 'Pie1',
                     type: 'pie',
                     clockWise: false,
-                    radius: ['60%', "65%"],
+                    radius: ['55%', "60%"],
                     itemStyle:{
                         normal: {
                             label: {
@@ -207,8 +204,8 @@ export default {
                             normal: {
                                 formatter:()=>{                          
                                     return [
-                                    '{percent|'+parseInt(this.data[2].available/this.data[2].all*100)+'}{unit|%}',
-                                    '{subtext|运行中'+this.data[2].running+'个}'
+                                    '{percent|'+this.data[2].available+'}',
+                                    '{subtext|'+this.data[2].level+'}'
                                     ].join('\n')
                                 },
                                 rich:{
@@ -288,6 +285,10 @@ export default {
   }
   .section-content {
     padding: 10px;
+    height: 155px;
+      @media screen and (max-width: 1400px){
+        height: 130px;
+      }
   }
 }
 </style>

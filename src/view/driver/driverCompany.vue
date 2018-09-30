@@ -8,7 +8,6 @@
                 </div>
                 <div class="section-content">
                 	<online-stats :account="accountStats" :device="deviceStats"/>
-                    <!-- <online-stats :account="onlineStats.account" :device="onlineStats.device"/> -->
                 </div>
             </div>
 			<div class="section online-distribution" style="padding:20px 0 ">
@@ -16,7 +15,7 @@
                     <h3>在线数据分布</h3>
                 </div> -->
                 <div class="section-content">
-					<distribution-bar-chart :data="barChartData" style="height:325px"/>
+					<distribution-bar-chart :data="barChartData" />
 					<activity-chart />
                 </div>
             </div>
@@ -27,21 +26,21 @@
                     <h3 >设备概览</h3>
                 </div>
                 <div class="section-content">
-					<chinese-map :stats="chineseMapData" style="height:500px" />
-					<!-- <div ref="myEchart3" id='chart-panel' style="height:500px"></div> -->
+					<chinese-map :stats="chineseMapData" @setProvinceData="setProvinceData" />
+
 					<div class="device-text">
 						<div class="device-text-item">
-							<span class="device-num">{{stats[mapType].terminalTotal}}</span>
-							<span class="device-num-text">今日设备运行总数</span>
+							<span class="device-num">{{terminalTotal}}</span>
+							<span class="device-num-text">设备总数</span>
 						</div>
 						<div class="device-text-item">
-							<span class="device-num">{{stats[mapType].onlineTerminalTotal}}</span>
+							<span class="device-num">{{onlineTerminalTotal}}</span>
 							<span class="device-num-text">当前设备运行总数</span>
 						</div>
-						<div class="device-text-item alarm">
-						<span class="device-num">{{stats[mapType].warningTotal}}</span>
-						<span class="device-num-text">设备告警总数</span>
-					</div>
+						<div class="device-text-item alarm" v-if="!hideWarning">
+							<span class="device-num">{{stats[mapType].warningTotal}}</span>
+							<span class="device-num-text">设备告警总数</span>
+						</div>
 					</div>
                 </div>
             </div>
@@ -49,7 +48,7 @@
                 <div class="section-title"> 
                     <h3>关键事件提醒</h3> 
                 </div>
-                <div class="section-content" style="height:200px">
+                <div class="section-content" style="height:200px;overflow-y:scroll">
 					<key-events :op='eventsData'></key-events>
                 </div>
             </div>
@@ -67,7 +66,7 @@
                 <div class="section-title"> 
                     <h3>网络质量</h3> 
                 </div>
-                <div class="section-content" style="height:180px;">					
+                <div class="section-content" >					
                     <half-circle :op='networkQualityData'></half-circle>  
                 </div>
             </div>
@@ -75,7 +74,7 @@
                 <div class="section-title"> 
                     <h3>公告</h3> 
                 </div>
-                <div class="section-content"  style="height:370px">
+                <div class="section-content bulletin" >
 					<bulletin :op='bulletinData'></bulletin>
                 </div>
             </div>
@@ -92,6 +91,7 @@ import onlineStats from "./onlineStats";
 import distributionBarChart from "./distBarChart";
 import activityChart from "./activity";
 import chineseMap from "../../components/map/chineseMap";
+import provinceMap from '../../utils/provinceList'
 
 export default {
 	mounted() {
@@ -104,15 +104,17 @@ export default {
 			device: { online: 0, all: 1, deptInfoList: []},
 			account: { online: 0, all: 1, accountTypeList: []},
 			terminalNetwork: [],
-			eventsData:[
-			],
-			rawBulletinData:[
-            ],
+			eventsData:[ ],
+			rawBulletinData:[ ],
 			cloudSpaceCapacityData:{name:'云空间容量',all:100,available:100},
 			stats: {
+				'1': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
 				'2': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
 			},
-			mapType: "2",
+			terminalTotal: 0,
+			onlineTerminalTotal: 0,
+			mapType: "1", // 中国地图
+			hideWarning: false,
 		};
 	},
 	computed: {
@@ -120,60 +122,55 @@ export default {
 			return this.$store.state.showSideBar;
 		},
 		barChartData() {
-			let data = {title1:'使用率排名',
-				title2:'使用时长排名',
-				account: [{accountType:'教育',typeOnline:2342},{accountType:'商用',typeOnline:3213}, {accountType:'i学',typeOnline:1242}, {accountType:'其他',typeOnline:455}],
-				device: [{terminalType:'教育',typeOnline:22342},{terminalType:'商用',typeOnline:32113},{terminalType:'i学',typeOnline:41242},{terminalType:'其他',typeOnline:8455}]
+			let data = {title1:'使用时长排名',
+				title2:'使用率排名',
+				data1: [],
+				data2: []
 			}
-			data.account = this.device.deptInfoList.map((v) => {
-				return {
-					accountType: v.deptName,
-					typeOnline: v.usage
-				}
-			}).sort((a, b) => a.typeOnline < b.typeOnline ? 1 : -1).slice(0, 5)
-			data.device = this.device.deptInfoList.map((v) => {
-				return {
-					terminalType: v.deptName,
-					typeOnline: v.useTime
-				}
-			}).sort((a, b) => a.typeOnline < b.typeOnline ? 1 : -1).slice(0, 5)
+			if(this.device.deptTerminalList){
+				data.data1 = this.device.deptTerminalList.map((v) => {
+					return {
+						xAxis:v.deptName,
+						value: v.useTime
+					}
+				}).sort((a, b) => a.typeOnline < b.typeOnline ? 1 : -1).slice(0, 5)	
+				data.data2 = this.device.deptTerminalList.map((v) => {
+					return {
+						xAxis:v.deptName,
+						value: v.usage
+					}
+				}).sort((a, b) => a.typeOnline < b.typeOnline ? 1 : -1).slice(0, 5)	
+			}			
 			return data
 		},
 		chineseMapData() {
-			let stats = this.china.detail
-			if (!stats) return [];
-			let china = Object.keys(stats).map((v) => {
-				let province = stats[v]
-				let data = {name: v, value: 0, online: 0}
-				Object.keys(province).forEach((u) => {
-				let area = province[u]
-				
-				let value = 0
-				let online = 0
-				Object.keys(area).forEach((t) => {
-					value += area[t].total
-					online += area[t].online
-					if (!data[t]) data[t] = {online: 0, total: 0}
-					data[t].online += area[t].online
-					data[t].total += area[t].total
+			if (!this.stats['1'].mapData) return {}
+			let stats = this.stats['1'].mapData
+			let data = []
+			// console.log('china map data: ', stats)
+			stats.forEach((v) => {
+				let area = v.subList.map((u) => {
+					return {
+						name: u.areaName,
+						value: u.areaValue,
+						online: u.areaOnlineValue,
+					}
 				})
-				area.value = value
-				area.online = online
-				data.value += value
-				data.online += online
-				})
+				// console.log('province data: ', v.areaName, provinceMap[v.areaName])
 
-				return data // 省数据
+				data[provinceMap[v.areaName]] = area
 			})
-
-			Object.keys(stats).forEach((v) => {
-				let province = stats[v]
-				stats[v] = Object.keys(province).map((u) => {
-				return Object.assign({name: u}, province[u])
-				})
+			let china = stats.map((v) => {
+				return {
+				name: provinceMap[v.areaName],
+				value: v.areaValue,
+				online: v.areaOnlineValue,
+				}
 			})
-			stats.china = china
-			return stats
+			data.china = china
+			this.china = china
+			// console.log('china map format data: ', data)
+			return data
 		},
 		accountStats() {
 			return {
@@ -196,25 +193,14 @@ export default {
 				}
 			})
 		},
-
 		bulletinData() {
 			return this.rawBulletinData.map((v) => {
 				return {
-					time: v.deadLine,
+					time: v.noticeTime,
 					content: v.noticeDetail,
 				}
 			})
-			// {time:'2018-09-11',content:'公司放假通知：放假3天 庆祝中秋'},
 		},
-	},
-	watch: {
-		// 如果 `getShowSidebar` 发生改变，这个函数就会运行
-		getShowSidebar: function(newQuestion, oldQuestion) {
-			this.map.resize();
-		},
-	},
-	methods: {
-
 	},
 	components:{
 		bulletin,
@@ -226,90 +212,135 @@ export default {
 		activityChart,
 		chineseMap,
 	},
-	beforeCreate(){
+	created(){
 	  this.$axios   // 获取事件通知与公告
-		.post("/web/importEvent", {}, { responseType: "json" })
+		.post("/movement/movement/importevent", {}, { responseType: "json" })
 		.then(res => {
 			if (res.data.code != '0000') {
 			return console.log("get data error: ", res.message);
 			}
 			this.eventsData  = res.data.data.importEventList
 			this.rawBulletinData = res.data.data.noticeList
-			// console.log('events data: ', this.eventsData)
-			// console.log('bulletin data: ', this.rawBulletinData)
 		})
 		.catch(function(error) {
 			console.log(error);
 		});
+
+	  this.getMapData('1')
+	  
 	  this.$axios   // 获取企业接入网络质量
-		.post("/user/terminalNetwork", {}, { responseType: "json" })
+		.post("/terminalweb/terminalReport/terminalNetwork", {}, { responseType: "json" })
 		.then(res => {
 			if (res.data.code != '0000') {
 			return console.log("get data error: ", res.message);
 			}
-			this.terminalNetwork  = res.data.data
-			console.log('available terminalNetwork: ', res.data.data)
+			this.terminalNetwork  = res.data.data.networkList
 		})
 		.catch(function(error) {
 			console.log(error);
 		});
 	  this.$axios   // 获取企业存储空间
-		.post("/web/personalSpace", {}, { responseType: "json" })
+		.post("/userapi/userReport/findPersonalSpace", {}, { responseType: "json" })
 		.then(res => {
 			if (res.data.code != '0000') {
 			return console.log("get data error: ", res.message);
 			}
 			this.cloudSpaceCapacityData  = {
 				name:'云空间容量',
-				all: res.data.data.totalSpace,
-				available: res.data.data.availableSpace
+				all: res.data.data.userPersonalSpace.totalspace,
+				available: res.data.data.userPersonalSpace.availablespace
 			}
-			console.log('available store: ', res.data.data)
 		})
 		.catch(function(error) {
 			console.log(error);
 		});
 	  this.$axios   // 在线用户统计
-		.post("/user/findOnline", {}, { responseType: "json" })
+		.post("/userapi/userReport/findOnlineUser", {}, { responseType: "json" })
 		.then(res => {
 			if (res.data.code != '0000') {
-			return console.log("get data error: ", res.message);
+			return console.error("get data error: ", res.message);
 			}
 			this.account = res.data.data;
-			// console.log('online account: ', this.account)
 		})
 		.catch(function(error) {
 			console.log(error);
 		});
 	  this.$axios   // 在线终端统计
-		.post("/terminalReport/findOnlineStatisticalByDept", {}, { responseType: "json" })
+		.post("/terminalweb/terminalReport/findOnlineStatisticalByDept", {}, { responseType: "json" })
 		.then(res => {
 			if (res.data.code != '0000') {
 			return console.log("get data error: ", res.message);
 			}
 			this.device = res.data.data;
-			console.log('online device: ', this.device)
 		})
 		.catch(function(error) {
 			console.log(error);
 		});
-	  this.$axios		// 国内地图
-			.get("/report/term/stats/district", { responseType: "json" })
-			.then(res => {
-				if (res.data.code != 0) {
-					return console.log("get data error: ", res.message);
-				}
-				this.china = res.data.data;
-				// console.log('stats data: ', res.data)
-				this.stats['2'] = {
-					terminalTotal: res.data.data.terminalTotal, 
-					onlineTerminalTotal: res.data.data.onlineTerminalTotal,
-					warningTotal: res.data.data.warningTotal,
-				}
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
+	//   this.$axios		// 国内地图
+	// 		.get("/report/term/stats/district", { responseType: "json" })
+	// 		.then(res => {
+	// 			if (res.data.code != 0) {
+	// 				return console.log("get data error: ", res.message);
+	// 			}
+	// 			this.china = res.data.data;
+	// 			// console.log('stats data: ', res.data)
+	// 			this.stats['1'] = {
+	// 				terminalTotal: res.data.data.terminalTotal, 
+	// 				onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+	// 				warningTotal: res.data.data.warningTotal,
+	// 			}
+	// 		})
+	// 		.catch(function(error) {
+	// 			console.log(error);
+	// 		});
+	},
+	methods: {
+		setProvinceData(d) {
+			// console.log('current area name: ', d)
+			this.hideWarning = d != 'china'
+			// console.log('this.hideWarning: ', this.hideWarning)
+			if (d == 'china') {
+				this.terminalTotal = this.stats['1'].terminalTotal
+				this.onlineTerminalTotal = this.stats['1'].onlineTerminalTotal
+				return
+			}
+			let count = this.stats['1'].mapData.filter(v => v.areaName.indexOf(d) == 0)[0]
+			// console.log('current area data: ', count)
+			this.terminalTotal = count.areaValue
+			this.onlineTerminalTotal = count.areaOnlineValue
+		},
+		getMapData(mapType) {
+			// type=1为国内地图，type=2为世界地图
+			let type = mapType || this.mapType
+			console.log('mapType: ', type)
+			if (this.stats[type] && this.stats[type].mapData) return
+
+			this.$axios
+				.post("/terminalweb/terminalReport/findAllTerminalMap", {mapType: type}, { responseType: "json" })
+				.then(res => {
+					if (res.data.code != '0000') {
+						return console.log("get data error: ", res.data.message);
+					}
+					// if (res.data.data.mapType == '1') { // 国内地图
+					//   this.china = res.data.data.areaTerminalList;
+					// } else if (res.data.data.mapType == '2') { // 国外地图
+					//   this.world = res.data.data.areaTerminalList;
+					// }
+					this.mapType = res.data.data.mapType
+
+					this.stats[res.data.data.mapType] = {
+						mapData: res.data.data.areaTerminalList,
+						terminalTotal: res.data.data.terminalTotal, 
+						onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+						warningTotal: res.data.data.warningTotal,
+					}
+					this.setProvinceData('china')
+					console.log('this.stats: ', this.stats)
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+		},
 	}
 };
 </script>
@@ -383,6 +414,12 @@ export default {
 						font-weight: 500;
 						}
 					}
+				}
+				&.bulletin{
+					height: 360px;
+					@media screen and (max-width: 1400px){
+						height: 340px;
+					}  
 				}
 			}
 			&.online .online-item {

@@ -2,8 +2,29 @@
     <div class="hht_wrapper">
 		<!-- <transition name="fade" > -->
 			<div class="hht_aside" v-if='showSideBar'>
-				<div class="hht_logo">
-					<img src='../../assets/logo.png' alt="">
+				<div class="hht_logo" >
+					<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						width="125px" height="44px" viewBox="0 0 125 65" enable-background="new 0 0 125 65" xml:space="preserve">
+					<g>
+						<path fill="#4190FF" d="M50.262,30.687l-1.425,2.008c0.888-1.256,1.421-2.008,1.421-2.008h-2.789c0,0-4.158,0-5.933,1.725
+							c-0.699,0.679-7.757,10.849-7.757,10.849h-2.231l8.924-12.574h-2.585c0,0-4.969,0.051-7.048,2.688
+							c-2.079,2.637-6.896,9.886-6.896,9.886l-2.18,0.053l8.822-12.626h-2.941c0,0-4.63,0.003-6.591,2.789L1.481,61.262h4.056
+							c0,0,3.905-0.709,5.223-2.384c1.318-1.673,1.318-1.673,1.318-1.673l5.983-8.671h2.181l-8.975,12.728h3.499
+							c0,0,3.75-0.575,5.223-1.774c1.85-1.51,7.859-10.901,7.859-10.901l2.231-0.052l-9.025,12.728h3.346c0,0,4.284,0,5.679-2.028
+							c0.532-0.774,9.648-13.663,15.443-21.853h8.29L37.029,61.262c6.655,0.405,9.127-2.23,9.127-2.23l15.414-21.65
+							c0,0,4.057,0.017,6.844-0.103c5.933-0.254,8.012-6.591,8.012-6.591H50.262z"/>
+						<g>
+							<path fill="#4190FF" d="M53.519,23.334h4.228c-2.996-5.896-9.115-9.938-16.182-9.938c-7.852,0-14.538,4.988-17.065,11.968h3.945
+								c2.319-4.918,7.321-8.323,13.12-8.323C46.527,17.041,50.904,19.534,53.519,23.334z"/>
+							<path fill="#4190FF" d="M79.597,6.393c11.995,0,21.719,9.724,21.719,21.718c0,0.3-0.011,0.598-0.022,0.896h4.709
+								c0.011-0.297,0.018-0.596,0.018-0.896c0-14.593-11.83-26.422-26.423-26.422c-12.962,0-23.742,9.333-25.991,21.646h4.807
+								C60.589,13.639,69.245,6.393,79.597,6.393z"/>
+							<path fill="#4190FF" d="M112.729,24.93h-5.124v4.108h5.124c3.784,0.505,6.705,3.744,6.705,7.666c0,2.534-1.218,4.783-3.102,6.195
+								l2.585,3.163c2.797-2.162,4.602-5.548,4.602-9.358C123.52,30.523,118.774,25.453,112.729,24.93z"/>
+						</g>
+						<text transform="matrix(1 0 0 1 62.792 59.7783)" fill="#C7DEFF" font-family="'STXingkai'" font-size="18.0941">鸿合云</text>
+					</g>
+					</svg>
 				</div>
 				<div class="hht_user">
 					<el-popover
@@ -14,36 +35,37 @@
 							<div class="personal-settings" @click="setting = !setting">个人设置</div>
 							<div class="login-out"><el-button @click="logout" type="text">退出登录</el-button></div>
 						</div>
-						<div slot="reference" class="avator"><img  :src="userData.avatar" alt=""  ></div>						
+						<div slot="reference" class="avator" :class="{male:userData.sex =='男',famale:userData.sex == '女'}"><img  :src="userData.avatar" alt=""  ></div>						
 					</el-popover>	
 					<div class="hht_user_text">
-						<div class="hht_user_name">{{userData.alias}}</div>
+						<div class="hht_user_name">{{userData.userName}}</div>
 						<div class="hht_user_role">{{userData.role}}</div>
 					</div>
 				</div>
-				<hht-tree :list='data1'></hht-tree>
+				<hht-tree :list='menu'></hht-tree>
 			</div>	
-		<!-- </transition> -->
         <div class="hht_content">
             <div class="hht_content_header">
 				<el-row>
-					<el-col :span="8"><i class="iconfont icon-menu" @click="toggle"></i></el-col>
-					<el-col :span="8"><h3 class="hht-title">鸿合云平台管理系统</h3></el-col>
+					<el-col :span="8"><div style="height:52px;width:20px"><i class="iconfont icon-menu" @click="toggle" v-if=" userData.role != 'user;'"></i></div></el-col>
+					<el-col :span="8"><h3 class="hht-title">云平台管理系统</h3></el-col>
 					<el-col :span="8">
 						<div class="menubar">
-							<i class="iconfont icon-message"><span class="message-text">3</span></i>
+							<i class="iconfont icon-message">
+							</i>
 							<div class="language">
 								<el-dropdown>
 									<span class="el-dropdown-link">
 										中文<i class="el-icon-arrow-down el-icon--right"></i>
 									</span>
 									<el-dropdown-menu slot="dropdown">
+										<el-dropdown-item>中文</el-dropdown-item>                             
 										<el-dropdown-item>英文</el-dropdown-item>                             
 									</el-dropdown-menu>
 								</el-dropdown>
 							</div>
-							<div class="avator">
-								<img :src="$store.state.userData.avatar" alt="">
+							<div class="avator" :class="{male:userData.sex =='男',famale:userData.sex == '女'}">
+								<img :src="$store.state.userData.avatar" alt="" >
 							</div>
 							<div class="loginOut" @click="logout">退出</div>
 						</div>		
@@ -107,7 +129,7 @@ export default {
 	},
 	data() {
 		return {
-			data1: [],
+			menu: [],
 			user: {
 				id: '',
 				nickName: '',
@@ -117,6 +139,7 @@ export default {
 				newPassword: '',
 				reNewPassword: '',
 				avator: '',
+				role:''
 			},
 			userData:{},
 			setting: false,
@@ -142,19 +165,27 @@ export default {
 		confirm() {},
 		logout() {
 			this.$axios
-				.post('/login/loginOut', {})
+				.post('/login/login/logOut', {})
 				.then(() => {
 					this.$router.push('/gui/login');
 					sessionStorage.clear()
 				})
-				.catch(e => console.log('logout error: ', e))
+				.catch((e) => {
+					this.$router.push('/gui/login');
+					sessionStorage.clear()
+					console.log('logout error: ', e)
+				})
 		}
 	},
 	created() {
 		this.userData = JSON.parse(sessionStorage.getItem('userData'))
-		this.data1 = this.userData.menu;
-		if(this.$route.path == '/gui/index'){
-			this.$router.replace(this.data1[0].url);	
+		this.menu = this.userData.menuList;
+		if(this.menu.length > 0){
+			if(this.$route.path == '/gui/index'){
+				this.$router.replace(this.menu[0].url);	
+			}
+		}else{
+			this.$router.replace('/gui/endUser');	
 		}	
 	},
 };
@@ -163,21 +194,18 @@ export default {
 .hht_wrapper {
 	height: 100%;
 	overflow-y: scroll;
-	overflow-x: hidden;
+	// overflow-x: hidden;
 	display: flex;
 	.hht_aside {
 		height: 100%;
 		width: 197px;
+		@media screen and (max-width: 1500px){
+			width: 160px;
+		}
 		background-color: #292d30;
 		.hht_logo {
-			// height: 75px;
 			padding: 4px 0;
-			img {
-				// width: 139px;
-				height: 44px;
-				display: block;
-				margin: 0 auto;
-			}
+			text-align: center
 		}
 		.hht_user {
 			height: 117px;
@@ -190,8 +218,14 @@ export default {
 				border-radius: 50%;
 				display: inline-block;
 				vertical-align: top;
-				background: url('../../assets/avator.png') no-repeat center center;
-				background-size: contain;
+				&.male{
+					background: url('../../assets/avator1.png') no-repeat center center;
+					background-size: contain;	
+				}
+				&.female{
+					background: url('../../assets/avator2.png') no-repeat center center;
+					background-size: contain;	
+				}
 				>img{
 					width: 100%;
 					border-radius: 50%;  
@@ -200,9 +234,11 @@ export default {
 			.hht_user_text {
 				display: inline-block;
 				vertical-align: top;
-				margin-top: 8px;
+				margin-top: 4px;
 				line-height: 1.4em;
-				margin-left: 18px;
+				@media screen and (max-width: 1400px){
+					width: 70px;
+				}
 				.hht_user_name {
 					color: #fff;
 					font-size: 12px;
@@ -210,6 +246,9 @@ export default {
 				.hht_user_role {
 					color: #808080;
 					font-size: 12px;
+					overflow:hidden;
+				text-overflow:ellipsis;
+				white-space:nowrap;
 				}
 			}
 		}
@@ -283,12 +322,10 @@ export default {
 		background-color: #eff3f4;
 		.icon-menu {
 			float: left;
-			margin-left: 23px;
-			width: 15px;
-			height: 15px;
-			margin-top: 18px;
-			// background: url() no-repeat center center;
-			// background-size: cover;
+			width: 40px;
+			height: 52px;
+			text-align: center;
+			line-height: 52px;
 			cursor: pointer;
 		}
 		.menubar {
@@ -332,6 +369,14 @@ export default {
 				overflow: hidden;
 				background: url('../../assets/avator.png') no-repeat center center;
 				background-size: contain;
+				&.male{
+					background: url('../../assets/avator1.png') no-repeat center center;
+					background-size: contain;	
+				}
+				&.female{
+					background: url('../../assets/avator2.png') no-repeat center center;
+					background-size: contain;	
+				}
 				img {
 					width: 100%;
 				}
@@ -343,6 +388,9 @@ export default {
 			line-height: 52px
 		}
 		.loginOut{
+			width: 40px;
+			height: 20px;
+			line-height: 20px;
 			cursor: pointer;
 		}
 	}

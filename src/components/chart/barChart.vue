@@ -44,6 +44,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.echart-with-vue{
+  height: 100%;
+}
 .section {
   background-color: #fff;
 }

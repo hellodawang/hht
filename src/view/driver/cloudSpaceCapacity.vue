@@ -1,5 +1,5 @@
 <template>
-    <bar-chart :data="config" style="height:180px" ref="chart"/>
+   <div class="cloudSpace"><bar-chart :data="config" ref="chart"/></div> 
 </template>
 <script>
 import barChart from '../../components/chart/barChart'
@@ -12,30 +12,37 @@ export default{
     computed: {
         config() {
           return {
-            title:{
-                text:['{a|'+this.op.available+'}{unit|G}'],
-                textStyle:{
-                    rich:{
-                        a:{
-                            color:'#3dd4de',
-                            fontSize:30,
-                            fontWeight:'bold'
-                        },
-                        unit:{
-                            color:'#ddd',
-                            padding:2,
-                            fontSize:12,
-                            verticalAlign:'bottom',
-                        }
-                    }
-                },
-                subtext:"可用空间容量",
-                subtextStyle:{
-                    align:'center'
-                },
-                right:'10%',
-                top:'35%'
+            legend:{
+                data:['可用空间','已用空间'],
+                "x": "right",
+                "y": "15%",
+                orient:'vertical', 
+                icon: "circle",
             },
+            // title:{
+            //     text:['{a|'+this.op.available+'}{unit|G}'],
+            //     textStyle:{
+            //         rich:{
+            //             a:{
+            //                 color:'#3dd4de',
+            //                 fontSize:30,
+            //                 fontWeight:'bold'
+            //             },
+            //             unit:{
+            //                 color:'#ddd',
+            //                 padding:2,
+            //                 fontSize:12,
+            //                 verticalAlign:'bottom',
+            //             }
+            //         }
+            //     },
+            //     subtext:"可用空间容量",
+            //     subtextStyle:{
+            //         align:'center'
+            //     },
+            //     right:'10%',
+            //     top:'35%'
+            // },
             series: [
                 {
                     name: 'Pie1',
@@ -53,9 +60,9 @@ export default{
                         }
                     },
                     hoverAnimation: false,
-                    center: ['40%', '50%'],
+                    center: ['50%', '50%'],
                     data: [{
-                        name:this.op.name,
+                        name:'可用空间',
                         value: this.op.available,
                         label: {
                             normal: {
@@ -92,7 +99,7 @@ export default{
                         }
                     }, {
                         value: this.op.all - this.op.available,
-                        name: 'invisible',
+                        name: '已用空间',
                         itemStyle: {
                             normal: {
                                 color: '#3dd4de', 
@@ -116,5 +123,11 @@ export default{
 }
 </script>
 <style lang='scss' >
-
+    .cloudSpace{
+        height: 180px;
+        @media screen and (max-width: 1400px){
+                height: 160px;
+            }   
+    }
+    
 </style>

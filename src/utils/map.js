@@ -154,13 +154,9 @@ echarts.extendsMap = function(dom, opt, mapData) {
                 idx = j;
                 pos.leftCur -= pos.leftPlus * (l - j - 1);
             };
-
+            idx == 1 ? o.geo.label.normal.show = false : o.geo.label.normal.show = true
             o.geo.map = n;
             o.geo.zoom = 0.4;
-
-            // o.series[0].data = [
-            //     { name: '武汉市', value: 200 }
-            // ]
             i.clear();
             i.setOption(o);
             this.zoomAnimation();

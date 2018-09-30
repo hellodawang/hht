@@ -1,5 +1,8 @@
 <template>
-    <bar-chart :data="config" style="height:180px" />
+<div class="half-circle">
+   <bar-chart :data="config"  /> 
+</div>
+    
 </template>
 <script>
 import barChart from './barChart'
@@ -22,11 +25,16 @@ export default {
             let endData=[]
             this.op = this.op.reverse()
             this.op.map((item,index)=>{
+                if(item.value != 0){
+                    this.allData.push(item)
+                }
+            })
+            this.allData.map((item,index)=>{
                 endData.push({value: item.value,name:item.name})
             })
-            this.allData = this.op.concat(endData)
+            this.allData = this.allData.concat(endData)
             this.allData.forEach((item,index)=>{
-                if (index<this.op.length) {
+                if (index < this.allData.length/2) {
                     item.itemStyle = {
                         normal: {
                             color:colors[index]
@@ -98,5 +106,10 @@ export default {
 }
 </script>
 <style lang='scss'>
-
+    .half-circle{
+        height: 180px;
+        @media screen and (max-width: 1400px){
+			height: 160px;
+		}
+    }
 </style>

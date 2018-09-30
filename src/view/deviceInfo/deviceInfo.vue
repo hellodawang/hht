@@ -3,53 +3,62 @@
         <!-- <h3 class="deviceInfo-title">设备信息</h3> -->
         <div class="deviceInfo-content">
             <div class="deviceInfo-section">
-				<div class="deviceInfo-list">
-					<div class="toolbar">
-						<el-button size="mini" @click="logExport">日志导出</el-button>
-						<el-button size="mini" @click="importSetting">配置导入</el-button>
-						<el-button size="mini" @click="settingExport">配置导出</el-button>
-						<el-button size="mini" @click="update">升级</el-button>
-						<el-button size="mini" @click="restart">重启</el-button>
-						<el-button size="mini" @click="restoreDefault">恢复初始定义</el-button>
-						<el-input
-							placeholder="请输入内容"
-							v-model="search" size="mini" style="width:200px">
-							<i slot="prefix" class="el-input__icon el-icon-search"></i>
-						</el-input>
-					</div>
-					<el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange" tooltip-effect="dark"
-                  		:highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
-						<el-table-column type="selection" width="55"> </el-table-column> 
-						<el-table-column prop="deviceName" label=" 设备名称"> </el-table-column> 
-						<!-- <el-table-column prop="clientCloudCode" label="云识别号"> </el-table-column>  -->
-						<el-table-column prop="model" label="型号"> </el-table-column> 
-						<el-table-column prop="customer" label="客户名" show-overflow-tooltip></el-table-column>
-						<!-- <el-table-column prop="firmware" label="固件版本" show-overflow-tooltip></el-table-column> -->
-						<!-- <el-table-column prop="category" label="产品类别" show-overflow-tooltip></el-table-column> -->
-						<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
-					</el-table>
-					 <ul class="list-shortcut">
-						<li v-for="(item,index) in ss" :key="index"  ref="item" :class="{current:current==index}" @click="gotoChar(item,index)">{{item}}</li>
-					</ul>
-				</div>
-                <div class="deviceInfo-more" style="margin-left:990px;height:100%;background-color:#fff">
-					<h5>设备详细信息</h5>
-					<div class="deviceInfo-more-content">
-						<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">{{selected.category}}</span></div>
-						<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{selected.clientCloudCode}}</span></div>
-						<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">{{selected.model}}</span></div>
-						<div class="info-item"><span class="info-item-label">云识别号</span> <span class="info-item-text">{{selected.clientCloudCode}}</span></div>
-						<div class="info-item"><span class="info-item-label">固件版本</span> <span class="info-item-text">{{selected.firmware}}</span></div>
-						<div class="info-item"><span class="info-item-label">升级时间</span> <span class="info-item-text">{{selected.lastUpgrade}}</span></div>
-					</div>
-				</div>
+				<el-row>
+					<el-col :span="17">
+						<div class="deviceInfo-list">
+							<div class="toolbar">
+								<el-button size="mini" @click="logExport">日志导出</el-button>
+								<el-button size="mini" @click="importSetting">配置导入</el-button>
+								<el-button size="mini" @click="settingExport">配置导出</el-button>
+								<el-button size="mini" @click="update">升级</el-button>
+								<el-button size="mini" @click="restart">重启</el-button>
+								<el-button size="mini" @click="restoreDefault">恢复初始定义</el-button>
+								<el-input
+									placeholder="请输入内容"
+									v-model="search" size="mini" style="width:200px">
+									<i slot="prefix" class="el-input__icon el-icon-search"></i>
+								</el-input>
+							</div>
+							<el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange" tooltip-effect="dark"
+								:highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
+								<el-table-column type="selection" width="55"> </el-table-column> 
+								<el-table-column prop="deviceName" label=" 设备名称"> </el-table-column> 
+								<el-table-column prop="model" label="型号"> </el-table-column> 
+								<el-table-column prop="customer" label="客户名" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="location" label="所在地" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="lastUpgradeDate" label="上次更新时间" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
+							</el-table>
+							<ul class="list-shortcut">
+								<li v-for="(item,index) in ss" :key="index"  ref="item" :class="{current:current==index}" @click="gotoChar(item,index)">{{item}}</li>
+							</ul>
+						</div>
+					</el-col>
+					<el-col :span="7">
+						<div class="deviceInfo-more" >
+							<h5>设备详细信息:</h5>
+							<div class="deviceInfo-more-content">
+								<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{selected.category}}</span></div>
+								<div class="info-item"><span class="info-item-label">cpu品牌</span> <span class="info-item-text">{{selected.cpuModel}}</span></div>
+								<div class="info-item"><span class="info-item-label">ops型号</span> <span class="info-item-text">{{selected.opsCpuModel}}</span></div>
+								<div class="info-item"><span class="info-item-label">ops系统</span> <span class="info-item-text">{{selected.opsSystem}}</span></div>
+								<!-- <div class="info-item"><span class="info-item-label">云识别号</span> <span class="info-item-text">{{selected.clientCloudCode}}</span></div> -->
+								<div class="info-item"><span class="info-item-label">硬盘容量</span> <span class="info-item-text">{{selected.hardDiskSize}}</span></div>
+							</div>
+						</div>		
+					</el-col>
+				</el-row>    
             </div>  
         </div> 
 		<upgrade :data="selectedDevice" @cancelUpdate="showUpdating = false" @hideUpdate="hideUpdate" v-if="showUpdating" @completed='completed' />
 		<el-dialog title="配置导入" :visible.sync="dialogTableVisible">
 			<el-upload
 				class="upload-demo"
-				action="https://jsonplaceholder.typicode.com/posts/"
+				ref="uploadConfig"
+				action="/upload/config"
+				name="config"
+				:data="clientCloudCodeSelected"
+				:on-success="configUploaded"
 				:file-list="fileList" :auto-upload="false" :on-change='fileChange'>
 				<el-button size="small" type="primary"  slot="trigger">选择文件</el-button>
 				<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
@@ -82,11 +91,14 @@ export default {
 			fileList:[]
 		};
 	},
+	computed: {
+		clientCloudCodeSelected() {
+			return {clientCloudCode: JSON.stringify(this.selectedDevice.map(v => v.clientCloudCode))}
+		}
+	},
 	methods: {
 		update() {
-			// this.showChooseVersion = true;
 			if (this.selectedDevice.length == 0) {
-				// this.openMessage('请至少选中一台设备！')
 				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
 				return
 			}
@@ -95,7 +107,6 @@ export default {
 				this.$alert('不能选择升级离线设备', {confirmButtonText: '确定'})
 				return
 			}
-			// this.showChooseVersion = true
 			this.showUpdating = true
 		},
 		restart() {},
@@ -118,7 +129,12 @@ export default {
 			this.showUpdating = false
 		},
 		selectedRow(row, event, column){
-			this.selected = row
+			this.$axios.post('/terminalweb/terminalReport/terminalInfo',{clientCloudCode:row.deviceID})
+						.then(res =>{
+							if(res.data.code== '0000'){
+								this.selected = res.data.data.terminalBaseModel
+							}
+						})		
 		},
 		gotoChar(char,index){
             this.current = index;
@@ -127,6 +143,10 @@ export default {
 		importSetting(){
 			if (this.selectedDevice.length == 0) {
 				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
+				return
+			}
+			if (this.selectedDevice.filter(v => v.status == '离线')[0]) {
+				this.$alert('不能选择离线设备', {confirmButtonText: '确定'})
 				return
 			}
 			this.dialogTableVisible = true
@@ -145,11 +165,12 @@ export default {
 				type: 'warning'
 				}).then(() => {
 					// 点击确定后回调
-					this.$message({
-						type: 'info',
-						message: '上传成功'
-					});
-					this.dialogTableVisible = false
+					this.$refs.uploadConfig.submit()
+					// this.$message({
+					// 	type: 'info',
+					// 	message: '上传成功'
+					// });
+					// this.dialogTableVisible = false
 				}).catch(() => {
 				this.$message({
 					type: 'info',
@@ -157,34 +178,64 @@ export default {
 				});          
 			});
 		},
+		configUploaded() {
+			this.dialogTableVisible = false
+		},
 		logExport(){
 			if (this.selectedDevice.length == 0) {
-				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
-				return
+				return this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'}).catch(e => console.log(e));
 			}
+			let codeSelected = this.selectedDevice.map(v => v.deviceID)
+			this.$axios.post('/logweb/logserver/exportlog', codeSelected ,{responseType: "blob"})
+				.then((res)=>{
+					let filename = res.headers['content-disposition'].split('=')[1] || 'deviceLog.xlsx'
+					// console.log('export log data: ', res)
+					if (!window.URL) {
+						return navigator.msSaveBlog(res.data, filename)
+					}
+					let logLink = document.createElement('a')
+					logLink.download = filename
+					logLink.href = URL.createObjectURL(res.data)
+					document.body.appendChild(logLink)
+					logLink.click()
+					URL.revokeObjectURL(logLink.href)
+					document.body.removeChild(logLink)
+				})
+				.catch(e => console.log('log export error: ', e))
 		},
 		settingExport(){
 			if (this.selectedDevice.length == 0) {
-				this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'});
-				return
+				return this.$alert('请至少选中一台设备！', {confirmButtonText: '确定'}).catch(e => console.log(e));
 			}
+			let codeSelected = this.selectedDevice.map(v => v.clientCloudCode)
+			let qs = 'clientCloudCode=' + codeSelected.join('&' + 'clientCloudCode=')
+			let settingLink = document.createElement('a')
+			settingLink.style.display = 'none'
+			console.log(qs)
+			settingLink.href = '/web/exportProfile' + '?' + qs
+			settingLink.click()
+			document.body.removeChild(settingLink)
 		}
 	},
 	mounted() {
 		this.$axios
-			.get("/term/list", { responseType: "json" })
+			.post("/terminalweb/terminalManger/querydevicelist", { responseType: "json" })
 			.then(res => {
 				if (res.data.code != 0) {
 				return console.log("get data error: ", res.message);
 				}			
-				this.$nextTick(()=>{
-					this.tableData = res.data.data
-					this.selected = this.tableData[0]
-					this.$refs.multipleTable.setCurrentRow(this.tableData[0]);
-				})								
+				this.tableData = res.data.data.deviceList
+				this.selected = this.tableData[0]
+				this.$refs.multipleTable.setCurrentRow(this.tableData[0]);
+				this.$axios.post('/terminalweb/terminalReport/terminalInfo',{clientCloudCode:this.selected.deviceID})
+						.then(res =>{
+							if(res.data.code== '0000'){
+								this.selected = res.data.data.terminalBaseModel
+							}
+						})							
 			})
 			.catch(function(error) {
-				console.log(error);
+				console.error(error);
 			});
 	},
 };
@@ -198,20 +249,24 @@ export default {
 		text-indent: 1em;
 	}
 	.deviceInfo-content {
-		padding: 0 15px 0 0;
+		padding: 0 5px 0 0;
 		height: 100%;
 	}
 	.deviceInfo-section {
 		height: 100%;
 		border-radius: 4px;
+		.el-row{
+			height: 100%;
+			.el-col{
+				height: 100%;
+			}
+		}
 		.deviceInfo-list{
 			height: 100%;
 			background-color: #fff;
 			padding-bottom: 10px;
 			position: relative;
-			width: 980px;
 			overflow: hidden;
-			float: left;
 			.toolbar {
 				position: absolute;
 				top: 0;
@@ -250,11 +305,15 @@ export default {
 			}
 		}
 		.deviceInfo-more{
-			padding: 20px;
+			padding: 10px;
+			margin-left: 10px;
+			background-color: #fff;
+			height: 100%;
 			h5{
 				color: "#f66";
 				font-weight: 500;
 				line-height: 1.8em;
+				text-indent: 2em;
 			}
 			.deviceInfo-more-content{
 				.info-item{
@@ -262,7 +321,7 @@ export default {
 					line-height: 2em;
 					.info-item-label{
 						display: inline-block;
-						width: 40%;
+						width: 30%;
 						text-align: right;
 						margin-right: 20px;
 					}

@@ -1,11 +1,11 @@
 <template>
 <div class="section">
     <div class="section-title"> 
-        <h3>云设备整体状态</h3> 
+        <h3>云整体状态</h3> 
     </div>
-    <div class="section-content" style="height:128px">                 
+    <div class="section-content">                 
         <el-col :span='16'>
-            <bar-chart :data="config" style="height:110px"/>   
+            <div class="cloudStatus"><bar-chart :data="config" /> </div>  
         </el-col>
         <el-col :span='8'>   
             <div class="status" :style="color">{{comment}}</div>
@@ -25,8 +25,8 @@ let baseConfig = {
         {
             name: '健康度',
             type: 'gauge',
-            center: ['50%', '90%'], // 默认全局居中
-            radius: '160%',
+            center: ['50%', '80%'], // 默认全局居中
+            radius: '130%',
             min: 0,
             max: 100,
             startAngle: 180,
@@ -138,6 +138,16 @@ export default {
   }
   .section-content {
     padding: 10px;
+    height: 148px;
+    @media screen and (max-width: 1400px){
+			height: 133px;
+		}
+    .cloudStatus{
+        height: 130px;
+        @media screen and (max-width: 1400px){
+			height: 115px;
+		}
+    }
   }
   .status {
       width:54px;

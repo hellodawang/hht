@@ -1,5 +1,8 @@
 <template>
+<div class="distBarChart">
     <bar-chart :data="config"/>
+</div>
+    
 </template>
 
 <script>
@@ -8,16 +11,16 @@ import barChart from '../../components/chart/barChart'
 let baseConfig = {
     grid: [
         {
-            x: '5%',
+            x: '8%',
             y: '10%',
-            width: '90%',
+            width: '88%',
             height: '35%',
             containLabel: true,
         },
         {
-            x: '5%',
+            x: '8%',
             y: '60%',
-            width: '90%',
+            width: '88%',
             height: '35%',
             containLabel: true,
         },
@@ -26,12 +29,17 @@ let baseConfig = {
         {
             type: 'category',
             data: [],
-            
+            axisLabel:{
+                fontSize:10
+            }
         },
         {
             gridIndex: 1,
             type: 'category',
             data: [],
+            axisLabel:{
+                fontSize:10
+            }
         },
     ],
     yAxis: [
@@ -44,7 +52,10 @@ let baseConfig = {
             splitLine: {
                 show: false,
             },
-            boundaryGap: ['20%', '20%']
+            axisLabel:{
+                fontSize:10
+            },
+            boundaryGap: ['0', '20%']
         },
         {
             type: 'value',
@@ -56,7 +67,10 @@ let baseConfig = {
             splitLine: {
                 show: false,
             },
-            boundaryGap: ['20%', '20%']
+            boundaryGap: ['0', '20%'],
+            axisLabel:{
+                fontSize:10
+            }
         },
     ],
     series: [
@@ -118,10 +132,10 @@ export default {
   computed: {
       config() {
           let cfg = Object.assign({}, baseConfig)
-          cfg.series[0].data = this.data.account.map(v => v.typeOnline)
-          cfg.series[1].data = this.data.device.map(v => v.typeOnline)
-          cfg.xAxis[0].data = this.data.account.map(v => v.accountType)
-          cfg.xAxis[1].data = this.data.device.map(v => v.terminalType)
+          cfg.series[0].data = this.data.data1.map(v => v.value)
+          cfg.series[1].data = this.data.data2.map(v => v.value)
+          cfg.xAxis[0].data = this.data.data1.map(v => v.xAxis)
+          cfg.xAxis[1].data = this.data.data2.map(v => v.xAxis)
           cfg.yAxis[0].name = this.data.title1
           cfg.yAxis[1].name = this.data.title2
           return cfg
@@ -133,5 +147,11 @@ export default {
 <style lang="scss" scoped>
 .section {
   background-color: #fff;
+}
+.distBarChart{
+    height: 325px;
+    @media screen and (max-width: 1400px){
+			height: 300px;
+		}
 }
 </style>

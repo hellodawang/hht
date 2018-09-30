@@ -8,32 +8,35 @@ import switchChart from "../../components/chart/switchChart";
 let baseConfig = {
   tooltip: {
         trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        right: '10%',
-        data:[]
+        formatter: "{b}: {c} ({d}%)"
     },
     series: [
         {
-            name:'访问来源',
             type:'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
             label: {
                 normal: {
-                    show: false,
+                    show: true,
                     position: 'center',
                     formatter:null
                 },
             },
             labelLine: {
                 normal: {
-                    show: false
+                    show: true
                 }
             },
+            emphasis:{
+              label:{
+                show:true,
+                formatter:function(){
+                  return '无异常'
+                }
+              }
+            },
             data:[
+              {name:'无异常',value:100,itemStyle:{color:'#67C23A'}}
             ]
         }
     ]
@@ -47,7 +50,7 @@ export default {
   data: function() {
     return {
       chartData: [],
-      selected: '',
+      selected: 1,
       buttonList: [
         { type: 1, name: "每周" },
         { type: 2, name: "每月" },
@@ -55,53 +58,38 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.handleChange(this.selected)
+  },
   computed: {
     config() {
       let cfg = Object.assign({}, baseConfig);
-      cfg.legend.data = this.chartData.map(v => v.exceptionDecs)  // this.exceptionData.xAxisArr;
-      cfg.series[0].data = this.chartData.map(v => ({name: v.exceptionDecs, value: v.exceptionNum})) // this.exceptionData.data;
-      cfg.series[0].label.normal.formatter = ()=>{
-        // return ['{|异常总数}','{'+this.exceptionData.all+'}'].join('\n')
-        return '{|异常总数}\n{' + this.chartData.reduce((a, v) => a + v.exceptionNum, 0) + '}'
+      if(this.chartData.length>0){
+        cfg.series[0].data = this.chartData.map(v => ({name: v.exceptionName, value: v.exceptionNum})) // this.exceptionData.data;
+        cfg.series[0].emphasis.label.formatter = (param)=>{
+          return param.name
+        } 
+        cfg.series[0].label.normal.position='outside'
       }
       return cfg;
     },
-    // 选中的是周，月，年
-    // selected(){
-      // return this.op.onlineDateType
-    // },
-    // x轴数据
-    // exceptionData(){
-    //   let legend = []
-    //   let data = []
-    //   let all
-    //   this.chartData.forEach(element => {
-    //     legend.push(element.exceptionDecs)
-    //     data.push({name:element.exceptionDecs,value:element.exceptionNum})
-    //     all+=element.exceptionNum
-    //   });
-    //   return {legend:legend,data:data,all:all}
-    // },
   },
-
   watch: {
     cloudCode: function() {
-      this.handleChange('')
+      this.handleChange(this.selected)
     }
   },
   methods: {
     handleChange(type) {
-      console.log(type)
+      this.selected = type
       if (!this.cloudCode) return
       this.$axios
-        .post("/web/logs/exceptionStatis", {dateType: type, clientCloudCode: this.cloudCode}, { responseType: "json" })
+        .post("/logweb/logserver/exceptionstatis", {dateType: this.selected, clientCloudCode: this.cloudCode}, { responseType: "json" })
         .then(res => {
           if (res.data.code != '0000') {
             return console.log("get data error: ", res.message);
           }
           this.chartData = res.data.data.exceptionList
-          // console.log('chart data: ', this.chartData)
-          this.selected = res.data.data.onlineDateType
         })
         .catch(function(error) {
           console.log(error);

@@ -1,6 +1,6 @@
 <template>
     <el-row class="driver-wrapper" :gutter="10" ref="driver">
-      <el-col :span="6" class="col-one">
+      <el-col :span="6" class="col-one" >
         <div class="section online">
             <div class="section-title"> 
                 <h3>在线统计</h3>
@@ -9,12 +9,12 @@
                 <online-stats :account="accountStats" :device="deviceStats"/>
             </div>
         </div>
-        <div class="section online-distribution" style="padding:20px 0">
+        <div class="section online-distribution" >
           <!-- <div class="section-title"> 
             <h3>在线数据分布</h3>
           </div> -->
           <div class="section-content">
-            <distribution-bar-chart :data="barChartData" style="height:325px"/>
+            <distribution-bar-chart :data="barChartData" />
             <activity-chart/>
           </div>
         </div>
@@ -29,18 +29,18 @@
             </div>				
           </div>
           <div class="section-content">
-            <chinese-map :stats="chineseMapData" style="height:500px" v-if="mapType==1"/>
-            <world-map :stats="worldMapData" style="height:500px" v-if="mapType==2"/>
+            <chinese-map :stats="chineseMapData" @setProvinceData="setProvinceData" v-if="mapType==1"/>
+            <world-map :stats="worldMapData"  v-if="mapType==2"/>
             <div class="device-text">
               <div class="device-text-item">
-                <span class="device-num">{{stats[mapType].terminalTotal}}</span>
-                <span class="device-num-text">今日设备运行总数</span>
+                <span class="device-num">{{terminalTotal}}</span>
+                <span class="device-num-text">设备总数</span>
               </div>
               <div class="device-text-item">
-                <span class="device-num">{{stats[mapType].onlineTerminalTotal}}</span>
+                <span class="device-num">{{onlineTerminalTotal}}</span>
                 <span class="device-num-text">当前设备运行总数</span>
               </div>
-              <div class="device-text-item alarm">
+              <div class="device-text-item alarm" v-if="!stats[1].hideWarning">
                 <span class="device-num">{{stats[mapType].warningTotal}}</span>
                 <span class="device-num-text">设备告警总数</span>
               </div>
@@ -51,12 +51,12 @@
           <!-- <div class="section-title"> 
               <h3>TOP应用/客户汇总</h3> 
           </div> -->
-          <div class="section-content" style="height:220px;">
+          <div class="section-content" style="height:200px;">
               <el-col :span='12'>
-                  <top-app :data="topAppData" style="height:220px"/>   
+                  <top-app :data="topAppData" style="height:200px"/>   
               </el-col>
               <el-col :span='12'>
-                  <top-client :data="topClientData" style="height:220px"/>  
+                  <top-client :data="topClientData" style="height:200px"/>  
               </el-col>
           </div>
         </div>
@@ -82,7 +82,7 @@ import bendwidthChart from "./bendwidthChart";
 import cpuAndRam from "./cpuAndRam";
 import chineseMap from "../../components/map/chineseMap";
 import worldMap from "../../components/map/worldMap";
-import mapData from "../../mock/mapData";
+import provinceMap from '../../utils/provinceList'
 
 export default {
   components: {
@@ -99,12 +99,12 @@ export default {
     bendwidthChart,
     cpuAndRam,
   },
-  beforeCreate() {
+  created() {
     this.$axios   // 在线用户统计
-      .post("/user/findOnline", {}, { responseType: "json" })
+      .post("/userapi/userReport/findOnlineUser", {}, { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
-          return console.log("get data error: ", res.message);
+          return console.log("get data error: ", res.data.message);
         }
         this.account = res.data.data;
       })
@@ -112,78 +112,78 @@ export default {
         console.log(error);
       });
     this.$axios   // 在线终端统计
-      .post("/term/findOnlineStatistical", {}, { responseType: "json" })
+      .post("/terminalweb/terminalReport/findOnlineStatistical", {}, { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
-          return console.log("get data error: ", res.message);
+          return console.log("get data error: ", res.data.message);
         }
         this.device = res.data.data;
       })
       .catch(function(error) {
         console.log(error);
       });
-    this.$axios   // 国内地图数据
-      .get("/report/term/stats/district", { responseType: "json" })
-      .then(res => {
-        if (res.data.code != 0) {
-          return console.log("get data error: ", res.message);
-        }
-        this.china = res.data.data;
-        this.stats['2'] = {
-          terminalTotal: res.data.data.terminalTotal, 
-          onlineTerminalTotal: res.data.data.onlineTerminalTotal,
-          warningTotal: res.data.data.warningTotal,
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    this.$axios   // todo 合并到上一个请求中，国外地图数据
-      .get("/report/term/stats/district?district=1", { responseType: "json" })
-      .then(res => {
-        if (res.data.code != 0) {
-          return console.log("get data error: ", res.message);
-        }
-        this.world = res.data.data;
-        console.log('world data: ', this.world)
-        this.stats['1'] = {
-          terminalTotal: res.data.data.terminalTotal, 
-          onlineTerminalTotal: res.data.data.onlineTerminalTotal,
-          warningTotal: res.data.data.warningTotal,
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.getMapData('0')
+    // this.$axios   // 国内地图数据
+    //   .post("/terminalweb/terminalReport/findAllTerminalMap", { responseType: "json",mapType:1 })
+    //   .then(res => {
+    //     if (res.data.code != 0) {
+    //       return console.log("get data error: ", res.message);
+    //     }
+    //     this.china = res.data.data.areaTerminalList;
+    //     this.stats['2'] = {
+    //       terminalTotal: res.data.data.terminalTotal, 
+    //       onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+    //       warningTotal: res.data.data.warningTotal,
+    //     }
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
+    // this.$axios   // todo 合并到上一个请求中，国外地图数据
+    //   .post("/terminalweb/terminalReport/findAllTerminalMap", { responseType: "json",mapType:2 })
+    //   .then(res => {
+    //     if (res.data.code != 0) {
+    //       return console.log("get data error: ", res.message);
+    //     }
+    //     this.world = res.data.data.areaTerminalList;
+    //     this.stats['1'] = {
+    //       terminalTotal: res.data.data.terminalTotal, 
+    //       onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+    //       warningTotal: res.data.data.warningTotal,
+    //     }
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
     this.$axios   // top 应用排行
-      .post('/web/appbehavior', { responseType: "json" })
+      .post('/logweb/logserver/appbehavior', { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
-          return console.log("get data error: ", res.message);
+          return console.log("get data error: ", res.data.message);
         }
-        this.topData.app = res.data.data;
+        this.topData.app = res.data.data.applicationList.slice(0,5).reverse();
       })
       .catch(function(error) {
         console.log(error);
       });
     this.$axios   // 终端用户规模排行
-      .post('/terminal/findTerminalTop', { responseType: "json" })
+      .post('/terminalweb/terminalReport/findTerminalTop', { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
-          return console.log("get data error: ", res.message);
+          return console.log("get data error: ", res.data.message);
         }
-        this.topData.client = res.data.data;
+        this.topData.client = res.data.data.topList.slice(0,5).reverse()
       })
       .catch(function(error) {
         console.log(error);
       });
     this.$axios   // 云端设备监控信息
-      .post('/web/cloudDeviceMonitor', { responseType: "json" })
+      .post('/cloudplatinfo/cloudplat/clouddevicemonitort', { responseType: "json" })
       .then(res => {
         if (res.data.code != '0000') {
-          return console.log("get data error: ", res.message);
+          return console.log("get data error: ", res.data.message);
         }
-        this.cloudStats= res.data.data;
+        this.cloudStats= res.data.data
       })
       .catch(function(error) {
         console.log(error);
@@ -192,7 +192,6 @@ export default {
   data() {
     return {
       map: {},
-      chart1: {},
       mapType: "1",
       period: {num:1},
       device: { online: 0, all: 1, terminalTypeList: []},
@@ -201,16 +200,14 @@ export default {
         '1': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
         '2': {terminalTotal: 0, onlineTerminalTotal: 0, warningTotal: 0},
       },
+      terminalTotal: 0,
+      onlineTerminalTotal: 0,
       cloudStats: {},
-      china: {},
-      world: {},
       topData: {app: [], client: []},
+      col1:null,
     };
   },
   computed: {
-    getShowSidebar() {
-      return this.$store.state.showSideBar;
-    },
     accountStats() {
       return {
            online: this.account && this.account.onlineTotal || 0, 
@@ -227,59 +224,62 @@ export default {
       return {
         title1:'上线人数排序',
         title2:'上线设备排序',
-        account: this.account.accountTypeList.map((v) => {
-          return {accountType: v.accountType, typeOnline: v.typeOnline}
+        data1: this.account.accountTypeList.map((v) => {
+          return {xAxis: v.accountType, value: v.typeOnline}
         }),
-        device: this.device.terminalTypeList.map((v) => {
-          return {terminalType: v.terminalType, typeOnline: v.typeOnline}
+        data2: this.device.terminalTypeList.map((v) => {
+          return {xAxis: v.terminalType, value: v.onlineTotal}
         }),
       };
     },
     chineseMapData() {
-      let stats = this.china.detail
-      if (!stats) return [];
-      let china = Object.keys(stats).map((v) => {
-        let province = stats[v]
-        let data = {name: v, value: 0, online: 0}
-        Object.keys(province).forEach((u) => {
-          let area = province[u]
-          let value = 0
-          let online = 0
-          Object.keys(area).forEach((t) => {
-            value += area[t].total
-            online += area[t].online
-            if (!data[t]) data[t] = {online: 0, total: 0}
-            data[t].online += area[t].online
-            data[t].total += area[t].total
-          })
-          area.value = value
-          area.online = online
-          data.value += value
-          data.online += online
+      if (!this.stats['1'].mapData) return {}
+      let stats = this.stats['1'].mapData
+      let data = []
+      // console.log('china map data: ', stats)
+      stats.forEach((v) => {
+        let area = v.subList.map((u) => {
+          return {
+            name: u.areaName,
+            value: u.areaValue,
+            online: u.areaOnlineValue,
+          }
         })
+        // console.log('province data: ', v.areaName, provinceMap[v.areaName])
 
-        return data // 省数据
+        data[provinceMap[v.areaName]] = area
       })
-
-      Object.keys(stats).forEach((v) => {
-        let province = stats[v]
-        stats[v] = Object.keys(province).map((u) => {
-          return Object.assign({name: u}, province[u])
-        })
+      let china = stats.map((v) => {
+        return {
+          name: provinceMap[v.areaName],
+          value: v.areaValue,
+          online: v.areaOnlineValue,
+        }
       })
-      stats.china = china
-      return stats
+      data.china = china
+      this.china = china
+      // console.log('china map format data: ', data)
+      return data
     },
     worldMapData() {
-      // console.log('world data: ', this.world)
-      return this.world.areaTerminalList
+      if (!this.stats['2'].mapData) return {}
+      let stats = this.stats['2'].mapData
+      let world = stats.map((v) => {
+        return {
+          name: v.areaName,
+          value: v.areaValue,
+          online: v.areaOnlineValue,
+        }
+      })
+      // console.log('world map format data: ', world)
+      return world
+      // return this.world.areaTerminalList
     },
-
     topAppData() {
       let count = []
       let yAxis = []
       this.topData.app.forEach((v) => {
-        count.push(v.useTime)
+        count.push(v.useTimes)
         yAxis.push(v.applicationName)
       })
       return {
@@ -293,46 +293,32 @@ export default {
         count: client.map(v => v.topStockValue),
         yAxis: client.map(v => v.topStockName)
       }
-
       return {
-        count: [320, 332, 301, 334, 390],
-        yAxis: [
-          "上海精锐教育培训",
-          "深圳市海陵生物科技",
-          "中国铝业",
-          "昆明工口科技有限公司",
-          "深圳市超网科技有限公司"
-        ]
+        count: [],
+        yAxis: []
       };
-      // return topClientData; // todo 假数据
     },
     storage() {
       let data = this.cloudStats.cloudInfoList 
       if (!data) {
         return [
-          {name:'集群一',all:100,available:0,running:0,},
-          {name:'集群二',all:100,available:0,running:0,},
-          {name:'集群三',all:100,available:0,running:0,},
+          {name:'集群一',cloudCondition:100,all:100,level:'优秀'},
+          {name:'集群二',cloudCondition:100,all:100,level:'优秀'},
+          {name:'集群三',cloudCondition:100,all:100,level:'优秀'},
         ]
       }
-
       return data.map((v) => {
-        let len = v.messList && v.messList.length || 0
-        let available = 0
-        if (v.messList && v.messList.length) {
-          available = v.messList[v.messList.length - 1].hardDiskCapacity
-        }
+        v.cloudCondition = parseInt(v.cloudCondition)
         return {
           name: v.cloudLocation,
           all: 100, 
-          available: available,// v.messList[len - 1].hardDiskCapacity, 
-          running: v.runningNodeNum
+          available: v.cloudCondition,
+          level: v.cloudCondition >= 90 ? '优秀' : (v.cloudCondition < 90 && v.cloudCondition >= 80 ? '良好' :( v.cloudCondition <= 80 && v.cloudCondition >= 60 ? '差' :'很差'))
         }
       })
     },
     cloudStatus() {
       return this.cloudStats.cloudIntegrality
-      // return 55
     },
     bendwidth() {
       let data = this.cloudStats.cloudInfoList
@@ -370,19 +356,19 @@ export default {
       let d = []
       data.forEach((v) => {
         d.push({
-          name: v.cloudLocation + '最高值',
+          name: v.cloudLocation + 'max',
           data: v.messList.map(u => u.bandwidthMax)
         })
         d.push({
-          name: v.cloudLocation + '平均值',
+          name: v.cloudLocation + 'avg',
           data: v.messList.map(v => v.bandwidthAvr)
         })
       })
-      // console.log('bandwidth: ', d)
-      let xAxis = this.date2Axis(data[0].messList.map(v => v.gathertime))
-      // console.log('bandwidth xAxis: ', xAxis)
+      let xAxis = [];
+      data[0].messList.forEach((item,index)=>{
+        xAxis.push(item.gatherTime.substring(10))
+      })
       return {data: d, xAxis: xAxis}
-      // return bendwidth; // todo 假数据
     },
     cpuAndRamStatus() {
       let data = this.cloudStats.cloudInfoList
@@ -425,30 +411,79 @@ export default {
           data: v.messList.map(u => u.cpuRate)
         })
         d.push({
-          name: v.cloudLocation + '内存',
+          name: v.cloudLocation + 'MEM',
           data: v.messList.map(v => v.memoryRate)
         })
       })
-      // console.log('bandwidth: ', d)
-      let xAxis = this.date2Axis(data[0].messList.map(v => v.gathertime))
-      // console.log('bandwidth xAxis: ', xAxis)
+      let xAxis = [];
+      data[0].messList.forEach((item,index)=>{
+        xAxis.push(item.gatherTime.substring(10))
+      })
       return {data: d, xAxis: xAxis}
+    },
+    getShowSidebar(){
+      return this.$store.state.showSideBar
     }
   },
   watch: {
-    // 如果 `getShowSidebar` 发生改变，这个函数就会运行
-    getShowSidebar: function(newQuestion, oldQuestion) {
-      
-    },
-    // 深度监听
-    onlineStats: {
-      handler:function(){
-        alert(1)
-      },
-      deep:true
-    },
+    mapType: function(n, o) {
+      this.stats['1'].hideWarning = false
+      this.stats['2'].hideWarning = false
+      this.getMapData()
+      if (o != '1' && n == '1') return this.setProvinceData('china')
+      if (n != '2') return
+      this.terminalTotal = this.stats['2'].terminalTotal
+      this.onlineTerminalTotal = this.stats['2'].onlineTerminalTotal
+    }
   },
   methods: {
+    setProvinceData(d) {
+      this.stats['1'].hideWarning = d != 'china'
+      if (d == 'china') {
+        this.terminalTotal = this.stats['1'].terminalTotal
+        this.onlineTerminalTotal = this.stats['1'].onlineTerminalTotal
+        return
+      }
+      let count = this.stats['1'].mapData.filter(v => v.areaName.indexOf(d) == 0)[0]
+      this.terminalTotal = count.areaValue
+      this.onlineTerminalTotal = count.areaOnlineValue
+    },
+    getMapData(mapType) {
+      // type=1为国内地图，type=2为世界地图
+      let type = mapType || this.mapType
+      // console.log('mapType: ', type)
+      if (this.stats[type] && this.stats[type].mapData) return
+
+      this.$axios
+        .post("/terminalweb/terminalReport/findAllTerminalMap", {mapType: type}, { responseType: "json" })
+        .then(res => {
+          if (res.data.code != '0000') {
+            return console.log("get data error: ", res.data.message);
+          }
+          // if (res.data.data.mapType == '1') { // 国内地图
+          //   this.china = res.data.data.areaTerminalList;
+          // } else if (res.data.data.mapType == '2') { // 国外地图
+          //   this.world = res.data.data.areaTerminalList;
+          // }
+          this.mapType = res.data.data.mapType
+
+          this.stats[res.data.data.mapType] = {
+            mapData: res.data.data.areaTerminalList,
+            terminalTotal: res.data.data.terminalTotal, 
+            onlineTerminalTotal: res.data.data.onlineTerminalTotal,
+            warningTotal: res.data.data.warningTotal,
+          }
+
+          if (this.mapType == '1') return this.setProvinceData('china')
+          // 处理世界地图底部统计数据
+          this.terminalTotal = this.stats['2'].terminalTotal
+          this.onlineTerminalTotal = this.stats['2'].onlineTerminalTotal
+          // console.log('this.stats: ', this.stats)
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     date2Axis(date) {
       if (!date) return []
       return date.map((v) => {
@@ -534,6 +569,9 @@ export default {
             }
           }
         }
+      }
+      &.online-distribution{
+        padding: 20px 0 0
       }
       &.device-distribution {
         .section-content {

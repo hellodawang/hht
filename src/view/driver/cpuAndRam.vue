@@ -4,7 +4,7 @@
         <h3>cpu/内存</h3> 
     </div>
     <div class="section-content">
-        <bar-chart :data="config" style="height:180px"/> 
+        <bar-chart :data="config"/> 
     </div>
 </div>
 </template>
@@ -23,13 +23,20 @@ let baseConfig = {
         },
     },
     legend: {
+        icon: "circle",
         data: [],
+        padding:0,
+        itemGap:0,
+        itemWidth:6,
+        textStyle:{
+        fontSize:10
+        }
     },
     grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        top: '10%',
+        left: '0%',
+        right: '0%',
+        bottom: '0%',
+        top: '18%',
         containLabel: true,
     },
     xAxis: [
@@ -37,13 +44,21 @@ let baseConfig = {
             type: 'category',
             boundaryGap: false,
             data: ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
+           axisLabel:{
+                fontSize:10
+            }
         },
     ],
     yAxis: [
         {
             type: 'value',
+            min: 0,
+            max: 100,
             interval: 20,
-            boundaryGap: ['0', '20%']
+            boundaryGap: ['0', '20%'],
+            axisLabel:{
+                fontSize:10
+            }
         },
     ],
     series: [
@@ -175,6 +190,10 @@ export default {
   }
   .section-content {
     padding: 10px;
+    height: 180px;
+      @media screen and (max-width: 1400px){
+        height: 170px;
+      }
   }
 }
 </style>

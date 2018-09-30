@@ -4,7 +4,7 @@
                   <h3>带宽性能</h3> 
               </div>
               <div class="section-content" >
-                  <bar-chart :data="config" style="height:180px"/>                
+                  <bar-chart :data="config" />                
               </div>
           </div>
 </template>
@@ -23,20 +23,30 @@ let baseConfig = {
     }
   },
   legend: {
-    data: []
+    icon: "circle",
+    data: [],
+    padding:0,
+    itemGap:0,
+    itemWidth:6,
+    textStyle:{
+      fontSize:10
+    }
   },
   grid: {
-    left: "3%",
-    right: "4%",
-    bottom: "3%",
-    top: "15%",
+    left: "0%",
+    right: "2%",
+    bottom: "2%",
+    top: "18%",
     containLabel: true
   },
   xAxis: [
     {
       type: "category",
       boundaryGap: false,
-      data: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"]
+      data: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"],
+      axisLabel:{
+        fontSize:10
+      }
     }
   ],
   yAxis: [
@@ -44,7 +54,11 @@ let baseConfig = {
       type: "value",
       min: 0,
       max: 100,
-      interval: 20
+      interval: 20,
+      boundaryGap: ['0%', '20%'],
+      axisLabel:{
+        fontSize:10
+      }
     }
   ],
   series: [
@@ -53,7 +67,7 @@ let baseConfig = {
       type: "line",
       smooth: true,
       showSymbol: false,
-      areaStyle: { normal: {} },
+       areaStyle: { normal: {opacity:0.1 } },
     },
     {
       name: "平均值",
@@ -66,35 +80,35 @@ let baseConfig = {
           position: "top"
         }
       },
-      areaStyle: { normal: {} },
+      areaStyle: { normal: {opacity:0.1 } },
     },
     {
       name: "最高值",
       type: "line",
       smooth: true,
       showSymbol: false,
-      areaStyle: { normal: {} },
+      areaStyle: { normal: {opacity:0.1 } },
     },
     {
       name: "最高值",
       type: "line",
       smooth: true,
       showSymbol: false,
-      areaStyle: { normal: {} },
+      areaStyle: { normal: {opacity:0.1 } },
     },
     {
       name: "最高值",
       type: "line",
       smooth: true,
       showSymbol: false,
-      areaStyle: { normal: {} },
+      areaStyle: { normal: {opacity:0.1 } },
     },
     {
       name: "最高值",
       type: "line",
       smooth: true,
       showSymbol: false,
-      areaStyle: { normal: {} },
+      areaStyle: { normal: {opacity:0.1 } },
     },
   ]
 };
@@ -148,6 +162,10 @@ export default {
   }
   .section-content {
     padding: 10px;
+    height: 180px;
+      @media screen and (max-width: 1400px){
+        height: 170px;
+      }
   }
 }
 </style>

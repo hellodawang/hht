@@ -1,6 +1,8 @@
 <template>
-  <!-- <div ref="onlineStats" style="height:160px"></div> -->
-  <bar-chart :data="config" style="height: 160px" />
+  <div class="onlineStats">
+    <bar-chart :data="config" ></bar-chart>
+  </div>
+  
 </template>
 <script>
 import barChart from "../../components/chart/barChart"
@@ -9,12 +11,30 @@ export default {
   components: {
     barChart,
   },
-  props: ["account", "device"],
+  props: ["account", "device",],
   computed: {
      config(){
-      // let chart = this.$echarts.init(this.$refs.onlineStats)
       return {
           backgroundColor:'#fff',
+          title: [{
+              x: "19%",
+              bottom: '5%',
+              text: '上线人数',
+              textStyle: {
+                  fontWeight: 'normal',
+                  fontSize: 12,
+                  color: "#666"
+              },
+          }, {
+              x: "69%",
+              bottom: '5%',
+              text: '上线设备',
+              textStyle: {
+                  fontWeight: 'normal',
+                  fontSize: 12,
+                  color: "#666"
+              },
+          }],
           series: [
             {
               type: 'gauge',
@@ -208,14 +228,14 @@ export default {
       }
     }
   },
-  // watch:{
-  //   account:function(){
-      
-  //   }
-  // }  
-
 };
 </script>
 
 <style lang="scss" scoped>
+  .onlineStats{
+    height: 160px;
+    @media screen and (max-width: 1400px){
+			height: 140px;
+		}
+  }
 </style>

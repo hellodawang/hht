@@ -12,13 +12,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import echarts from 'echarts'
 import store from './store/index'
+import lodash from 'lodash'
 // mock数据
 // import "./mock/index"
 Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
-
+Vue.prototype._ = lodash
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

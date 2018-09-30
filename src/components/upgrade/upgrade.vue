@@ -8,8 +8,8 @@
 				</div>
 				<div class="modal-body" v-if="updateVersion.length">
 					<span>请选择要升级的版本</span>
-					<div v-for="(item, index) in updateVersion" :key="item.id" class="version-item">
-						<el-radio v-model="chooseVersion" :label="index" >{{item.versionName}}</el-radio>	
+					<div v-for="item in updateVersion" :key="item.versionId" class="version-item">
+						<el-radio v-model="chooseVersion" :label="item.versionId" >{{item.versionName}}</el-radio>	
 					</div>					
 				</div>
 				<div class="modal-body" v-else>
@@ -31,7 +31,7 @@
 					<div class="table">  
 						<div class="table-tr" v-for="item in updateStatus" :key="item.id"> 
 							<div class="table-td" style="width:50%">{{item.clientCloudCode}}</div>
-							<div class="table-td" style="width:50%"><el-progress :percentage="item.progress||0"></el-progress></div>  
+							<div class="table-td" style="width:50%"><el-progress :percentage="parseInt(item.progress) ||0"></el-progress></div>  
 							<!-- <div class="table-td">{{item.progress || 0}}</div>   -->
 							<div class="table-td" v-if='false'><i class="iconfont icon-stop"></i></div>  
 						</div> 
@@ -48,11 +48,11 @@
 				</div>
 				<div class="modal-body update-result" style="max-height:300px">
 					<div class="result">
-						<div class="result-item success"><i class="iconfont icon-smile"></i><span class="result-num">5台</span><div class="result-text">升级成功</div></div>
-						<div class="result-item failed"><i class="iconfont icon-cry"></i><span class="result-num">5台</span><div class="result-text">升级失败</div></div>
-						<div class="result-item stop"><i class="iconfont icon-face"></i><span class="result-num">5台</span><div class="result-text">升级终止</div></div>
+						<div class="result-item success"><i class="iconfont icon-smile"></i><span class="result-num">{{updateOk}}</span><div class="result-text">升级成功</div></div>
+						<div class="result-item failed"><i class="iconfont icon-cry"></i><span class="result-num">0台</span><div class="result-text">升级失败</div></div>
+						<div class="result-item stop"><i class="iconfont icon-face"></i><span class="result-num">0台</span><div class="result-text">升级终止</div></div>
 					</div>
-					<div style="width:80%;margin:20px auto 0">
+					<div style="width:80%;margin:20px auto 0" v-if="false">
 						<h5 style="font-weight:500;line-height:1.8em">失败列表</h5>
 						<div class="table">  
 							<div class="table-tr"> 
@@ -87,30 +87,34 @@ export default {
 			showResult:false,
 			chooseVersion: -1,
 			updateProgressHandle: null,
-			failedList:[{num:'122335',reason:'失败原因我不知道'},{num:'122335',reason:'失败原因我不知道'},{num:'122335',reason:'失败原因我不知道'},]
+			failedList:[{num:'122335',reason:'失败原因我不知道'},{num:'122335',reason:'失败原因我不知道'},{num:'122335',reason:'失败原因我不知道'},],
+			updateOk: 0,	// 升级成功的数量
         };
     },
     methods: {
         confirmUpdate() {
 			if (this.chooseVersion == -1) {
-				// this.openMessage('请至少选中一台设备！')
 				this.$alert('请选择一固件版本！', {confirmButtonText: '确定'});
 				return
 			}
 			this.showChooseVersion = false;
 			this.showUpdating = true;
 			let data = {
-				clientCloudCodeList: this.data.map(v => v.clientCloudCode),
+				clientCloudCodeList: this.data.map(v => v.deviceID),
 				versionId: this.chooseVersion
 			}
 			this.$axios
-				.post("/term/submitUpgrade", data, { responseType: "json" })
+				.post("/terminalweb/terminalReport/submitUpgrade", data, { responseType: "json" })
 					.then(res => {
-						if (res.data.code != 0) {
-							return console.log("get data error: ", res.message);
+						if(res.data.code == '0000'){
+							this.updateStatus = res.data.data;
+							this.updateProgress()	
+						}else if(res.data.code == '6002'){
+							this.$alert('该设备已下载完成，设备正在升级中，请稍后再试！',{confirmButtonText: '确定'})
+							this.showUpdating = false;
+							this.showChooseVersion = true //false;
 						}
-						this.updateStatus = res.data.data;
-						this.updateProgress()
+						
 					})
 					.catch(function(error) {
 						console.log(error);
@@ -121,22 +125,23 @@ export default {
 		},
 		hideUpdate() {
 			this.$emit('hideUpdate', this.updateProgressHandle)
-			// clearTimeout(this.updateProgressHandle)
 		},
 		updateProgress() {
-			let cloudCode = this.data.map(v => v.clientCloudCode)
+			let cloudCode = this.data.map(v => v.deviceID)
 			this.$axios
-			.post("/term/upgradeProgrs", {clientCloudCodeList: cloudCode}, { responseType: "json" })
+			.post("/terminalweb/terminalReport/upgradeProgrs", {clientCloudCodeList: cloudCode}, { responseType: "json" })
 				.then(res => {
 					if (res.data.code != 0) {
 						return console.log("get data error: ", res.message);
 					}
-					this.updateStatus = res.data.data;
-					// console.log('update status: ', this.updateStatus)
-					let remains = res.data.data.filter(v => v.progress < 100)
+					this.updateStatus = res.data.data.progressList;
+					let remains = res.data.data.progressList.filter(v => parseInt(v.progress) < 100)
+					console.log('remain devices: ', remains)
 					if (!remains[0]) {
 						this.showUpdating = false
 						this.showResult = true
+						this.updateOk = cloudCode.length
+						console.log('upgrade finished')
 						return
 					}
 					this.updateProgressHandle = setTimeout(this.updateProgress.bind(this), 1000)
@@ -151,21 +156,19 @@ export default {
 		}
 	},
 	created() {
-		let cloudCode = this.data.map(v => v.clientCloudCode)
+		let deviceID = this.data.map(v => v.deviceID)
 		this.$axios
-			.post("/term/firmware", {clientCloudCodeList: cloudCode}, { responseType: "json" })
+			.post("/terminalweb/terminalReport/firmware", {clientCloudCodeList: deviceID}, { responseType: "json" })
 			.then(res => {
 				if (res.data.code != 0) {
 					return console.log("get data error: ", res.message);
 				}
-				this.updateVersion = res.data.data;
-				console.log('update version list: ', this.updateVersion)
+				this.updateVersion = res.data.data.versionList;
 			})
 			.catch(function(error) {
 				console.log(error);
 			});
 	},
-	// computed
 }
 </script>
 

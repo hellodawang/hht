@@ -1,5 +1,5 @@
 <template>
-    <div ref="echart"></div>
+    <div ref="echart" class="map"></div>
 </template>
 
 <script>
@@ -23,6 +23,9 @@ function display() {
       seriesIndex: [0],
       inRange: {
         color: ["#e0ffff", "#006edd"]
+      },
+      textStyle:{
+          color:'#fff'
       },
       calculable: true
     },
@@ -102,4 +105,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.map{
+  height: 500px;
+  @media screen and (max-width: 1400px){
+			height: 435px;
+		}
+}
 </style>

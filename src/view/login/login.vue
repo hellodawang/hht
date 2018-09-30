@@ -1,10 +1,54 @@
 <template>
     <div class="wrapper">
         <div class="title">
-            <img src="../../assets/logo.png" alt="">
-            <span>鸿合云管理平台</span>
+			<div class="logo">
+				<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						width="125px" height="65px" viewBox="0 0 125 65" enable-background="new 0 0 125 65" xml:space="preserve">
+					<g>
+						<path fill="#fff" d="M50.262,30.687l-1.425,2.008c0.888-1.256,1.421-2.008,1.421-2.008h-2.789c0,0-4.158,0-5.933,1.725
+							c-0.699,0.679-7.757,10.849-7.757,10.849h-2.231l8.924-12.574h-2.585c0,0-4.969,0.051-7.048,2.688
+							c-2.079,2.637-6.896,9.886-6.896,9.886l-2.18,0.053l8.822-12.626h-2.941c0,0-4.63,0.003-6.591,2.789L1.481,61.262h4.056
+							c0,0,3.905-0.709,5.223-2.384c1.318-1.673,1.318-1.673,1.318-1.673l5.983-8.671h2.181l-8.975,12.728h3.499
+							c0,0,3.75-0.575,5.223-1.774c1.85-1.51,7.859-10.901,7.859-10.901l2.231-0.052l-9.025,12.728h3.346c0,0,4.284,0,5.679-2.028
+							c0.532-0.774,9.648-13.663,15.443-21.853h8.29L37.029,61.262c6.655,0.405,9.127-2.23,9.127-2.23l15.414-21.65
+							c0,0,4.057,0.017,6.844-0.103c5.933-0.254,8.012-6.591,8.012-6.591H50.262z"/>
+						<g>
+							<path fill="#fFF" d="M53.519,23.334h4.228c-2.996-5.896-9.115-9.938-16.182-9.938c-7.852,0-14.538,4.988-17.065,11.968h3.945
+								c2.319-4.918,7.321-8.323,13.12-8.323C46.527,17.041,50.904,19.534,53.519,23.334z"/>
+							<path fill="#fFF" d="M79.597,6.393c11.995,0,21.719,9.724,21.719,21.718c0,0.3-0.011,0.598-0.022,0.896h4.709
+								c0.011-0.297,0.018-0.596,0.018-0.896c0-14.593-11.83-26.422-26.423-26.422c-12.962,0-23.742,9.333-25.991,21.646h4.807
+								C60.589,13.639,69.245,6.393,79.597,6.393z"/>
+							<path fill="#fFF" d="M112.729,24.93h-5.124v4.108h5.124c3.784,0.505,6.705,3.744,6.705,7.666c0,2.534-1.218,4.783-3.102,6.195
+								l2.585,3.163c2.797-2.162,4.602-5.548,4.602-9.358C123.52,30.523,118.774,25.453,112.729,24.93z"/>
+						</g>
+						<text transform="matrix(1 0 0 1 62.792 59.7783)" fill="#fff" font-family="'STXingkai'" font-size="18.0941">鸿合云</text>
+					</g>
+				</svg>
+			</div>
+			<div class="language">
+				<el-dropdown>
+					<span class="el-dropdown-link">
+						中文<i class="el-icon-arrow-down el-icon--right"></i>
+					</span>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item>英文</el-dropdown-item>                             
+						<el-dropdown-item>中文</el-dropdown-item>                             
+					</el-dropdown-menu>
+				</el-dropdown>
+			</div>
         </div>
-		<div style="width:1200px; margin:0 auto;position: relative" class="main">
+		<div  class="main">
+			<div class="text">
+				<p class="text-title">云 平 台 管 理 系 统</p>
+				<div class="subtext">
+					<ul>
+						<li>让设备接入有序</li>
+						<li>让数据实时可见</li>
+						<li>让距离不再遥远</li>
+						<li>让业务更加简单</li>
+					</ul>
+				</div>
+			</div>
 			<div class="login-box">
 				<el-form  class="login-wrapper" :model="ruleForm" :rules="rules" ref="ruleForm" >
 					<el-form-item>
@@ -18,7 +62,7 @@
 					</el-form-item>
 					<el-form-item  class="verification"  prop="captcha">
 						<el-input placeholder="验证码"  v-model="ruleForm.captcha" clearable  required @keyup.enter.native="submit"><i slot="prefix" class="icon iconfont icon-verification"></i></el-input>  
-						<div class="verification-box"  ><img src="/login/login/validateCode" alt=""></div>
+						<div class="verification-box" @click="refreshVerification"><img :src="captchaUrl" ref="verification"/></div>
 					</el-form-item> 
 					<el-form-item class="submit-btn" >
 					<el-button type="primary"  @click="submit" >登录</el-button> 
@@ -31,14 +75,11 @@
 			</div>
 			<!-- <p class="ing">建设中......敬请期待</p>	 -->
 		</div>
-		<!-- <div class="footer">
-			<el-row class="footer-center">
-				<el-col :span="6" class="footer-item"><i class="iconfont icon-wulianwang"></i></el-col>
-				<el-col :span="6" class="footer-item"><i class="iconfont icon-dashuju"></i></el-col>
-				<el-col :span="6" class="footer-item"><i class="iconfont icon-tiexinfuwux"></i></el-col>
-				<el-col :span="6" class="footer-item"><i class="iconfont icon-zhihuijiaoyu"></i></el-col>
-			</el-row>
-		</div> -->
+		<div class="footer">
+			<p>© 2018-2028 Hongheyun.com 版权所有</p>
+			<p class="sep">|</p>
+			<p>建议分辨率：1920*1080</p>
+		</div>
         <div class="mask" v-if='showModel'>
             <div class="model">
                 <div class="model-header">
@@ -116,16 +157,21 @@ export default {
 			},
 			checked: false,
 			showModel: false,
-			imageUrl: '',
 			captchaUrl: '',
+			CookieID:null
 		};
 	},
 	mounted() {
 		let that = this;
+		this.CookieID = new Date().getTime()
 		this.$axios
-			.get('aux/captcha')
+			.get('/login/login/validateCode',{headers:{'CookieID':that.CookieID},responseType:'blob'})
 			.then(function(response) {
-				that.captchaUrl = response.data;
+				let reader = new FileReader();
+				reader.onload = function (e) {
+					that.captchaUrl = e.target.result
+				}
+				reader.readAsDataURL(response.data)
 			})
 			.catch(function(error) {
 				console.log(error);
@@ -133,29 +179,128 @@ export default {
 	},
 	methods: {
 		submit() {
-			this.$axios
-				.post('/user/login', {
-					username: this.ruleForm.username,
-					password: this.ruleForm.password,
-					captcha: this.ruleForm.captcha,
-				})
-				.then(response => {
-					if (response.data.code == 0) {
-						this.$axios.get('/user/info').then(response => {
-							this.$store.commit('setUserDate',response.data)
-							sessionStorage.username = this.ruleForm.username;
-							sessionStorage.setItem('userData',JSON.stringify(response.data))
-							this.$router.push('/gui/index');
-						});
+			// let that = this
+			this.$axios({
+				method:'post',
+				url:'/login/login/loginCheck',
+				headers:{'CookieID':this.CookieID},
+				data:{
+					loginName: this.ruleForm.username,
+					passWord: this.ruleForm.password,
+					code: this.ruleForm.captcha,	
+				}
+			}).then(response => {
+				switch(response.data.code){
+					// 登陆成功
+					case '0000':
+						// this.$router.push('/gui/index');
+						sessionStorage.token =  response.data.data.tokenType +" "+ response.data.data.accessToken
+						// 请求用户信息
+						return this.$axios.post('/auth/auth/findUserRolePermissions')
+					// 登陆名为空或者不符合规范
+					default:
+						return Promise.reject(response.data.code)
+				}
+			}).then(res => {
+				if (!res) return Promise.reject('0000')
+				if (res.data.code != '0000') return Promise.reject(res.data)
+				res.data.data.menuList.sort((a, b) => a.sortCode < b.sortCode ? -1 : 1)
+				console.log('sort menu: ', res.data.data.menuList)
+				sessionStorage.setItem('userData',JSON.stringify(res.data.data))
+				if(!res.data.data.role.match('Company Admin')){
+					this.$router.push('/gui/index');
+					return Promise.reject('0000')
+				}
+				return this.$axios.post('/terminalweb/terminalReport/findOnlineStatisticalByDept')
+			}).then( res =>{
+				console.log('get user data: ', res)
+				if (res.data.data.terminalTotal > 20) {
+					return this.$router.push('/gui/driverCompany')
+				}
+				if(res.data.data.terminalTotal < 20 ){
+					let userData = JSON.parse(sessionStorage.getItem('userData'))
+					let menu = userData.menuList.filter((v) => v.url != '/gui/driverCompany')
+					menu.forEach((v) => {
+						if (v.url == '/gui/deviceInfo') v.url = '/gui/managerSimple'
+					})
+					if (menu[0].url = '/gui/maintenance') {
+						let first = menu.shift()
+						menu.splice(1, 0, first)
 					}
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
+					console.log('menu: ', menu)
+					// res.data.data.menuList[0].url = '/gui/managerSimple'
+					userData.menuList = menu//.sort((a, b) => a.sortCode < b.sortCode ? 1 : -1)
+					sessionStorage.setItem('userData',JSON.stringify(userData))								
+					this.$router.push('/gui/index');
+				}
+			}).catch((error) => {
+				if (typeof error != 'string') console.log(error)
+				switch(error) {
+				case "0000":
+					break
+				case "0001":
+					this.$confirm('登录名称为空或者不符合规范', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				case "0002":
+					this.$confirm('登录密码为空或者不符合规范', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				case "0003":
+					this.$confirm('登录验证码为空或者不符合规范', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				case "0004":
+					this.$confirm('验证码错误', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				case "0005":
+					this.$confirm('客户端身份为空或者不符合规范', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				case "0006":
+					this.$confirm('账号密码错误，登录失败', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				default:
+					this.$confirm('系统繁忙，请稍后再试', '提示', {
+						confirmButtonText: '确定',
+						type: 'warning'
+					})
+					break
+				}
+			});
 		},
 		confirm() {
 			this.showModel = false;
 		},
+		refreshVerification(){
+			let that = this
+			this.$axios
+			.get('/login/login/validateCode',{headers:{'CookieID':this.CookieID},responseType:'blob'})
+			.then(function(response) {
+				let reader = new FileReader();
+				reader.onload = function (e) {
+					that.captchaUrl = e.target.result
+				}
+				reader.readAsDataURL(response.data)
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
+		}
 	},
 };
 </script>
@@ -164,34 +309,78 @@ export default {
 	position: relative;
 	height: 100%;
 	width: 100%;
-	background: url('../../assets/login-bg.png') no-repeat center center;
+	min-width: 1200px;
+	min-height: 580px;
+	background: url('../../assets/login-bg.jpg') no-repeat center center;
 	background-size: cover;
 	.title {
-		height: 82px;
-		padding: 20px 0;
-		border-bottom: 2px dashed #606060;
-		> img {
-			width: 84px;
-			height: 42px;
-			margin-left: 80px;
-			margin-right: 28px;
+		height: 75px;
+		padding: 10px 0;
+		.logo{
 			display: inline-block;
-			vertical-align: middle;
+			width: 125px;
+			margin-left: 5%;
+			padding-top: 24px;
 		}
-		> span {
-			color: #fff;
-			font-size: 24px;
-			vertical-align: middle;
+		.language{
+			float: right;
+			width: 50px;
+			height: 30px;
+			margin-top: 24px;
+			margin-right: 5%;
 		}
 	}
 	.main{
+		
+		width: 1400px;
+		position: absolute;	
+		left: 50%;
+		margin-left: -700px;
+		right: 0;
+		bottom: 20px;
+		top: 42px;
+		@media screen and (max-width: 1400px){
+			width: 1200px;
+			margin-left: -600px;
+		}
+		&::after{
+			content: "";
+			display: inline-block;
+			height: 100%;
+			width: 0;
+			vertical-align: middle;
+		}
+		.text{
+			display: inline-block;
+			vertical-align: middle;
+			width: 980px;
+			@media screen and (max-width: 1400px){
+				width: 780px;
+			}
+			color: #fff;
+			.text-title{
+				font-size: 50px;
+				line-height: 1.8em;
+				margin-bottom: 10px;
+			}
+			.subtext{
+				font-size: 18px;
+				line-height: 2em;;
+				padding-left: 20px;
+				// text-indent: 2em;
+				// li{
+				// 	list-style:
+				// }
+			}
+		}
 		.login-box {
-			margin-top: 150px;
-			margin-left: 800px;
-			width: 398px;
+			display: inline-block;
+			vertical-align:middle;
+			width: 380px;
 			background-color: #fff;
-			padding: 10px 50px;
+			padding: 10px 30px;
 			border-radius: 5px;
+			text-align: left;
 			h3 {
 				font-size: 20px;
 				font-weight: normal;
@@ -199,16 +388,21 @@ export default {
 			}
 			.verification {
 				.el-input {
-					width: 220px;
+					width: 180px;
 				}
 				.verification-box {
-					width: 70px;
+					width: 110px;
 					height: 38px;
 					display: inline-block;
 					background-color: #fff;
 					vertical-align: top;
 					border: 1px solid #cfcfcf;
 					border-radius: 4px;
+					img{
+						width: 100%;
+						border-radius: 4px;
+						line-height: 38px;
+					}
 				}
 			}
 			.foget-password {
@@ -232,8 +426,7 @@ export default {
 			color: #c0c0c0;
 			font-size: 26px;
 		}	
-	}
-	
+	}	
 	.mask {
 		position: fixed;
 		left: 0;
@@ -298,22 +491,16 @@ export default {
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 112px;
+		height: 40px;
+		padding: 10px 0;
 		background-color: #33383B;
-		padding: 20px 0;
-		.footer-center{
-			width: 80%;
-			margin: 0 auto;
-			height: 72px;
-			border-left: 2px solid #4D4D4D;
-			.footer-item{
-				border-right: 2px solid #4D4D4D;
-				height: 100%;
-				color: #ccc;
-				padding: 10px 20px;
-				.iconfont{
-					font-size: 30px;
-				}
+		text-align: center;
+		color: #808080;
+		line-height: 20px;
+		p{
+			display:inline-block;
+			&.sep{
+				margin: 0 20px;
 			}
 		}
 	}
@@ -363,4 +550,13 @@ export default {
 		display: block;
 	}
 }
+.wrapper{
+	.language{
+		.el-dropdown{
+			color:#fff
+		}	
+	}	
+}
+
+
 </style>

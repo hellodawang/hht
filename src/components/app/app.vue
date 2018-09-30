@@ -12,8 +12,8 @@
 		<div class="app-other">
 			<span class="download-num">下载{{item.downloadTimes}}次</span>
 			<div class="app-operate" v-show="flag" >
-				<i class="app-star el-icon-star-off"  ></i>
-				<i class="el-icon-download"></i>	
+				<i class="app-star el-icon-star-off" @click="addStar"></i>
+				<i class="el-icon-download" @click="download"></i>	
 			</div>			
 		</div>
     </div>
@@ -23,7 +23,16 @@ export default {
 	props: ['item'],
 	data(){
 		return {
-			flag:false
+			flag:false,
+			starAdded: '',
+		}
+	},
+	methods: {
+		addStar() {
+			// console.log('stared')
+		},
+		download() {
+			this.$alert('暂不支持下载！', {confirmButtonText: '确定'});
 		}
 	}
 };

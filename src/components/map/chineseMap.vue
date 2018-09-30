@@ -1,5 +1,5 @@
 <template>
-    <div ref="echart"></div>
+    <div ref="echart" class="map"></div>
 </template>
 
 <script>
@@ -16,8 +16,9 @@ function display() {
         goDown: true, // 是否下钻
         // 下钻回调
         callback: function(name, option, instance) {
-          
-        }
+          // console.log('district name: ', name)
+          this.$emit('setProvinceData', name)
+        }.bind(this)
       },  this.stats);
 }
 
@@ -53,4 +54,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.map{
+  height: 500px;
+  @media screen and (max-width: 1400px){
+			height: 435px;
+		}
+}
 </style>

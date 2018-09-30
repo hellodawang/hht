@@ -26,7 +26,10 @@ let baseConfig = {
     {
       type: "category",
       boundaryGap: false,
-      data: []
+      data: [],
+      axisLabel:{
+        fontSize:10
+      }
     }
   ],
   yAxis: [
@@ -67,7 +70,7 @@ export default {
   data: function() {
     return {
       chartData: [],
-      selected: '',
+      selected: 1,
       buttonList: [
         { type: 1, name: "每周" },
         { type: 2, name: "每月" },
@@ -75,50 +78,38 @@ export default {
       ]
     };
   },
+   watch: {
+    cloudCode: function() {
+      this.handleChange(this.selected)
+    }
+  },
   mounted() {
-    this.handleChange('')
+    this.handleChange(this.selected)
   },
   computed: {
     config() {
       let cfg = Object.assign({}, baseConfig);
       cfg.xAxis[0].data = this.chartData.map(v => v.dayDate) // this.runningTimeData.xAxisArr;
-      cfg.series[0].data = this.chartData.map(v => v.employRate) // this.runningTimeData.data
-      // console.log('in config function: ', this.chartData)
+      cfg.series[0].data = this.chartData.map(v => v.busyRate) // this.runningTimeData.data
       return cfg;
     },
-    // 选中的是周，月，年
-    // selected(){
-      // return this.op.onlineDateType
-    // },
-    // x轴数据
-    // runningTimeData(){
-    //   let xAxisArr = []
-    //   let data = []
-    //   this.chartData.forEach(element => {
-    //     xAxisArr.push(element.dayDate)
-    //     data.push(element.employRate)
-    //   });
-    //   return {xAxisArr:xAxisArr,data:data}
-    // },
-  },
-  watch: {
-    cloudCode: function() {
-      this.handleChange('')
-    }
   },
   methods: {
     handleChange(type) {
-      console.log(type)
+      this.selected = type
       if (!this.cloudCode) return
       this.$axios
-        .post("/term/usageRate", {dateType: type, clientCloudCode: this.cloudCode}, { responseType: "json" })
+        .post("/terminalweb/terminalReport/usageRate", {dateType: type, clientCloudCode: this.cloudCode}, { responseType: "json" })
         .then(res => {
           if (res.data.code != '0000') {
             return console.log("get data error: ", res.message);
           }
-          this.chartData = res.data.data.dateList
-          // console.log('chart data: ', this.chartData)
-          this.selected = res.data.data.onlineDateType
+          this.chartData = res.data.data.dateList.map( v => {
+            return {
+                dayDate:v.dayDate.substring(5).replace('-', '/'),
+                employRate:v.employRate,busyRate:v.busyRate
+              }
+          })
         })
         .catch(function(error) {
           console.log(error);

@@ -12,7 +12,8 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             "/": {
-                target: "http://localhost:4000",
+                target: "http://cloudrd.hitevision.cn",
+                // target: "http://192.168.46.197:9991",
                 pathRewrite: {
                     "^/": ""
                 } //后面可以使重写的新路径，一般不做更改
@@ -39,7 +40,6 @@ module.exports = {
         // set this to false - it *may* help
         // https://vue-loader.vuejs.org/en/options.html#cachebusting
         cacheBusting: true,
-
         cssSourceMap: true
     },
 

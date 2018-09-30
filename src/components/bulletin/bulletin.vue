@@ -1,4 +1,3 @@
-
 <template>
     <div class="bulletin-wrapper">
         <div class="bulletin-item clearfix" v-for="(item, index) in bulletinList" :key="index">  
@@ -45,6 +44,9 @@ export default {
     .bulletin-wrapper{
         padding: 10px 20px;
         height: 100%;
+        width: 100%;
+        min-width: 300px;
+        overflow-y: scroll;
         .bulletin-item{
             height: 80px;
             .bulletin-tag{
@@ -75,6 +77,7 @@ export default {
             .bulletin-main{
                 margin-left: 20px;
                 float: left;
+                width: 180px;
                 .bulletin-time{
                     font-size: 12px;
                     color: #333;

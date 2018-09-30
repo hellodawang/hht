@@ -5,7 +5,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     // 定义状态
     state: {
-        showSideBar: sessionStorage.showSideBar || false,
+        showSideBar: sessionStorage.showSideBar || true,
         userData: {}
     },
     mutations: {
@@ -15,6 +15,9 @@ const store = new Vuex.Store({
         },
         setUserDate(state, n) {
             state.userData = n
+        },
+        hide(state){
+            state.showSideBar = false;
         }
     }
 })

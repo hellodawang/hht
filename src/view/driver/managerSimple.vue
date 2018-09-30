@@ -15,7 +15,7 @@
 					<el-table-column type="selection" width="35" label="全选"></el-table-column>
 					<el-table-column  label=''>
 						<template slot-scope="scope">
-							<div class="device" :class="{busy:scope.row.status=='忙碌',close:scope.row.status=='离线',available:scope.row.status=='空闲',current: currentId==scope.row.id}" @click="changeCurrent(scope.row.id)">
+							<div class="device" :class="{busy:scope.row.status=='忙碌',close:scope.row.status=='离线',available:scope.row.status=='在线',current: currentId==scope.row.deviceID}" @click="changeCurrent(scope.row.deviceID)">
 								<div class="device-name">设备名称: {{scope.row.deviceName}}</div>
 								<div class="device-status">{{scope.row.status}}</div>
 								<i class="iconfont icon-conference" ></i>
@@ -30,40 +30,41 @@
 					<el-col :span='12' class="col">
 						<div class="section">
 							<h5>基础信息</h5>
-							<el-row class="basic-info">
+							<el-row class="basic-info" v-if="deviceDetail">
 								<el-col :span="12">
 									<!-- <h5>软件信息：</h5> -->
-									<div class="info-item"><span class="info-item-label">类型</span> <span class="info-item-text">{{current ? current.category : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">设备编号</span> <span class="info-item-text">{{current ? current.id : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">规格</span> <span class="info-item-text">{{current ? current.model : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">云识别号</span> <span class="info-item-text">{{current ? current.clientCloudCode : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">固件版本</span> <span class="info-item-text">{{current ? current.firmware : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">升级时间</span> <span class="info-item-text">{{current ? current.lastUpgrade : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">设备名</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.terminalName : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">设备编号：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.clientCloudCode : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">cpu型号：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.cpuModel : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">云识别号：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">固件版本：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">升级时间：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
 								</el-col>
 								<el-col :span="12">
 									<!-- <h5>硬件信息：</h5> -->
-									<div class="info-item"><span class="info-item-label">客户名</span> <span class="info-item-text">{{current ? current.customer : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">销售日期</span> <span class="info-item-text">{{current ?current.saleDate : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">配置清单</span> <span class="info-item-text">{{current ?current.manifest : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">所在城市</span> <span class="info-item-text">{{current ?current.location : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">最近开机</span> <span class="info-item-text">{{current ?current.lastBoot : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">配置时间</span> <span class="info-item-text">{{current ?current.lastConfig : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">硬盘容量：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.hardDiskSize + 'G' : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">销售日期：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">配置清单：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">所在城市：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.area : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">最近开机：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">配置时间：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
 								</el-col>
 							</el-row>
+							<div v-if="!deviceDetail">暂无数据</div>
 						</div>				
 						<div class="section">
 							<h5>使用率</h5>
-							<device-usage style="heigth:250px" :cloudCode='current.clientCloudCode' />
+							<device-usage style="heigth:250px" :cloudCode='currentId'  />
 						</div>
 					</el-col>
 					<el-col :span='12' class="col">
 						<div class="section">
-							<h5>使用时长</h5>
-							<running-time  style="height:250px" :cloudCode='current.clientCloudCode' />
+							<h5>异常统计</h5>
+							<exception-stats  style="height:250px" :cloudCode='currentId'/>
 						</div>
 						<div class="section">
-							<h5>异常统计</h5>
-							<exception-stats  style="height:250px" :cloudCode='current.clientCloudCode' />
+							<h5>使用时长</h5>
+							<running-time  style="height:250px" :cloudCode='currentId'  />
 						</div>
 					</el-col>
 				</el-row>
@@ -99,15 +100,16 @@ export default {
 	},
 	beforeCreate() {
 		this.$axios
-			.get("/term/list", { responseType: "json" })
+			.post("/terminalweb/terminalManger/querydevicelist", { responseType: "json" })
 			.then(res => {
-				if (res.data.code != 0) {
-				return console.log("get data error: ", res.message);
+				if (res.data.code != '0000') {
+					return console.log("get data error: ", res.message);
 				}
-				this.$nextTick(()=>{
-					this.tableData = res.data.data
-					this.currentId = this.tableData[0].id
+				this.tableData = res.data.data.deviceList.sort((a, b) => {
+					if (a.status == '在线' && b.status == '离线') return -1
+					if (b.status == '在线' && a.status == '离线') return 1
 				})
+				this.currentId = this.tableData[0].deviceID
 			})
 			.catch(function(error) {
 				console.log(error);
@@ -117,33 +119,30 @@ export default {
 		return{
 			tableData: [],
 			currentId: '',
-			useRatio:null,
-			useRatio2:null,
 			selectedDevice:[],
 			showUpdating: false,
 			dialogTableVisible:false,
-			fileList:[]
+			fileList:[],
+			deviceDetail:null
 		}
 	},
 	computed: {
 		current(){
-			return this.tableData.filter(v => v.id == this.currentId)[0] || this.tableData[0] || {}
+			return this.tableData.filter(v => v.deviceID == this.currentId)[0] || this.tableData[0] || {}
+		}
+	},
+	watch :{
+		currentId(){
+			this.$axios
+				.post('/terminalweb/terminalReport/terminalInfo',{clientCloudCode:this.currentId})
+				.then(res => {
+					this.deviceDetail = res.data.data.terminalBaseModel
+				})
 		}
 	},
 	methods:{
 		changeCurrent(id){
-			this.currentId = id
-			// 右边数据更新 ajax请求
-			this.deviceUsageData = {
-				onlineDateType:1,
-				dateList:[ 
-					{"dayDate":"2018-9-6", "employRate":"8", "busyRate":"6"},
-					{"dayDate":"2018-9-7","employRate":"2","busyRate":"2"},
-					{"dayDate":"2018-9-8","employRate":"3","busyRate":"2"},
-					{"dayDate":"2018-9-9","employRate":"5","busyRate":"2"},
-					{"dayDate":"2018-9-10","employRate":"1","busyRate":"2"},
-				]
-			}
+			this.currentId = id		
 		},
 		handleSelectionChange(val){
 			this.selectedDevice = val
@@ -219,7 +218,7 @@ export default {
 				return
 			}
 		}
-	}
+	},
 };
 </script>
 <style lang='scss' scoped>
@@ -248,13 +247,15 @@ export default {
 				height: 100%;
 				margin-left: 320px;
 				padding: 20px;
+				overflow-y: scroll;
 				.device-other-info{
 					height: 100%;
 					border:1px solid #cfcfcf;
 					border-radius: 4px;
 					padding: 10px 40px;
+					min-height: 768px;
 					.col{
-						height: 100%;
+						height: 100%;						
 						.section{
 							height: 50%;
 							// padding: 0 30px;
