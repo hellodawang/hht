@@ -3,47 +3,48 @@
         <el-row>
             <el-col :span='18' >
                 <div class="section history" >
-                   <h3 class="section-title" v-if="downloadHistory">历史记录</h3>
-                   <h3 class="section-title" v-if="!downloadHistory">历史记录</h3>
-                   <div class="section-content" >
-                       <el-row  v-if="downloadHistory" >
-                           <el-col :span="20">
-                                    <h5 >已下载应用</h5>
-                                    <div class="downloadApp-wrapper">
-                                        <div class="download-item" v-for="(item,index) in downloadApp" :key="index">
-											<img :src='item.url'  alt="">
-										</div>
-                                    </div>         
-                           </el-col>
-                           <el-col :span="4">
-							   <div class="arrow">
-							   	   	<i class="icon iconfont icon-jiantou" @click="goAppStore"></i><p>进入应用商城</p>
-							   </div>
-							</el-col>
-                       </el-row>
-                       <el-row  v-if="!downloadHistory" >
-                           <el-col :span="20">
-                               <el-tabs v-model="activeName" @tab-click="handleClick" class="appStore-content" >
-                                    <el-tab-pane label="应用" name="first">
-                                        <div class="pane-wrapper">
-                                            <hht-app v-for="(item,index) in apps" :key="index" :item='item'> </hht-app>
+                    <el-collapse accordion>
+                        <el-collapse-item :title="downloadHistory">
+                             <div class="section-content" >
+                                <el-row v-if="downloadHistory=='历史纪录'" >
+                                    <el-col :span="20">
+                                        <div class="downloadApp-wrapper">
+                                            <div class="download-item" v-for="(item,index) in downloadApp" :key="index">
+                                                <img :src='item.url'  alt="">
+                                            </div>
+                                        </div>         
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <div class="arrow">
+                                                <i class="icon iconfont icon-jiantou" @click="goAppStore"></i><p>进入应用商城</p>
                                         </div>
-                                    </el-tab-pane>
-                                    <el-tab-pane label="教学资源" name="second">
-                                        <div class="pane-wrapper">
-                                            <hht-app v-for="(item, index) in resource" :key="index" :item='item'> </hht-app>
-                                        </div>
-                                    </el-tab-pane>
-                                    <el-tab-pane label="工具" name="third">
-                                        <div class="pane-wrapper">
-                                            <hht-app v-for="(item, index) in tools" :key="index" :item='item'> </hht-app>
-                                        </div>
-                                    </el-tab-pane>
-                                </el-tabs>
-                           </el-col>
-                           <el-col :span="4"><div class="arrow"><i class="icon el-icon-back" @click="goAppHistory"></i><p>返回历史记录</p></div></el-col>
-                       </el-row>
-                   </div>
+                                        </el-col>
+                                </el-row>
+                                <el-row  v-if="downloadHistory=='应用商城'" >
+                                    <el-col :span="20">
+                                        <el-tabs v-model="activeName" @tab-click="handleClick" class="appStore-content" >
+                                                <el-tab-pane label="应用" name="first">
+                                                    <div class="pane-wrapper">
+                                                        <hht-app v-for="(item,index) in apps" :key="index" :item='item'> </hht-app>
+                                                    </div>
+                                                </el-tab-pane>
+                                                <el-tab-pane label="教学资源" name="second">
+                                                    <div class="pane-wrapper">
+                                                        <hht-app v-for="(item, index) in resource" :key="index" :item='item'> </hht-app>
+                                                    </div>
+                                                </el-tab-pane>
+                                                <el-tab-pane label="工具" name="third">
+                                                    <div class="pane-wrapper">
+                                                        <hht-app v-for="(item, index) in tools" :key="index" :item='item'> </hht-app>
+                                                    </div>
+                                                </el-tab-pane>
+                                            </el-tabs>
+                                    </el-col>
+                                    <el-col :span="4"><div class="arrow"><i class="icon el-icon-back" @click="goAppHistory"></i><p>返回历史记录</p></div></el-col>
+                                </el-row>
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
                 </div>
                 <div class="section" style="height:466px;overflow-y:scroll;background-color:#fff">
                     <my-zone></my-zone>                    
@@ -108,7 +109,7 @@ export default {
 			apps: apps,
 			tools: tools,
 			resource: resource,
-            downloadHistory:true,
+            downloadHistory:'历史纪录',
 			activeName: 'first',
 		}
     },
@@ -129,10 +130,10 @@ export default {
     },
     methods:{
         goAppStore(){
-            this.downloadHistory = false
+            this.downloadHistory = '应用商城'
         },
         goAppHistory(){
-            this.downloadHistory = true
+            this.downloadHistory = '历史纪录'
         },
         handleClick(){}
     }
@@ -149,19 +150,16 @@ export default {
 		text-indent: 2em;
 	}
     &.history{
-        height:380px;margin-bottom:10px;
+        margin-bottom:10px;
         .section-content{
-            height: 339px;
             .el-row{
-                padding-top: 20px;
                 height: 100%;
                 .el-col{
                     height: 100%;
                     .arrow{
                         width: 125px;
                         height: 125px;
-                        border-radius: 50%;
-                        
+                        border-radius: 50%;                      
                         background-color: #3BA7EC;
                         margin-top: 100px;
                         text-align: center;
@@ -179,7 +177,7 @@ export default {
                     text-indent: 4em;
                 }
                 .downloadApp-wrapper{
-                    padding: 10px 20px 10px 40px;
+                    padding: 0px 20px 10px 40px;
                     overflow-y: scroll;
                     height: 260px;
                     .download-item{
@@ -190,7 +188,7 @@ export default {
                         text-align: center;
                         border-radius: 4px;
                         padding: 10px;
-                        margin: 20px 0 0 8px;
+                        margin: 10px 0 0 8px;
                         img{
                             display: inline-block;
                             width:80px;
@@ -206,4 +204,19 @@ export default {
         }
     }
 }
+</style>
+<style lang="scss">
+.history{
+    .el-collapse-item__header{
+        height: 40px;
+        line-height:40px;
+        border-bottom: 1px solid #f0f0f0;
+        // text-indent:2em;
+        padding-left:20px;
+        .el-collapse-item__arrow{
+            line-height:40px;
+        }
+    }
+}
+    
 </style>

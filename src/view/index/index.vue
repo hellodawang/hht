@@ -35,7 +35,7 @@
 							<div class="personal-settings" @click="setting = !setting">个人设置</div>
 							<div class="login-out"><el-button @click="logout" type="text">退出登录</el-button></div>
 						</div>
-						<div slot="reference" class="avator" :class="{male:userData.sex =='男',famale:userData.sex == '女'}"><img  :src="userData.avatar" alt=""  ></div>						
+						<div slot="reference" class="avator" :class="{male:userData.sex =='男',female:userData.sex == '女'}"><img  :src="userData.avatar" alt=""  ></div>						
 					</el-popover>	
 					<div class="hht_user_text">
 						<div class="hht_user_name">{{userData.userName}}</div>
@@ -48,7 +48,11 @@
             <div class="hht_content_header">
 				<el-row>
 					<el-col :span="8"><div style="height:52px;width:20px"><i class="iconfont icon-menu" @click="toggle" v-if=" userData.role != 'user;'"></i></div></el-col>
-					<el-col :span="8"><h3 class="hht-title">云平台管理系统</h3></el-col>
+					<el-col :span="8">
+						<h3 class="hht-title" v-if="userData.role.match('Company Admin')">鸿合云--{{userData.loginName}}</h3>
+						<h3 class="hht-title" v-if="userData.role.match('Admin')">云平台管理系统</h3>
+						<h3 class="hht-title" v-if="userData.role.match('user')">鸿合云--{{userData.loginName}}</h3>
+					</el-col>
 					<el-col :span="8">
 						<div class="menubar">
 							<i class="iconfont icon-message">
@@ -64,7 +68,7 @@
 									</el-dropdown-menu>
 								</el-dropdown>
 							</div>
-							<div class="avator" :class="{male:userData.sex =='男',famale:userData.sex == '女'}">
+							<div class="avator" :class="{male:userData.sex =='男',female:userData.sex == '女'}">
 								<img :src="$store.state.userData.avatar" alt="" >
 							</div>
 							<div class="loginOut" @click="logout">退出</div>

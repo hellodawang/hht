@@ -50,6 +50,8 @@ export default {
         .bulletin-item{
             height: 80px;
             .bulletin-tag{
+                font-weight: normal;
+                font-size: 12px;
                 width: 40px;
                 float: left;
                 margin-top: 9px;
@@ -82,6 +84,10 @@ export default {
                     font-size: 12px;
                     color: #333;
                     line-height: 30px;
+                }
+                .bulletin-content{
+                    font-weight: normal;
+                    font-size: 12px;
                 }
             }
             &:last-child{

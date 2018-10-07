@@ -73,7 +73,6 @@
 					</el-form-item>                         
 				</el-form>
 			</div>
-			<!-- <p class="ing">建设中......敬请期待</p>	 -->
 		</div>
 		<div class="footer">
 			<p>© 2018-2028 Hongheyun.com 版权所有</p>
@@ -84,7 +83,6 @@
             <div class="model">
                 <div class="model-header">
                     <h3>用户信息完善</h3>
-                    <!-- <i class="el-icon-close"></i> -->
                 </div>
                 <div class="model-body">
                     <el-form  class="model-form"  label-width="200px"   :model="ruleForm1" :rules="rules1"  >
@@ -310,7 +308,7 @@ export default {
 	height: 100%;
 	width: 100%;
 	min-width: 1200px;
-	min-height: 580px;
+	// min-height: 580px;
 	background: url('../../assets/login-bg.jpg') no-repeat center center;
 	background-size: cover;
 	.title {
@@ -330,8 +328,7 @@ export default {
 			margin-right: 5%;
 		}
 	}
-	.main{
-		
+	.main{	
 		width: 1400px;
 		position: absolute;	
 		left: 50%;
@@ -367,10 +364,6 @@ export default {
 				font-size: 18px;
 				line-height: 2em;;
 				padding-left: 20px;
-				// text-indent: 2em;
-				// li{
-				// 	list-style:
-				// }
 			}
 		}
 		.login-box {
@@ -388,10 +381,10 @@ export default {
 			}
 			.verification {
 				.el-input {
-					width: 180px;
+					width: 210px;
 				}
 				.verification-box {
-					width: 110px;
+					width: 80px;
 					height: 38px;
 					display: inline-block;
 					background-color: #fff;
@@ -496,6 +489,7 @@ export default {
 		background-color: #33383B;
 		text-align: center;
 		color: #808080;
+		font-size: 12px;
 		line-height: 20px;
 		p{
 			display:inline-block;

@@ -113,6 +113,7 @@ export default {
 .space-wrapper {
 	background-color: #fff;
 	height: 100%;
+	position: relative;
 	h4 {
 		font-weight: normal;
 		font-size: 12px;
@@ -142,6 +143,12 @@ export default {
 	}
 	.file-wrapper {
 		padding: 10px 40px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 126px;
+		overflow-y: scroll
 	}
 }
 .space-wrapper .el-table__row {

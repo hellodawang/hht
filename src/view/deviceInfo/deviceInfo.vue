@@ -22,11 +22,11 @@
 							<el-table ref="multipleTable" :data="tableData" @selection-change="handleSelectionChange" tooltip-effect="dark"
 								:highlight-current-row='true' class="deviceTable" height="100%" @row-click='selectedRow' > 
 								<el-table-column type="selection" width="55"> </el-table-column> 
-								<el-table-column prop="deviceName" label=" 设备名称"> </el-table-column> 
+								<el-table-column prop="deviceName" label=" 设备名称" > </el-table-column> 
 								<el-table-column prop="model" label="型号"> </el-table-column> 
 								<el-table-column prop="customer" label="客户名" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="location" label="所在地" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="lastUpgradeDate" label="上次更新时间" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="location" label="所在地" width="80" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="lastUpgradeDate" label="上次更新时间" width="100" show-overflow-tooltip></el-table-column>
 								<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
 							</el-table>
 							<ul class="list-shortcut">

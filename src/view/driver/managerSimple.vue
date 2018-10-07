@@ -33,12 +33,12 @@
 							<el-row class="basic-info" v-if="deviceDetail">
 								<el-col :span="12">
 									<!-- <h5>软件信息：</h5> -->
-									<div class="info-item"><span class="info-item-label">设备名</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.terminalName : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">设备编号：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.clientCloudCode : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">cpu型号：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.cpuModel : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">云识别号：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">固件版本：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
-									<div class="info-item"><span class="info-item-label">升级时间：</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">设备名:</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.terminalName : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">设备编号:</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.clientCloudCode : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">cpu型号:</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.cpuModel : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">云识别号:</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">固件版本:</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
+									<div class="info-item"><span class="info-item-label">升级时间:</span> <span class="info-item-text">{{deviceDetail ? deviceDetail.category : ''}}</span></div>
 								</el-col>
 								<el-col :span="12">
 									<!-- <h5>硬件信息：</h5> -->
@@ -238,22 +238,22 @@ export default {
 			bottom: 0;
 			right: 0;
 			.device-list-wrapper{
-				width: 320px;
+				width: 280px;
 				float: left;
 				height: 100%;
 				overflow-y: scroll;
 			}
 			.device-other-info-wrapper{
 				height: 100%;
-				margin-left: 320px;
+				margin-left: 280px;
 				padding: 20px;
 				overflow-y: scroll;
 				.device-other-info{
 					height: 100%;
 					border:1px solid #cfcfcf;
 					border-radius: 4px;
-					padding: 10px 40px;
-					min-height: 768px;
+					padding: 10px 10px;
+					min-height: 620px;
 					.col{
 						height: 100%;						
 						.section{
@@ -266,6 +266,7 @@ export default {
 								// line-height: 30px;
 							}
 							.basic-info{
+								font-size: 0;
 								h5{
 									font-weight: 500;
 									margin-top: 40px;
@@ -275,12 +276,14 @@ export default {
 									line-height: 30px;
 									font-size: 12px;
 									.info-item-label{
+										font-size: 12px;
 										display: inline-block;
-										width: 25%;
+										width: 38%;
 										text-align: right;
-										margin-right: 20px;
+										// margin-right: 10px;
 									}
 									.info-item-text{
+										font-size: 12px;
 										display: inline-block;
 										width: 60%;
 									}
@@ -293,7 +296,7 @@ export default {
 		}
 	}
 	.device{
-		width: 250px;
+		width: 230px;
 		height: 160px;
 		border:1px solid #e0e0e0;
 		border-radius: 4px;
